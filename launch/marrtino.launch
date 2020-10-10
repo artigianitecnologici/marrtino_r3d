@@ -1,0 +1,46 @@
+<?xml version="1.0" ?>
+<launch>    
+  <!-- Static transforms in the system 
+  <node pkg="marrtino_r3d" type="static_broadcaster.py" name="static_broadcaster_node"/>
+  -->
+
+  <!-- map and localization system -->
+  <arg name="no_nav" default="false"/>  
+  <arg name="map_file" default="second_floor"/>
+  <group unless="$(arg no_nav)">    
+    <node pkg="map_server" type="map_server" name="map_server" args="$(find marrtino_r3d)/maps/$(arg map_file).yaml" output="screen"/> 
+    <node pkg="amcl" type="amcl" name="amcl" output="screen">
+      <rosparam command="load" file="$(find marrtino_r3d)/config/amcl_config.yaml"/>
+    </node>     
+  </group>    
+    
+ 
+
+  <!--
+  <node pkg="marrtino_r3d_missions" type="marrtino_r3d_missions_node.py" name="marrtino_r3d_missions" output="screen">
+    <rosparam command="load" file="$(find marrtino_r3d_missions)/config/config.yaml"/>
+  </node>
+-->
+  <node pkg="marrtino_r3d" type="marrtino_r3d_node" name="marrtino_r3d" args="-m $(find marrtino_r3d)/maps/$(arg map_file).yaml" output="screen">
+    <rosparam command="load" file="$(find marrtino_r3d)/config/config.yaml"/> 
+  </node>
+  <!--
+  <node pkg="pi_io" type="pi_io_node.py" name="pi_io_node"/>
+  -->
+
+ 
+  
+  
+  <!-- Navigation --> 
+  <group unless="$(arg no_nav)">   
+    <node pkg="move_base" type="move_base" name="move_base" respawn="false" output="screen">
+      <rosparam command="load" file="$(find marrtino_r3d)/config/base_local_planner_params.yaml"/>
+      <rosparam command="load" file="$(find marrtino_r3d)/config/costmap_common_params.yaml" ns="global_costmap"/>
+      <rosparam command="load" file="$(find marrtino_r3d)/config/costmap_common_params.yaml" ns="local_costmap"/>
+      <rosparam command="load" file="$(find marrtino_r3d)/config/global_costmap_params.yaml"/>
+      <rosparam command="load" file="$(find marrtino_r3d)/config/local_costmap_params.yaml"/>       
+    <!--  <remap from="cmd_vel" to="demand_vel"/> -->
+     </node>   
+  </group>
+   
+</launch>
