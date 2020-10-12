@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<launch>    
+  <!-- Static transforms in the system 
+  <node pkg="marrtino_r3d" type="static_broadcaster.py" name="static_broadcaster_node"/>
+ --> 
+
+  <!-- map and localization system -->
+  <arg name="no_nav" default="true"/>  
+  <arg name="map_file" default="casaodom"/>
+    
+    <node pkg="map_server" type="map_server" name="map_server" args="$(find marrtino_r3d)/maps/$(arg map_file).yaml" output="screen"/> 
+    <node pkg="amcl" type="amcl" name="amcl" output="screen">
+      <rosparam command="load" file="$(find marrtino_r3d)/config/amcl_config.yaml"/>
+    </node>     
+    
+    
+ 
+
+
+ 
+  
+</launch>

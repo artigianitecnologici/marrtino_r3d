@@ -1,0 +1,29 @@
+<launch>
+    <arg name="base_frame" default="base_frame" />
+	<arg name="laser_topic" default="/scan" />
+			
+	<!-- gmapping -->	
+    <node pkg="gmapping" type="slam_gmapping" name="gmapping" output="screen">
+
+      <remap from="scan" to="$(arg laser_topic)" />
+      <remap from="dynamic_map" to="/map" />
+      <param name="base_frame" value="/$(arg base_frame)"/>
+      <param name="odom_frame" value="/odom"/>
+      <param name="map_frame"  value="/map"/>
+
+      <param name="map_update_interval" value="10.0"/>
+      <param name="linearUpdate" value="1.0" />
+      <param name="angularUpdate" value="1.0" />
+      <param name="temporalUpdate" value="10.0" />
+      <param name="particles" value="100" />
+      <param name="delta" value="0.01" />  <!-- map resolution -->
+      <param name="minimumScore" value="500" />
+
+      <param name="xmin" value="-10.0" />
+      <param name="ymin" value="-10.0" />
+      <param name="xmax" value=" 10.0" />
+      <param name="ymax" value=" 10.0" />
+    </node>
+		
+</launch>
+

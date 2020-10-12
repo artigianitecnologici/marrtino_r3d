@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<launch>    
+  <!-- robot node -->
+	<node pkg="srrg2_orazio_ros" type="orazio_robot_node" name="orazio" output="screen">
+      <param name="serial_device" type="string" value="$(optenv ROBOT_DEVICE /dev/orazio)" />
+	</node>
+
+	<node pkg="thin_state_publisher" type="thin_state_publisher_node" name="state_pub_robot" args="-odom_topic odom -base_link_frame_id base_frame -odom_frame_id odom $(env MARRTINO_APPS_HOME)/robot/config/transforms.txt" >
+	</node>
+ 
+   <!-- transforms -->
+  <node pkg="thin_state_publisher" type="thin_state_publisher_node" name="state_pub_laser"
+	    args="-odom_topic odom -odom_frame_id none $(env MARRTINO_APPS_HOME)/laser/config/transforms.txt" output="screen">
+  </node>
+  <!-- rpiLidar -->
+  <node pkg="rplidar_ros"  type="rplidarNode" name="rplidar"  output="screen">
+	<param name="serial_port"         type="string" value="$(optenv LASER_DEVICE /dev/rplidar)"/>  
+  	<param name="serial_baudrate"     type="int"    value="115200"/>
+  	<param name="frame_id"            type="string" value="laser_frame"/>
+  	<param name="inverted"            type="bool"   value="false"/>
+  	<param name="angle_compensate"    type="bool"   value="true"/>
+  </node>	
+  <!-- Launch the camera node from one of its launch files -->
+  <node pkg="joy" type="joy_node" name="joy" output="screen">
+		  <param name="dev" type="string" value="/dev/input/js0" />
+		  <param name="deadzone" value="0.12" />		  
+  </node>
+</launch>
