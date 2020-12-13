@@ -1,0 +1,6 @@
+# 
+http://wiki.ros.org/rtabmap_ros
+# installazione
+
+sudo apt-get install ros-melodic-rtabmap-ros
+
