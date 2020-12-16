@@ -6,32 +6,56 @@
 
 1-  Costruzione della Mappa con dati gmapping 
     
-    a.Esecuzione di gmapping ( marrtino)
+    a1.Esecuzione di gmapping ( marrtino)
     
-      $roslaunch marrtino_r3d gmapping.launch
+      cd $HOME/src/marrtino_apps/mapping
+      roslaunch gmapping.launch
+
+       ---- CONSIGLIATO ---- 
+    a2.Esecuzione di srrg_mapping ( marrtino)
+       cd $HOME/src/marrtino_apps/mapping
+       roslaunch srrg_mapper.launch
+
     
     b.Registrare /tf /scan con rosbag ( client)
 
-      $export ROS_IP=`hostname -I`
-      $export ROS_MASTER_URI=http://10.3.1.1:11311 
+      export ROS_IP=`hostname -I`
+      export ROS_MASTER_URI=http://10.3.1.1:11311 
     
-      $rosbag record -O casa.bag /scan /tf
+      rosbag record -O casa.bag /scan /tf
       ctrl+c per interrompere
 
-    c.Salvare la mappa ( marrtino)
+    c.Aprire rviz sul client
+      
+      export ROS_IP=`hostname -I`
+      export ROS_MASTER_URI=http://10.3.1.1:11311 
+      cd src/marrtino_r3d 
+
+    d.Salvare la mappa ( marrtino)
     
-      rosrun map_server map_saver -f "office”
+      rosrun map_server map_saver -f office
     
-    d.Visualizzare la mappa
+    e.Visualizzare la mappa
       eom office.pgm
 
 
 2- navigation
-   cd $MARRTINO_APPS_HOME/navigation
-   roslaunch amcl.launch mapsdir:=$HOME/playground map_name:=casaodom
---------
-cd $MARRTINO_APPS_HOME/navigation
-roslaunch move_base.launch
+
+   a. cd $HOME/src/marrtino_r3d/launch
+      roslaunch amcl.launch map_name:=casa
+
+
+   b. cd $MARRTINO_APPS_HOME/navigation
+      roslaunch move_base.launch
+
+
+  c.Aprire rviz sul client
+      
+      export ROS_IP=`hostname -I`
+      export ROS_MASTER_URI=http://10.3.1.1:11311 
+      cd src/marrtino_r3d/launch
+
+   c. $cd src/marrtino
 
 cd $MARRTINO_APPS_HOME/mapping
 rosrun rviz rviz -d mapping.rviz
@@ -41,7 +65,6 @@ NAVIGATION
 cd $MARRTINO_APPS_HOME/navigation
 roslaunch amcl.launch mapsdir:=$HOME/playground
 cd $MARRTINO_APPS_HOME/navigation
-roslaunch move_base.launch
-map_name:=mymap
+roslaunch move_base.launch map_name:=mymap
 
    

@@ -16,7 +16,7 @@
       <param name="angularUpdate" value="1.0" />
       <param name="temporalUpdate" value="10.0" />
       <param name="particles" value="100" />
-      <param name="delta" value="0.01" />  <!-- map resolution -->
+      <param name="delta" value="0.05" />  <!-- map resolution -->
       <param name="minimumScore" value="500" />
 
       <param name="xmin" value="-10.0" />
