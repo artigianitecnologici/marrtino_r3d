@@ -1,0 +1,34 @@
+<launch>
+  <arg name="camera_name" default="usbcam"/>
+  <arg name="framerate" default="15"/>
+  <arg name="image_height" default="480"/>
+  <arg name="image_width" default="640"/>
+  <arg name="video_device" default="/dev/video0"/>
+  <arg name="pixel_format" default="yuyv"/>
+  <arg name="io_method" default="mmap"/>
+  <arg name="contrast" default="255"/>
+  <arg name="camera_frame_id" default="camera_link"/>
+   
+  <node name="$(arg camera_name)" pkg="usb_cam" type="usb_cam_node" output="screen">
+    <param name="video_device" value="$(arg video_device)"/>
+    <param name="image_width" value="$(arg image_width)"/>
+    <param name="image_height" value="$(arg image_height)"/>
+    <param name="pixel_format" value="$(arg pixel_format)"/>
+    <param name="camera_name" value="$(arg camera_name)"/>
+    <param name="camera_frame_id" value="$(arg camera_frame_id)"/>
+    <param name="camera_info_url" value="package://usb_cam/$(arg camera_name).yaml"/>
+    <param name="io_method" value="$(arg io_method)"/>
+    <param name="framerate" value="$(arg framerate)"/>
+    <param name="contrast" value="$(arg contrast)"/>
+  </node>
+
+  <node name="image_proc" pkg="image_proc" type="image_proc" ns="$(arg camera_name)"/>
+  
+  <include file="$(find apriltag_ros)/launch/continuous_detection.launch">
+    <arg name="camera_name" value="$(arg camera_name)"/>
+    <arg name="camera_frame" value="$(arg camera_frame_id)"/>
+    <arg name="image_topic" value="image_rect"/>
+  </include>
+</launch>
+
+

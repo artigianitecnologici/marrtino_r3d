@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<robot name="MARRtino">
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <box size="0.25 0.33 0.16"/>
+            </geometry>
+        </visual>
+    </link>
+    <link name="right_wheel_link">
+        <visual>
+            <geometry>
+                <cylinder length="0.03" radius="0.07"/>
+            </geometry>
+            <origin rpy="1.57 0 0"/>
+        </visual>
+    </link>
+    <link name="left_wheel_link">
+        <visual>
+            <geometry>
+                <cylinder length="0.03" radius="0.07"/>
+            </geometry>
+            <origin rpy="1.57 0 0"/>
+        </visual>
+    </link>
+    <link name="laser">
+       <visual>
+           <geometry>
+               <box size="0.05 0.05 0.05"/>
+           </geometry>
+       </visual>
+    </link>
+    <link name="camera_link">
+       <visual>
+           <geometry>
+               <box size="0.05 0.05 0.05"/>
+           </geometry>
+					 <material name="Cyan">
+               <color rgba="0 1.0 1.0 1.0"/>
+     			 </material>
+       </visual>
+    </link>
+
+
+    <joint name="base_link_to_laser_link" type="fixed">
+        <parent link="base_link"/>
+        <child link="laser"/>
+        <origin xyz="0.1 0 0.105" rpy="0 0 3.1416"/>
+    </joint>
+    <joint name="base_link_to_left_wheel_link" type="fixed">
+        <parent link="base_link"/>
+        <child link="left_wheel_link"/>
+        <origin xyz="0.08 0.18 -0.08"/>
+    </joint>
+    <joint name="base_link_to_right_wheel_link" type="fixed">
+        <parent link="base_link"/>
+        <child link="right_wheel_link"/>
+        <origin xyz="0.08 -0.18 -0.08"/>
+    </joint>
+    <joint name="base_link_to_camera_link" type="fixed">
+        <parent link="base_link"/>
+        <child link="camera_link"/>
+        <origin xyz="0.11 0.06 0.095" rpy="1.5707 3.1416 1.5707"/>
+    </joint>
+
+</robot>

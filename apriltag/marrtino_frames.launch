@@ -1,0 +1,5 @@
+<launch>
+   <param name="robot_description" textfile="./marrtino_camera.urdf"/>
+   <node pkg="robot_state_publisher" type="robot_state_publisher" name="marrtino_frames_publisher"/>
+
+</launch>
