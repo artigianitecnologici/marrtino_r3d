@@ -1,0 +1,6 @@
+Replacing videodev  -
+	Applying the patched module ... modprobe: ERROR: could not insert 'videodev': Operation not permitted
+Failed to insert the patched module. Operation is aborted, the original module is restored
+Verify that the current kernel version is aligned to the patched module version
+The original  videodev  module was reloaded
+

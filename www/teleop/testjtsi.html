@@ -1,0 +1,25 @@
+<html>
+<head>
+<script src="https://meet.jit.si/external_api.js"></script>
+</head>
+
+<body>
+
+<div id="meet"></div>
+
+<script>
+
+var domain = 'meet.jit.si';
+var options = {
+roomName: 'pippone23',
+width: 500,
+height: 500,
+interfaceConfigOverwrite: { filmStripOnly: false },
+parentNode: document.querySelector('#meet')
+};
+var api = new JitsiMeetExternalAPI(domain, options);
+
+</script>
+
+</body>
+</html>

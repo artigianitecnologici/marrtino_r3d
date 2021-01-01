@@ -22,8 +22,8 @@ function install_arduino_dependencies {
     # https://tttapa.github.io/Pages/Ubuntu/Software-Installation/Arduino/Arduino-IDE.html
     wget https://downloads.arduino.cc/arduino-1.8.10-linux64.tar.xz
     tar -xf arduino-1.8.10-linux64.tar.xz
-    mv arduino-1.8.5/ ~/arduino
-     cd arduino*/
+    sudo mv arduino-1.8.10/ ~/arduino
+     cd  ~/arduino/
     sudo ./install.sh
     rm ../arduino-1.8.10.tar.xz
 

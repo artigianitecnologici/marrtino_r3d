@@ -1,4 +1,5 @@
 <launch>
+  <arg name="robot_name" default="marrwy"
   <arg name="map_name" default="map" />
   <arg name="base_frame" default="base_frame" />
   <arg name="laser_topic" default="/scan" />
@@ -7,7 +8,7 @@
   <arg name="initial_pose_y" default="0.0" />
   <arg name="initial_pose_a" default="0.0" />
 
-  <arg name="paramsdir" default="$(find marrtino_r3d)/config" />
+  <arg name="paramsdir" default="$(find marrtino_r3d)/config/$(arg robot_name)" />
   <arg name="mapsdir" default="$(find marrtino_r3d)/maps" />
 
   <node pkg="map_server" type="map_server" name="map_server" args="$(arg mapsdir)/$(arg map_name).yaml" respawn="false" >

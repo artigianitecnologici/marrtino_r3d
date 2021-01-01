@@ -1,0 +1,5 @@
+<launch>
+ <node name="web_video_server" pkg="web_video_server" type="web_video_server" respawn="false" output="screen">
+    <param name="port" value="29090" />
+  </node>
+</launch>
