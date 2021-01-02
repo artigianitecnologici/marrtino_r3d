@@ -1,5 +1,5 @@
 <launch>
-  <arg name="robot_name" default="marrwy"
+  <arg name="robot_name" default="mini" />
   <arg name="map_name" default="map" />
   <arg name="base_frame" default="base_frame" />
   <arg name="laser_topic" default="/scan" />
@@ -20,7 +20,7 @@
     <remap from="scan" to="$(arg laser_topic)"/>
 
     <!-- Default parameters -->
-    <rosparam file="$(find marrtino_r3d)/config/amcl.yaml" command="load" />
+    <rosparam file="$(find marrtino_r3d)/config/$(arg robot_name)/amcl.yaml" command="load" />
 
     <!-- Override Params to include prefix -->
     <param name="global_frame_id" value="/map" /> 
@@ -36,4 +36,8 @@
     <param name="initial_cov_aa" value="0.25" />
 
   </node>
-</launch>
+  <!--- Run Move Base --> 
+  <include file="$(find marrtino_r3d)/launch/move_base.launch"/>
+
+  
+ </launch>
