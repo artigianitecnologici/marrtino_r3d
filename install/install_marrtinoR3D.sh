@@ -73,6 +73,25 @@ catkin_make
 echo_green " Installing ..DONE"
 }
 
+function install_joy {
+
+
+# install joy
+#sudo apt-get install ros-melodic-joy -y
+
+cd $HOME/src
+git clone https://github.com/Imperoli/gradient_based_navigation.git
+cd $HOME/ros/catkin_ws/src
+ln -s $HOME/src/gradient_based_navigation/ .
+ 
+
+cd $HOME/ros/catkin_ws
+echo_green " Compiling"
+catkin_make
+
+echo_green " Installing ..DONE"
+}
+
 
 
 
@@ -101,6 +120,7 @@ function main {
     #install_basics
     #install_dependencies
     #install_think_driver
+    #install_joy
     #install_webserver
     install_marrtinoR3D
 }
