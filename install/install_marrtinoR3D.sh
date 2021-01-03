@@ -35,6 +35,7 @@ function install_dependencies {
     sudo apt-get install ros-melodic-pid -y
     sudo apt-get install ros-melodic-move-base -y
     sudo apt-get install ros-melodic-dwa-local-planner -y
+    sudo apt get install ros-melodic-global-planner -y
     sudo apt-get install ros-melodic-yocs-velocity-smoother
     sudo apt-get install ros-melodic-apriltag-ros -y
     sudo apt-get install ros-melodic-usb-cam -y

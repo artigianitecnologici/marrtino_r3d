@@ -7,13 +7,10 @@
 <arg name="paramsdir" default="$(find marrtino_r3d)/config/$(arg robot_name)" />
 <node pkg="move_base" type="move_base" respawn="false" name="move_base_node" output="screen">
 
- 
- <!--<remap from="/cmd_vel" to="/marrtino_diff_drive_controller/cmd_vel"/>-->
- <rosparam file="$(find marrtino_r3d)/config/fabio/costmap_common_params.yaml" command="load" ns="global_costmap" /> 
- <rosparam file="$(find marrtino_r3d)/config/fabio/costmap_common_params.yaml" command="load" ns="local_costmap" />
- <rosparam file="$(find marrtino_r3d)/config/fabio/local_costmap_params.yaml" command="load" />
- <rosparam file="$(find marrtino_r3d)/config/fabio/global_costmap_params.yaml" command="load" /> 
-  <rosparam file="$(find marrtino_r3d)/config/fabio/base_local_planner_params.yaml" command="load" /> 
+  <rosparam file="$(arg paramsdir)/move_base_params.yaml" command="load" />
+  <rosparam file="$(arg paramsdir)/global_costmap_params.yaml" command="load" />
+  <rosparam file="$(arg paramsdir)/local_costmap_params.yaml" command="load" />
+
   <!-- Override MOVE_BASE Frame Params to include prefix -->
   <param name="global_costmap/global_frame" value="map" />   
   <param name="global_costmap/static_layer/map_topic" value="map" />    
