@@ -35,8 +35,7 @@
 
     d.Salvare la mappa ( marrtino)
     
-      rosrun map_server map_saver -f office
-    
+      rosrun map_server map_saver -f casa2
     e.Visualizzare la mappa
       eom office.pgm
 

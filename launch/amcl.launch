@@ -1,5 +1,5 @@
 <launch>
-  <arg name="robot_name" default="mini" />
+  <arg name="robot_name" default="marrwy" />
   <arg name="map_name" default="map" />
   <arg name="base_frame" default="base_frame" />
   <arg name="laser_topic" default="/scan" />
@@ -11,6 +11,10 @@
   <arg name="paramsdir" default="$(find marrtino_r3d)/config/$(arg robot_name)" />
   <arg name="mapsdir" default="$(find marrtino_r3d)/maps" />
 
+  <!-- Static transforms in the system 
+  <node pkg="marrtino_r3d" type="static_broadcaster.py" name="static_broadcaster_node"/>
+  -->
+
   <node pkg="map_server" type="map_server" name="map_server" args="$(arg mapsdir)/$(arg map_name).yaml" respawn="false" >
         <param name="frame_id" value="map" />
    </node>
@@ -19,8 +23,10 @@
 
     <remap from="scan" to="$(arg laser_topic)"/>
 
-    <!-- Default parameters -->
+    <!-- Default parameters 
     <rosparam file="$(find marrtino_r3d)/config/$(arg robot_name)/amcl.yaml" command="load" />
+  -->
+  <rosparam file="$(find marrtino_r3d)/config/rodney/amcl_config.yaml" command="load" />
 
     <!-- Override Params to include prefix -->
     <param name="global_frame_id" value="/map" /> 
