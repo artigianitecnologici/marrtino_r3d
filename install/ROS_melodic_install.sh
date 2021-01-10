@@ -18,14 +18,16 @@ function install_ros {
     sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
     sudo apt update
     sudo apt install ros-melodic-desktop-full -y
-    sudo rosdep init
-    rosdep update
     echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
     source ~/.bashrc
-    sudo apt install python-rosinstall python-rosinstall-generator python-wstool build-essential
+    source /opt/ros/melodic/setup.bash
+    sudo apt install python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential -y
+    sudo rosdep init
+    rosdep update
+    # creazione enviroment
     printenv | grep ROS
-    mkdir -p ~/catkin_ws/src
-    cd ~/catkin_ws/
+    mkdir -p $HOME/ros/catkin_ws/src
+    cd $HOME/ros/catkin_ws/
     catkin_make
     source devel/setup.bash
 	echo_green " Installing ROS Melodic...DONE"
@@ -36,7 +38,7 @@ function install_basics {
     sudo apt install python-pip -y
     sudo apt install terminator -y
     sudo apt install git -y
-    sudo pat install simplescreenrecorder -y
+    #sudo pat install simplescreenrecorder -y
     echo_green " Installing basics...DONE"
 }
 

@@ -1,0 +1,13 @@
+Nodi:
+base -0.01 -0.01 0.28 None None None None  
+uno 0.72 -0.05 1.58 None None None None  
+due 1.11 -0.04 1.81 None None None None  
+tre 1.63 -1.04 -72.63 None None None None  
+tav1 2.24 -1.17 -7.88 None None None None  
+tav2 1.94 -1.97 -81.45 None None None None  
+Archi:
+base uno
+uno due
+due tre
+tre tav1
+tre tav2

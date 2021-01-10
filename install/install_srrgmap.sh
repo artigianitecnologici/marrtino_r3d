@@ -1,9 +1,10 @@
 # SRRG mapper
 
-    if [ ! -d $HOME/src/srrg/srrg_mapper2d ]; then
+
+ if [ ! -d $HOME/src/srrg/srrg_mapper2d ]; then
 
       cd $HOME/src/srrg
-
+      git clone https://gitlab.com/srrg-software/srrg_core.git
       git clone https://gitlab.com/srrg-software/srrg_scan_matcher.git
       git clone https://gitlab.com/srrg-software/srrg_mapper2d.git
       git clone https://gitlab.com/srrg-software/srrg_mapper2d_ros.git
@@ -28,6 +29,7 @@
 
       # Link
       cd $HOME/ros/catkin_ws/src
+      ln -s $HOME/src/srrg/srrg_core .
       ln -s $HOME/src/srrg/srrg_scan_matcher .
       ln -s $HOME/src/srrg/srrg_mapper2d .
       ln -s $HOME/src/srrg/srrg_mapper2d_ros .
@@ -37,14 +39,6 @@
 cd $HOME/ros/catkin_ws
 catkin_make -j1
  
-Manca la libreria srrg_core (https://gitlab.com/srrg-software/srrg_core/tree/master)
+#Manca la libreria srrg_core (https://gitlab.com/srrg-software/srrg_core/tree/master)
 
-cd $HOME/src/srrg
-git clone https://gitlab.com/srrg-software/srrg_core.git
- # Link
-cd $HOME/ros/catkin_ws/src
-ln -s $HOME/src/srrg/srrg_core .
-cd $HOME/ros/catkin_ws
-sudo bash
-catkin_make -j1
 

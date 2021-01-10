@@ -18,11 +18,11 @@
   <node pkg="map_server" type="map_server" name="map_server" args="$(arg mapsdir)/$(arg map_name).yaml" respawn="false" >
         <param name="frame_id" value="map" />
    </node>
-
+  <!-- amcl -->
   <node pkg="amcl" type="amcl" name="amcl" respawn="true">
-
+  <!--
     <remap from="scan" to="$(arg laser_topic)"/>
-
+  -->
     <!-- Default parameters   -->
     <rosparam file="$(find marrtino_r3d)/config/$(arg robot_name)/amcl.yaml" command="load" />
 

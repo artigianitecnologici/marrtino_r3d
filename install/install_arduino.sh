@@ -71,8 +71,8 @@ function install_opencm {
 
 function main {
 
-    #install_arduino_dependencies
-    install_dinamyxel
+    install_arduino_dependencies
+    #install_dinamyxel
 }
 
 

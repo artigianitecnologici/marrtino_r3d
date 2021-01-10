@@ -35,7 +35,7 @@
 
     d.Salvare la mappa ( marrtino)
     
-      rosrun map_server map_saver -f casa2
+      rosrun map_server map_saver -f pizzeria
     e.Visualizzare la mappa
       eom office.pgm
 
@@ -64,10 +64,11 @@ rosrun rviz rviz -d mapping.rviz
 NAVIGATION
 
 cd $MARRTINO_APPS_HOME/navigation
-roslaunch amcl.launch mapsdir:=$HOME/playground
+roslaunch amcl.launch mapsdir:=$HOME/playground map_name:=office
 cd $MARRTINO_APPS_HOME/navigation
-roslaunch move_base.launch map_name:=mymap
+roslaunch move_base.launch  
 
+roslaunch move_base_gbn.launch
 
 
 start -0.04 -0.04 0.54

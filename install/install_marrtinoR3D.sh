@@ -41,7 +41,8 @@ function install_dependencies {
     sudo apt-get install ros-melodic-usb-cam -y
     sudo apt-get install ros-melodic-teleop-twist-keyboard -y
     sudo apt-get install ros-melodic-web-video-server -y
-    sudo apt-get install ros-melodic-rosbridge-server  -y
+    sudo apt-get install ros-melodic-rosbridge-server  -y 
+    sudo apt-get install ros-melodic-rtabmap-ros -y
     # 
     # install camera calibration
     cd $HOME/src
@@ -79,7 +80,7 @@ function install_joy {
 
 # install joy
 #sudo apt-get install ros-melodic-joy -y
-
+echo_green " Install JOY"
 cd $HOME/src
 git clone https://github.com/Imperoli/gradient_based_navigation.git
 cd $HOME/ros/catkin_ws/src
@@ -113,17 +114,125 @@ echo "export MARRTINO_APPS_HOME=/home/ubuntu/src/marrtino_apps" >> ~/.bashrc
 echo_green " Installing ..DONE"
 }
 
+function install_arduino_dependencies {
+	echo_green " Installing ARDUINO dependencies"
+
+	echo_green " Installing ARDUINO IDE"
+    mkdir ~/Arduino
+    cd ~/Arduino
+    # https://tttapa.github.io/Pages/Ubuntu/Software-Installation/Arduino/Arduino-IDE.html
+    wget https://downloads.arduino.cc/arduino-1.8.10-linux64.tar.xz
+    tar -xf arduino-1.8.10-linux64.tar.xz
+    sudo mv arduino-1.8.10/ ~/arduino
+     cd  ~/arduino/
+    sudo ./install.sh
+    rm ../arduino-1.8.10.tar.xz
+
+    echo_green " Installing ARDUINO ROS dependencies"
+    sudo apt-get install ros-melodic-rosserial-arduino -y
+    sudo apt-get install ros-melodic-rosserial -y
+	echo_green " Installing ARDUINO dependencies...DONE"
+}
+
+function install_lidar {
+
+echo_green "********* LIDAR INSTALLATION **********"
+echo_green "***************************************"
+cd $HOME/src
+git clone  https://github.com/Slamtec/rplidar_ros.git
+cd $HOME/ros/catkin_ws/src
+ln -s /home/ubuntu/src/rplidar_ros/ .
+cd $HOME/ros/catkin_ws
+catkin_make -j1
+cd ..
+echo_green "************* END INSTALLATION **************"
+echo_green "*********************************************"
+
+}
+
+function install_marrtinoapp {
+
+echo_green " Install MARRtinoapp"
+cd $HOME/src
+git clone https://bitbucket.org/iocchi/marrtino_apps.git
+git clone https://bitbucket.org/iocchi/stage_environments.git
+
+
+cd $HOME/ros/catkin_ws/src
+ln -s $HOME/src/stage_environments/ .
+cd $HOME/ros/catkin_ws
+catkin_make -j1
+
+
+}
+
+
+
+
+function install_newboard {
+echo_green " Install Newboard"
+cd ~/src/srrg/
+git clone https://gitlab.com/srrg-software/srrg2_orazio.git
+cd srrg2_orazio
+
+# compile firmware
+cd  ~/src/srrg/srrg2_orazio/srrg2_orazio/firmware_build/atmega2560
+make 
+
+cd $HOME/ros/catkin_ws
+catkin_make -j1
+
+}
+
+function install_hectorslam {
+echo_green "********* HECTOR SLAM INSTALLATION **********"
+echo_green "*********************************************"
+cd $HOME/src
+git clone https://github.com/tu-darmstadt-ros-pkg/hector_slam.git
+sudo -H apt-get install -y libqt4-dev
+cd $HOME/ros/catkin_ws/src
+ln -s $HOME/src/hector_slam .
+cd ..
+catkin_make
+cd ..
+echo_green "************* END INSTALLATION **************"
+echo_green "*********************************************"
+}
+
+function install_navigationtutorial {
+
+echo_green " Install Navigation Tutorial"
+cd $HOME/src
+git clone https://github.com/ros-planning/navigation_tutorials.git
+
+
+
+cd $HOME/ros/catkin_ws/src
+ln -s /home/ubuntu/src/navigation_tutorials/navigation_stage/ .
+cd $HOME/ros/catkin_ws
+catkin_make -j1
+
+
+}
+
+
 
 function main {
 
 
      
-    #install_basics
-    #install_dependencies
-    #install_think_driver
-    #install_joy
-    #install_webserver
+    install_basics
+    install_dependencies
+    install_think_driver
+    install_joy
+    install_webserver
     install_marrtinoR3D
+    install_arduino_dependencies
+    install_lidar
+    install_newboard
+    install_marrtinoapp
+    install_hectorslam
+    install_navigationtutorial
 }
 
 

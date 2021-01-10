@@ -38,3 +38,6 @@ DWAPlannerROS:
   twirling_scale: 0.0
   oscillation_reset_angle: 0.2
   use_dwa: true
+  #
+  holonomic robot: true
+  

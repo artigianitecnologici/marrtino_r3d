@@ -29,3 +29,18 @@
 </node>
 
 </launch>
+<!--
+
+<launch>
+    <node name="move_base" type="move_base" pkg="move_base">
+        <remap from="/cmd_vel" to="/marrtino_diff_drive_controller/cmd_vel"/>s
+        <rosparam file="$(find marrtino_utilities)/config/costmap_common_params.yaml" command="load" ns="global_costmap" /> 
+        <rosparam file="$(find marrtino_utilities)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+        <rosparam file="$(find marrtino_utilities)/config/local_costmap_params.yaml" command="load" />
+        <rosparam file="$(find marrtino_utilities)/config/global_costmap_params.yaml" command="load" /> 
+        <rosparam file="$(find marrtino_utilities)/config/base_local_planner_params.yaml" command="load" /> 
+    </node>
+</launch>
+
+
+-->
