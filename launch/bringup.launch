@@ -17,5 +17,6 @@
   <include file="$(find marrtino_r3d)/launch/apriltag.launch"/> 
    <!-- Static transforms in the system -->
   <node pkg="marrtino_r3d" type="static_broadcaster.py" name="static_broadcaster_node"/>
- 
+  <!-- Launching teleop launch -->
+  <include file="$(find marrtino_r3d)/launch/teleop.launch"/> 
 </launch>

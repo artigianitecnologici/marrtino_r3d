@@ -1,13 +1,27 @@
 Nodi:
-base -0.01 -0.01 0.28 None None None None  
-uno 0.72 -0.05 1.58 None None None None  
-due 1.11 -0.04 1.81 None None None None  
-tre 1.63 -1.04 -72.63 None None None None  
-tav1 2.24 -1.17 -7.88 None None None None  
-tav2 1.94 -1.97 -81.45 None None None None  
+base 0.02 -0.02 -0.80 no a a a  
+nodo01 -0.40 -0.10 -179.96 no a a a  
+nodo02 -1.07 -0.13 -178.50 no a a a  
+nodo03 -0.86 0.69 82.73 no a a a  
+nodo04 -0.74 1.51 83.55 no a a a  
+nodo05 -0.70 2.39 84.74 no a a a  
+nodo06 -0.67 3.34 148.39 no a a a  
+tav1 -0.67 3.32 -178.64 no a a a  
+nodo07 -0.66 4.18 89.23 no a a a  
+nodo08 -0.69 5.03 90.17 no a a a  
+nodo09 -0.77 5.93 89.99 None None None None  
+nodo10 -0.78 6.53 160.86 no a a a  
+tav2 -0.78 6.53 160.86 no a a a  
 Archi:
-base uno
-uno due
-due tre
-tre tav1
-tre tav2
+base nodo01
+nodo01 nodo02
+nodo02 nodo03
+nodo03 nodo04
+nodo04 nodo05
+nodo05 nodo06
+nodo06 tav1
+tav1 nodo07
+nodo07 nodo08
+nodo08 nodo09
+nodo09 nodo10
+nodo10 tav2

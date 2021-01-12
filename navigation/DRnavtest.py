@@ -121,9 +121,9 @@ if __name__ == "__main__":
 
         upState(p)
 
-        time.sleep(3)
+        time.sleep(2)
         r = forward(distance, False)
-        time.sleep(3)
+        time.sleep(2)
         print "sono a", getRobotPose()
 
 #    p = path.pop(1).point().split()

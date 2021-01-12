@@ -24,7 +24,7 @@
       export ROS_IP=`hostname -I`
       export ROS_MASTER_URI=http://10.3.1.1:11311 
     
-      rosbag record -O casa.bag /scan /tf
+      rosbag record -O risto2.bag /scan /tf
       ctrl+c per interrompere
 
     c.Aprire rviz sul client
@@ -35,7 +35,7 @@
 
     d.Salvare la mappa ( marrtino)
     
-      rosrun map_server map_saver -f pizzeria
+      rosrun map_server map_saver -f risto2
     e.Visualizzare la mappa
       eom office.pgm
 
