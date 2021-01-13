@@ -70,12 +70,49 @@ roslaunch move_base.launch
 
 roslaunch move_base_gbn.launch
 
+### 2. Start the odometry and motor control
+cd $HOME/src/marrtino_rd3/launch
+./bringup.sh
 
-start -0.04 -0.04 0.54
-uno 0.91 0.22 26.83
-Tav1 1.93 -0.86 -58.27
-Archi:
-start uno
-uno Tav1
+### 3. MAPPING 
 
-   
+
+### 4. NAVIGATION
+
+
+
+
+
+### 6. SIMULATION
+## Acknowledgments
+
+## progetti studio 
+
+git clone https://github.com/FabioScap/marrtino_utilities
+
+# ROS-ROBOTICS-by-Examples
+ https://github.com/PacktPublishing/ROS-Robotics-By-Example
+ git clone https://github.com/PacktPublishing/ROS-Robotics-By-Example.git
+
+## configuration .bashrc
+
+
+# CONFIGURAZIONE PERSONALIZZATA 
+
+source /opt/ros/melodic/setup.bash
+source /home/ubuntu/ros/catkin_ws/devel/setup.bash
+
+export MARRTINO_APPS_HOME=$HOME/src/marrtino_apps
+export ROBOT_TYPE=stage
+export MARRTINO_VERSION=4.0.1
+
+export G2O_ROOT=$HOME/lib/g2o
+export G2O_BIN=$HOME/lib/g2o/bin
+export G2O_LIB=$HOME/lib/g2o/lib
+export LD_LIBRARY_PATH=$HOME/lib/g2o/lib:${LD_LIBRARY_PATH}
+
+
+### FAQ
+reinstall ros-melodic-gazebo-ros-pkgs
+
+
