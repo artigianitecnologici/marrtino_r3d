@@ -84,11 +84,16 @@ cd $HOME/src/marrtino_rd3/launch
 
 
 ### 6. SIMULATION
+
+
+
 ## Acknowledgments
 
 ## progetti studio 
 
 git clone https://github.com/FabioScap/marrtino_utilities
+
+git clone https://github.com/RBinsonB/Nox_robot.git
 
 # ROS-ROBOTICS-by-Examples
  https://github.com/PacktPublishing/ROS-Robotics-By-Example
@@ -113,6 +118,11 @@ export LD_LIBRARY_PATH=$HOME/lib/g2o/lib:${LD_LIBRARY_PATH}
 
 
 ### FAQ
-reinstall ros-melodic-gazebo-ros-pkgs
+- enable autologin
+  open /usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf
+  aggiungi
+  autologin-user=ubuntu
+
+
 
 

@@ -43,6 +43,7 @@ function install_dependencies {
     sudo apt-get install ros-melodic-web-video-server -y
     sudo apt-get install ros-melodic-rosbridge-server  -y 
     sudo apt-get install ros-melodic-rtabmap-ros -y
+
     # 
     # install camera calibration
     cd $HOME/src
