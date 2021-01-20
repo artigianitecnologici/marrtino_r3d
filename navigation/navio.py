@@ -2,7 +2,6 @@
 import os,sys
 import threading,time
 from sensor_msgs.msg import Range
-from math import pow, atan2, sqrt
 from DRmn2 import *
 import tf
 # navigation with cmd_vel
@@ -12,99 +11,21 @@ PI = 3.1415926535897
 #sys.path.append(os.getenv('MARRTINO_APPS_HOME')+'/program')  #sys and os
 from robot_cmd_ros import *
 
-#class marrtino_bot
-
-def euclidean_distance(self, goal_pose):
-    """Euclidean distance between current pose and the goal."""
-    return sqrt(pow((goal_pose.x - self.pose.x), 2) + pow((goal_pose.y - self.pose.y), 2))
-
-def move2goal(p2):
-    velocity_publisher = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
-    vel_msg = Twist()
-    goal_x=float(p2[0])
-    goal_y=float(p2[1])
-    robot_pose = getRobotPose()
-
-    distance_tolerance = 0.10
-    
-    vel_msg = Twist()
-    distanza = sqrt(pow((goal_x - robot_pose[0]), 2) + pow((goal_y - robot_pose[1]), 2))
-    while distanza >= distance_tolerance:
-
-        # Porportional controller.
-        # https://en.wikipedia.org/wiki/Proportional_control
-
-        # Linear velocity in the x-axis.
-        vel_msg.linear.x = 10
-        vel_msg.linear.y = 0
-        vel_msg.linear.z = 0
-
-        # Angular velocity in the z-axis.
-        vel_msg.angular.x = 0
-        vel_msg.angular.y = 0
-        vel_msg.angular.z = 0 #angular_vel(goal_pose)
-        # Publishing our vel_msg
-        velocity_publisher.publish(vel_msg)
-
-        # Publish at the desired rate.
-      #  self.rate.sleep()
-        robot_pose = getRobotPose()
-        distanza = sqrt(pow((goal_x - robot_pose[0]), 2) + pow((goal_y - robot_pose[1]), 2))
-        print "Distanza ",distanza
-        vel_msg.linear.x = 0
-        vel_msg.angular.z = 0
-        velocity_publisher.publish(vel_msg)
-        #wt=int(input("premi un tasto"))
-        # Stopping our robot after the movement is over.
-    vel_msg.linear.x = 0
-    vel_msg.angular.z = 0
-    velocity_publisher.publish(vel_msg)
 #
-# move : 
-#
-def move(goal_pose,speed,distance,isforward):
-    #Starts a new node
-    #rospy.init_node('robot_cleaner', anonymous=True)
-    velocity_publisher = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
-    vel_msg = Twist()
-      
-    #We wont use linear components
-    vel_msg.linear.x=0
-    vel_msg.linear.y=0
-    vel_msg.linear.z=0
-    vel_msg.angular.x = 0
-    vel_msg.angular.y = 0
-    vel_msg.angular.z = 0
-    # Checking if our movement is CW or CCW
-    if isforward:
-        vel_msg.linear.x = abs(speed)
-    else:
-        vel_msg.linear.x = -abs(speed)
-    # Setting the current time for distance calculus
-	
-    t0 = rospy.Time.now().to_sec()
-    current_pose = getRobotPose()
-    distance = dist(current_pose,goal_pose)
-
-    while(distance > 0.10):
-
-        velocity_publisher.publish(vel_msg)
-        t1 = rospy.Time.now().to_sec()
-        current_pose = getRobotPose()
-        distance = dist(current_pose,goal_pose)
-        print "distance ",distance
-    
-    vel_msg.angular.x = 0
-    velocity_publisher.publish(vel_msg)
-
-#
-# rotate : 
+# speed : 
 #
 def rotate(speed,angle,clockwise):
     #Starts a new node
     #rospy.init_node('robot_cleaner', anonymous=True)
     velocity_publisher = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
     vel_msg = Twist()
+
+    # Receiveing the user's input
+    #print("Let's rotate your robot")
+    #speed = input("Input your speed (degrees/sec) 30:")
+    #angle = input("Type your distance (degrees):")
+    #clockwise = input("Clockwise? 0 1: ") #True or false
+    print "angolo ",angle," clockwise",clockwise
 
     #Converting from angles to radians
     angular_speed = speed*2*PI/360
@@ -141,7 +62,7 @@ def dist(p1,p2):
     x=float(p2[0])-float(p1[0])
     y=float(p2[1])-float(p1[1])
     t = math.sqrt(x*x+y*y)
-    #print "distanza calcolata",t
+    print "distanza calcolata",t
     return t
     
 
@@ -150,23 +71,26 @@ def turntogoal(target_pose):
     #print target_pose
     p = getRobotPose()
 
-  
+   # if math.fabs(float(target_pose[1])-p[1]) + math.fabs(float(target_pose[0])-p[0]) < 0.05:
+   #    return True
+    print "getpose :",p
+    print "target  :",target_pose
+   
     ad = math.atan2(float(target_pose[1])-p[1],float(target_pose[0])-p[0])
-    
+    print "ad ",ad
     angle = (ad-p[2])*180/math.pi
     speed = 30
+    print "angle",angle
     #
-    #
+    #yesno = input("is correct")
 
     if (angle > 0):
         clockwise = False
     else:
         clockwise = True
-
-
-    #
+   
     rotate(speed,abs(angle),clockwise)
-    #
+    
     return r
 
 
@@ -198,12 +122,8 @@ def upState(pnode):
         angle = turntogoal(p2) #angolo dovrebbe rimanere costante
        # angle = angles(temp,p2) #angolo dovrebbe rimanere costante
         distance = dist(p1,p2)
+        print "Nodo :",p2, " angolo " , angle , " Distanza " ,distance
         # possiamo sapere se e' stato spostato
-        rspeed = 0.1
-        move(p2,rspeed,distance,True)
-        p1 = getRobotPose()
-        scarto = dist(p1,p2)
-        print "Nodo :",p2, " angolo " , angle , " Distanza " ,distance," Scarto ",scarto
         
 
 #Laser Distance Check
@@ -261,13 +181,18 @@ if __name__ == "__main__":
 
         upState(p)
 
-        #time.sleep(2)
-        #r = forward(distance, False)
-        #time.sleep(2)
-        # 
-        
+        time.sleep(2)
+        r = forward(distance, False)
+        time.sleep(2)
+        print "sono a", getRobotPose()
 
-  
+#    p = path.pop(1).point().split()
+#    print p
+
+#    upState(p)
+#    r = forward(distance, False)
+#    print "sono a", getRobotPose()
+    
        
     
     print "Fine Navigazione " 

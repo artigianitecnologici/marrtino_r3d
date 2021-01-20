@@ -5,21 +5,20 @@
 # Installazione da Zer0
 
 
-
-1-  Costruzione della Mappa con dati gmapping 
+# 1 - Costruzione della Mappa con dati gmapping 
     
-    a1.Esecuzione di gmapping ( marrtino)
+##    a1.Esecuzione di gmapping ( marrtino)
     
       cd $HOME/src/marrtino_apps/mapping
       roslaunch gmapping.launch
 
        ---- CONSIGLIATO ---- 
-    a2.Esecuzione di srrg_mapping ( marrtino)
+##    a2.Esecuzione di srrg_mapping ( marrtino)
        cd $HOME/src/marrtino_apps/mapping
        roslaunch srrg_mapper.launch
 
     
-    b.Registrare /tf /scan con rosbag ( client)
+##    b.Registrare /tf /scan con rosbag ( client)
 
       export ROS_IP=`hostname -I`
       export ROS_MASTER_URI=http://10.3.1.1:11311 
@@ -27,20 +26,20 @@
       rosbag record -O risto2.bag /scan /tf
       ctrl+c per interrompere
 
-    c.Aprire rviz sul client
+##    c.Aprire rviz sul client
       
       export ROS_IP=`hostname -I`
       export ROS_MASTER_URI=http://10.3.1.1:11311 
       cd src/marrtino_r3d 
 
-    d.Salvare la mappa ( marrtino)
-    
-      rosrun map_server map_saver -f risto2
-    e.Visualizzare la mappa
-      eom office.pgm
+##    d.Salvare la mappa ( marrtino)
+      rosrun map_server map_saver -f nomemappa
+
+##    e.Visualizzare la mappa
+      eom nomemappa.pgm
 
 
-2- navigation
+# 2- navigation
 
    a. cd $HOME/src/marrtino_r3d/launch
       roslaunch amcl.launch map_name:=casa
@@ -92,8 +91,8 @@ cd $HOME/src/marrtino_rd3/launch
 ## progetti studio 
 
 git clone https://github.com/FabioScap/marrtino_utilities
-
 git clone https://github.com/RBinsonB/Nox_robot.git
+git clone https://github.com/artigianitecnologici/script.git
 
 # ROS-ROBOTICS-by-Examples
  https://github.com/PacktPublishing/ROS-Robotics-By-Example
@@ -123,6 +122,17 @@ export LD_LIBRARY_PATH=$HOME/lib/g2o/lib:${LD_LIBRARY_PATH}
   aggiungi
   autologin-user=ubuntu
 
+## flash firmware orazio
+ cd $HOME/src/srrg/srrg2_orazio/srrg2_orazio/firmware_build/atmega2560
+ make clean
+ make
+ make orazio.hex
+
+## conf. firmware orazio
+  cd script
+  ./orazio_config.sh
+
+  sul browse  localhost:9000
 
 
 

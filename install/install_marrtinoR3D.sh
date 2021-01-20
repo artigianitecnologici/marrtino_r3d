@@ -35,7 +35,7 @@ function install_dependencies {
     sudo apt-get install ros-melodic-pid -y
     sudo apt-get install ros-melodic-move-base -y
     sudo apt-get install ros-melodic-dwa-local-planner -y
-    sudo apt get install ros-melodic-global-planner -y
+    sudo apt-get install ros-melodic-global-planner -y
     sudo apt-get install ros-melodic-yocs-velocity-smoother
     sudo apt-get install ros-melodic-apriltag-ros -y
     sudo apt-get install ros-melodic-usb-cam -y
@@ -56,7 +56,14 @@ function install_dependencies {
 	echo_green " Installing dependencies...DONE"
 }
 
+function install_webserver {
+sudo apt install tmux nginx -y
+cd /var/www/html
+sudo cp $HOME/src/marrtino_r3d/install/index.html .
+sudo ln -s $HOME/src/marrtino_r3d/www/teleop teleop
 
+
+}
 
 function install_think_driver {
 
@@ -234,6 +241,7 @@ function main {
     install_marrtinoapp
     install_hectorslam
     install_navigationtutorial
+    install_webserver
 }
 
 

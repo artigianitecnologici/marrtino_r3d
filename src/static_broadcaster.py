@@ -46,9 +46,9 @@ def main(args):
     st2.header.stamp = rospy.Time.now()
     st2.header.frame_id = "/base_link"
     st2.child_frame_id = "/laser"
-    st2.transform.translation.x = 0.085
+    st2.transform.translation.x = 0.00
     st2.transform.translation.y = 0.0
-    st2.transform.translation.z = 0.107
+    st2.transform.translation.z = 0.22
     quat = tf.transformations.quaternion_from_euler(0.0, 0.0, 0.0)
     st2.transform.rotation.x = quat[0]
     st2.transform.rotation.y = quat[1]

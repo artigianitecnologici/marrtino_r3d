@@ -38,7 +38,7 @@ def rotate():
     while(current_angle < relative_angle):
         velocity_publisher.publish(vel_msg)
         t1 = rospy.Time.now().to_sec()
-        current_angle = angular_speed*(t1-t0)
+        current_angle = (angular_speed*(t1-t0))*0.96
 
     print "End rotate"
     #Forcing our robot to stop

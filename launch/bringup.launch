@@ -5,9 +5,9 @@
   <!-- Launching USB CAM launch 
   <include file="$(find marrtino_r3d)/launch/usbcam.launch"/> 
   -->
-  <!-- Launching ROSBRidge Server launch 
+  <!-- Launching ROSBRidge Server launch   -->
   <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"/>
-   -->
+ 
   <!--
    <node name="web_video_server" pkg="web_video_server" type="web_video_server" respawn="false" output="screen">
     <param name="port" value="29090" />
@@ -18,5 +18,5 @@
    <!-- Static transforms in the system -->
   <node pkg="marrtino_r3d" type="static_broadcaster.py" name="static_broadcaster_node"/>
   <!-- Launching teleop launch -->
-  <include file="$(find marrtino_r3d)/launch/teleop.launch"/> 
+  <include file="$(find marrtino_r3d)/launch/teleop.launch"/>  
 </launch>

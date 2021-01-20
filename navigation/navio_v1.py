@@ -13,6 +13,7 @@ PI = 3.1415926535897
 from robot_cmd_ros import *
 
 #class marrtino_bot
+plinear = 1
 
 def euclidean_distance(self, goal_pose):
     """Euclidean distance between current pose and the goal."""
@@ -67,7 +68,8 @@ def move(speed,distance,isforward):
     #rospy.init_node('robot_cleaner', anonymous=True)
     velocity_publisher = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
     vel_msg = Twist()
-      
+    delay = 0.1 # sec
+    rate = rospy.Rate(1/delay) # Hz      
     #We wont use linear components
     vel_msg.linear.x=0
     vel_msg.linear.y=0
@@ -83,12 +85,13 @@ def move(speed,distance,isforward):
     # Setting the current time for distance calculus
     t0 = rospy.Time.now().to_sec()
     current_distance = 0
-
-    while(current_distance < distance):
-
+    
+    while((current_distance) < distance):
         velocity_publisher.publish(vel_msg)
         t1 = rospy.Time.now().to_sec()
-        current_distance = speed*(t1-t0)
+        current_distance = speed*(t1-t0) * 0.85
+        #print "cd",current_distance
+        rate.sleep()
 
     
     vel_msg.angular.z = 0
@@ -126,7 +129,7 @@ def rotate(speed,angle,clockwise):
     while(current_angle < relative_angle):
         velocity_publisher.publish(vel_msg)
         t1 = rospy.Time.now().to_sec()
-        current_angle = angular_speed*(t1-t0)
+        current_angle = (angular_speed*(t1-t0))*0.96
 
     #print "End rotate"
     #Forcing our robot to stop
@@ -154,11 +157,17 @@ def turntogoal(target_pose):
     speed = 30
     #
     #
-
     if (angle > 0):
         clockwise = False
     else:
         clockwise = True
+        if (angle > 180):
+            angle = 360 - angle
+            clockwise = False
+            
+    print "angolo ",angle
+
+    
 
 
     #
@@ -195,12 +204,16 @@ def upState(pnode):
         angle = turntogoal(p2) #angolo dovrebbe rimanere costante
        # angle = angles(temp,p2) #angolo dovrebbe rimanere costante
         distance = dist(p1,p2)
+        print "p1:",p1," p2:",p2
         # possiamo sapere se e' stato spostato
-        rspeed = 0.1
-        move(rspeed,distance,True)
+        rspeed = 0.3
+        forward(distance)
+        #move(rspeed,distance,True)
+        time.sleep(2)       
         p1 = getRobotPose()
         distance2 = dist(p1,p2)
-        print "Nodo :",p2, " angolo " , angle , " Distanza " ,distance," Scarto ",distance2
+        
+        print "Nodo :",p2, " angolo " , angle , " Distanza " ,distance," Scarto 2 ",distance2
         
 
 #Laser Distance Check
@@ -237,8 +250,8 @@ if __name__ == "__main__":
     begin(nodename='DRnavX', use_desired_cmd_vel=True)
     g = Graph.read('DRsetup.txt') #possibile modifica con sys.argv[_]
     path = g.navigate(g.getNode(sys.argv[1]),g.getNode(sys.argv[2]))
-    print "elementi"
-    print len(path)
+    #print "elementi"
+    #print len(path)
     #print(path)
     #print "temp -----------------------"
     #for i in range(len(path)):
@@ -253,7 +266,7 @@ if __name__ == "__main__":
     # l'intercettazione  dell' ostacolo  e del tag fa effettuata dentro MOVE_REL
     print "Inizio Navigazione "
     for i in range(len(path)-1):
-        print "i=",i
+        
         p = path.pop(1).point().split()
 
         upState(p)
@@ -274,7 +287,7 @@ if __name__ == "__main__":
        
     
     print "Fine Navigazione " 
-    print "Controllo Tag"
+    #print "Controllo Tag"
     tagdetect=tag_trigger()
     if (tagdetect==True):
         tag_angle=tag_angle()
