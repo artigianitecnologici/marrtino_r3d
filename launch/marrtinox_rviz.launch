@@ -1,6 +1,7 @@
 <launch>
    <!-- values passed by command line input -->     
-   <arg name="model" default="marrtinox.urdf" />
+   
+   <arg name="model" default="$(env ROBOT_NAME).urdf" />
    <arg name="gui" default="False" />
 
    <!-- set these parameters on Parameter Server -->
@@ -12,6 +13,6 @@
 
    <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
 
-   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find marrtino_r3d)/rviz/marrtinox_urdf.rviz" required="true" />
+   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find marrtino_r3d)/rviz/$(env ROBOT_NAME)_urdf.rviz" required="true" />
    <!-- (required = "true") if rviz dies, entire roslaunch will be killed -->
 </launch>

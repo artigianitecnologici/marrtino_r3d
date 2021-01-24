@@ -20,11 +20,12 @@
     
 ##    b.Registrare /tf /scan con rosbag ( client)
 
-      export ROS_IP=`hostname -I`
-      export ROS_MASTER_URI=http://10.3.1.1:11311 
-    
-      rosbag record -O risto2.bag /scan /tf
+      rosbag record -O casahs.bag /scan /tf
       ctrl+c per interrompere
+
+##    b.risprodurre /tf /scan con rosbag ( client)
+      rosparam set use_sim_time true
+      rosbag play casahs.bag --clock
 
 ##    c.Aprire rviz sul client
       
@@ -73,6 +74,15 @@ roslaunch move_base_gbn.launch
 cd $HOME/src/marrtino_rd3/launch
 ./bringup.sh
 
+### WAYPOINT
+
+1 . Generate waypoint
+``` 
+    rosrun ros_waypoint_generator ros_waypoint_generator_custom
+```
+
+
+
 ### 3. MAPPING 
 
 
@@ -94,6 +104,8 @@ git clone https://github.com/FabioScap/marrtino_utilities
 git clone https://github.com/RBinsonB/Nox_robot.git
 git clone https://github.com/artigianitecnologici/script.git
 
+git clone https://github.com/Thedush/ros_waypoint_generator.git
+old https://github.com/AriYu/ros_waypoint_generator
 # ROS-ROBOTICS-by-Examples
  https://github.com/PacktPublishing/ROS-Robotics-By-Example
  git clone https://github.com/PacktPublishing/ROS-Robotics-By-Example.git
@@ -121,6 +133,11 @@ export LD_LIBRARY_PATH=$HOME/lib/g2o/lib:${LD_LIBRARY_PATH}
   open /usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf
   aggiungi
   autologin-user=ubuntu
+  
+- install openssh
+  sudo apt update
+  sudo apt install openssh-server
+  sudo ufw allow ssh  
 
 ## flash firmware orazio
  cd $HOME/src/srrg/srrg2_orazio/srrg2_orazio/firmware_build/atmega2560
@@ -134,5 +151,14 @@ export LD_LIBRARY_PATH=$HOME/lib/g2o/lib:${LD_LIBRARY_PATH}
 
   sul browse  localhost:9000
 
+# NAVIGAZIONE TRAMITE WAYPOINT
 
 
+rostopic pub /load_paths std_msgs/String "data: '$HOME/src/marrtino_r3d/navigation/counter_fwd1.csv'"
+rosrun ros_waypoint_generator ui_nav_waypoints.py $HOME/src/marrtino_r3d/navigation/
+
+
+
+# one
+## two 
+### three

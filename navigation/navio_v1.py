@@ -14,6 +14,7 @@ from robot_cmd_ros import *
 
 #class marrtino_bot
 plinear = 1
+global pose_prec
 
 def euclidean_distance(self, goal_pose):
     """Euclidean distance between current pose and the goal."""
@@ -145,15 +146,15 @@ def dist(p1,p2):
     return t
     
 
-def turntogoal(target_pose):
+def turntogoal(source_pose,target_pose):
     r = True
     #print target_pose
-    p = getRobotPose()
+    p = source_pose #getRobotPose()
 
   
-    ad = math.atan2(float(target_pose[1])-p[1],float(target_pose[0])-p[0])
+    ad = math.atan2(float(target_pose[1])-float(source_pose[1]),float(target_pose[0])-float(source_pose[0]))
     
-    angle = (ad-p[2])*180/math.pi
+    angle = (ad-float(source_pose[2]))*180/math.pi
     speed = 30
     #
     #
@@ -165,6 +166,7 @@ def turntogoal(target_pose):
             angle = 360 - angle
             clockwise = False
             
+
     print "angolo ",angle
 
     
@@ -190,21 +192,22 @@ ftoll = 1 #forward tollerance
 atoll = -9998 #angle tollerance
 
 #update distance/state
-def upState(pnode):
+def upState(pprec,pnode):
     global path,distance,p1,p2,angle,navigable,temp
 
     if len(path)==0:
         navigable = False
     else:
-        p1 = getRobotPose()
+        p1 = pprec #getRobotPose()
         #print "posizione attuale",p1
         #print "devo arrivare a ",p2
         
         p2 = pnode #path[0].point().strip().split()
-        angle = turntogoal(p2) #angolo dovrebbe rimanere costante
+        angle = turntogoal(p1,p2) #angolo dovrebbe rimanere costante
        # angle = angles(temp,p2) #angolo dovrebbe rimanere costante
         distance = dist(p1,p2)
         print "p1:",p1," p2:",p2
+        pose_prec = p2
         # possiamo sapere se e' stato spostato
         rspeed = 0.3
         forward(distance)
@@ -265,11 +268,14 @@ if __name__ == "__main__":
     #while (navigable):
     # l'intercettazione  dell' ostacolo  e del tag fa effettuata dentro MOVE_REL
     print "Inizio Navigazione "
+    #pose_prec = getRobotPose()
     for i in range(len(path)-1):
         
         p = path.pop(1).point().split()
-
-        upState(p)
+        p0 = path.pop(0).point().split()
+        print " p ",p
+        print " p0 ",p0
+        upState(p0,p)
 
         #time.sleep(2)
         #r = forward(distance, False)

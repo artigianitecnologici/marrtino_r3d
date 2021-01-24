@@ -1,8 +1,8 @@
 <launch>
 	<arg name="gui" default="True" />
 
-	<param name="robot_description" command="cat $(find marrtino_r3d)/urdf/marrtino.urdf" />
-	<!--
+	<param name="robot_description" command="cat $(find marrtino_r3d)/urdf/$(env ROBOT_NAME).urdf" />
+	
     <group if="$(arg gui)">
      <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" />
 	</group>
@@ -11,6 +11,16 @@
 	</group>
 	
 	<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
-	-->
-	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find marrtino_r3d)/rviz/marrtino.rviz" required="true" />
+	
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find marrtino_r3d)/rviz/$(env ROBOT_NAME)_mapping.rviz" required="true" />
+	 <rosparam command="load"
+            file="$(find marrtino_r3d)/config/$(env ROBOT_NAME)/joints.yaml"
+            ns="marrtino_joint_state_controller" />
+  <rosparam command="load"
+            file="$(find marrtino_r3d)/config/$(env ROBOT_NAME)/diffdrive.yaml"
+            ns="marrtino_diff_drive_controller" />
+
+  <node name="marrtino_controller_spawner" pkg="controller_manager" type="spawner"
+    args="marrtino_joint_state_controller
+          marrtino_diff_drive_controller"/>
 </launch>

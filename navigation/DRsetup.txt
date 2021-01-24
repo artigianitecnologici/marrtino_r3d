@@ -1,0 +1,17 @@
+Nodi:
+base 0.02 -0.04 -179.52 no a a a  
+nodo1 0.91 0.03 -1.06 no a a a  
+tav1 0.92 0.71 89.14 no a a a  
+nodo2 1.02 -1.02 -91.65 no a a a  
+tav2 0.78 -1.07 -175.52 None None None None  
+tav3 1.48 -1.10 -0.27 no a a a  
+nodo3 1.13 -1.73 -92.21 no a a a  
+tav4 1.94 -2.25 -32.29 no a a a  
+Archi:
+base nodo1
+nodo1 tav1
+nodo2 tav2
+nodo3 tav4
+nodo1 nodo2
+nodo2 nodo3
+nodo2 tav3

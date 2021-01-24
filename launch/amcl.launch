@@ -1,5 +1,5 @@
 <launch>
-  <arg name="robot_name" default="marrtinox" />
+  <arg name="robot_name" default="$(env ROBOT_NAME)" />
   <arg name="map_name" default="map" />
   <arg name="base_frame" default="base_frame" />
   <arg name="laser_topic" default="/scan" />

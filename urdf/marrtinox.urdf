@@ -4,9 +4,9 @@
   <!-- Base Link -->
   <link name="base_link">
     <visual>
-      <origin xyz="0 0 0" rpy="0 0 0" />
+      <origin xyz="0 0 0.09" rpy="0 0 0" />
       <geometry>
-          <box size="0.38 0.38 0.25"/>
+          <box size="0.30 0.30 0.07"/>
       </geometry>
       <material name="blue">
         <color rgba="0 0.5 1 1"/>
@@ -16,7 +16,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-          <box size="0.5 0.5 0.25"/>
+          <box size="0.30 0.30 0.07"/>
       </geometry>
     </collision>
     <inertial>
@@ -26,16 +26,16 @@
 
     <!-- Caster -->
     <visual name="caster">
-      <origin xyz="0.2 0 -0.125" rpy="0 0 0" />
+      <origin xyz="-0.13 0.0 0.03" rpy="0 0 0" />
       <geometry>
-        <sphere radius="0.05" />
+        <sphere radius="0.03" />
       </geometry>
     </visual>
     <!-- Caster collision, mass and inertia -->
     <collision>
-      <origin xyz="0.2 0 -0.125" rpy="0 0 0" />
+      <origin xyz="0.14 0 0.0" rpy="0 0 0" />
       <geometry>
-        <sphere radius="0.05" />
+        <sphere radius="0.03" />
       </geometry>
     </collision>
     <inertial>
@@ -48,9 +48,9 @@
   <!-- Right Wheel -->
   <link name="right_wheel">
     <visual>
-      <origin xyz="0 0 0" rpy="1.570795 0 0" />
+      <origin xyz="0.06 0 0.08" rpy="1.570795 0 0" />
       <geometry>
-          <cylinder length="0.1" radius="0.2" />
+          <cylinder length="0.02" radius="0.08" />
       </geometry>
       <material name="darkgray">
         <color rgba=".2 .2 .2 1"/>
@@ -58,9 +58,9 @@
     </visual>
     <!-- Right Wheel collision, mass and inertia -->
     <collision>
-      <origin xyz="0 0 0" rpy="1.570795 0 0" />
+      <origin xyz="0.06 0 0.08" rpy="1.570795 0 0" />
       <geometry>
-          <cylinder length="0.1" radius="0.2" />
+          <cylinder length="0.02" radius="0.08" />
       </geometry>
     </collision>
     <inertial>
@@ -74,16 +74,16 @@
   <joint name="joint_right_wheel" type="continuous">
     <parent link="base_link"/>
     <child link="right_wheel"/>
-    <origin xyz="0 -0.30 0" rpy="0 0 0" /> 
+    <origin xyz="0 -0.16 0" rpy="0 0 0" /> 
     <axis xyz="0 1 0" />
   </joint>
 
   <!-- Left Wheel -->
   <link name="left_wheel">
     <visual>
-      <origin xyz="0 0 0" rpy="1.570795 0 0" />
+      <origin xyz="0.06 0 0.08" rpy="1.570795 0 0" />
       <geometry>
-          <cylinder length="0.1" radius="0.2" />
+          <cylinder length="0.02" radius="0.08" />
       </geometry>
       <material name="darkgray">
         <color rgba=".2 .2 .2 1"/>
@@ -91,9 +91,9 @@
     </visual>
     <!-- Left Wheel collision, mass and inertia -->
     <collision>
-      <origin xyz="0 0 0" rpy="1.570795 0 0" />
+      <origin xyz="0.06 0 0" rpy="1.570795 0 0" />
       <geometry>
-          <cylinder length="0.1" radius="0.2" />
+          <cylinder length="0.02" radius="0.08" />
       </geometry>
     </collision>
     <inertial>
@@ -106,7 +106,7 @@
   <joint name="joint_left_wheel" type="continuous">
     <parent link="base_link"/>
     <child link="left_wheel"/>
-    <origin xyz="0 0.30 0" rpy="0 0 0" /> 
+    <origin xyz="0 0.16 0" rpy="0 0 0" /> 
     <axis xyz="0 1 0" />
   </joint>
 
