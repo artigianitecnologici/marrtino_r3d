@@ -9,7 +9,7 @@ from threading import Thread
 from nav_msgs.msg import Odometry
 import tf
 from apriltag_ros.msg import AprilTagDetectionArray
-
+from geometry_msgs.msg import Twist, Quaternion, PoseWithCovarianceStamped
 # sys.path.append(os.getenv("MARRTINO_APPS_HOME")+"/program") #serve a fare poi l'import di robot_cmd
 #
 # import robot_cmd_ros
@@ -20,6 +20,7 @@ FRAME_map = 'map'
 FRAME_base = 'base_frame'
 
 odom_robot_pose = [0, 0, 0]
+loc_robot_pose = [0,0,0]
 map_robot_pose = [0, 0, 0]
 odomcount = 0
 odomframe = ''
@@ -27,11 +28,23 @@ odomframe = ''
 TAG_TOPIC = "tag_detections"
 TAG_MSG = AprilTagDetectionArray
 last_detection = (None,None,None,None)
+ 
 def get_last_detection():
     global last_detection
     return last_detection
 
 listener = None
+def localizer_cb(data):
+    global loc_robot_pose
+    if (loc_robot_pose is None):
+        loc_robot_pose = [0,0,0]
+    loc_robot_pose[0] = data.pose.pose.position.x
+    loc_robot_pose[1] = data.pose.pose.position.y
+    o = data.pose.pose.orientation
+    q = (o.x, o.y, o.z, o.w)
+    euler = tf.transformations.euler_from_quaternion(q)
+    loc_robot_pose[2] = euler[2] # yaw
+    #print "pose ",loc_robot_pose
 
 def odom_cb(data):
     global odom_robot_pose, odomcount, odomframe
@@ -44,8 +57,11 @@ def odom_cb(data):
     odomcount += 1
     odomframe = data.header.frame_id
 
-
 def get_robot_pose():
+    global odom_robot_pose, loc_robot_pose
+    return loc_robot_pose
+
+def get_robot_posebf():
     global map_robot_pose, listener
 
 
@@ -95,7 +111,7 @@ if __name__ == "__main__":
         rospy.init_node('getpose', disable_signals=True)
         listener = tf.TransformListener()
         odom_sub = rospy.Subscriber(TOPIC_odom, Odometry, odom_cb)
-
+        localizer_sub = rospy.Subscriber('/amcl_pose', PoseWithCovarianceStamped, localizer_cb)
         tag_sub = rospy.Subscriber(TAG_TOPIC, TAG_MSG, tag_callback, queue_size=1)
 
         while (True):
@@ -111,6 +127,7 @@ if __name__ == "__main__":
             time.sleep(1)
 
             p = get_robot_pose()
+            print "p:" ,p
             list.append(scan)
             line="{} {} {} {} {} {}  \n".format(scan,(pose_str(p)),tag_id,pose_x,pose_y,pose_z)
             sys.stdout.write(line) #print con end=''

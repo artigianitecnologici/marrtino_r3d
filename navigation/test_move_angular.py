@@ -27,6 +27,10 @@ def rotate():
     vel_msg.angular.y = 0
 
     # Checking if our movement is CW or CCW
+    if (relative_angle) < 0 
+        relative_angle = abs(relative_angle)
+        clockwise = False
+
     if clockwise:
         vel_msg.angular.z = -abs(angular_speed)
     else:
@@ -34,7 +38,7 @@ def rotate():
     # Setting the current time for distance calculus
     t0 = rospy.Time.now().to_sec()
     current_angle = 0
-
+    print "rel angle ",relative_angle
     while(current_angle < relative_angle):
         velocity_publisher.publish(vel_msg)
         t1 = rospy.Time.now().to_sec()

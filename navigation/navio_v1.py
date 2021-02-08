@@ -148,12 +148,13 @@ def dist(p1,p2):
 
 def turntogoal(source_pose,target_pose):
     r = True
-    #print target_pose
+	print "Source ",source_pose
+    print "Target ",target_pose
+	
     p = source_pose #getRobotPose()
-
-  
+   
     ad = math.atan2(float(target_pose[1])-float(source_pose[1]),float(target_pose[0])-float(source_pose[0]))
-    
+     
     angle = (ad-float(source_pose[2]))*180/math.pi
     speed = 30
     #
@@ -168,12 +169,8 @@ def turntogoal(source_pose,target_pose):
             
 
     print "angolo ",angle
-
-    
-
-
     #
-    rotate(speed,abs(angle),clockwise)
+    #rotate(speed,abs(angle),clockwise)
     #
     return r
 
@@ -210,7 +207,7 @@ def upState(pprec,pnode):
         pose_prec = p2
         # possiamo sapere se e' stato spostato
         rspeed = 0.3
-        forward(distance)
+        #forward(distance)
         #move(rspeed,distance,True)
         time.sleep(2)       
         p1 = getRobotPose()

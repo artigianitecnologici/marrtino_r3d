@@ -105,7 +105,9 @@ git clone https://github.com/RBinsonB/Nox_robot.git
 git clone https://github.com/artigianitecnologici/script.git
 
 git clone https://github.com/Thedush/ros_waypoint_generator.git
-old https://github.com/AriYu/ros_waypoint_generator
+git https://github.com/AriYu/ros_waypoint_generator
+
+git clone https://github.com/zshn25/turtlesim_cleaner.git
 # ROS-ROBOTICS-by-Examples
  https://github.com/PacktPublishing/ROS-Robotics-By-Example
  git clone https://github.com/PacktPublishing/ROS-Robotics-By-Example.git

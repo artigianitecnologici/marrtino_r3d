@@ -170,6 +170,7 @@ def getRobotPose():
 
 def get_robot_pose(): # returns [x,y,theta]
     global odom_robot_pose, loc_robot_pose
+    
     if (loc_robot_pose != None):
         return list(loc_robot_pose)
     else:
@@ -713,19 +714,19 @@ def forward(r=1, obstacleAvoidance=False):
     
 
 def backward(r=1):
-    print 'backward',r
+    #print 'backward',r
     return exec_move_REL(-move_step*r)
     #setSpeed(-tv_good,0.0,r*move_step/tv_good)
 
 
 def left(r=1):
-    print 'left',r
+    #print 'left',r
     return exec_turn_REL(90*r)
     # setSpeed(0.0,rv_good,r*(math.pi/2)/rv_good)
 
 
 def right(r=1):
-    print 'right',r
+    #print 'right',r
     return exec_turn_REL(-90*r)
     #setSpeed(0.0,-rv_good,r*(math.pi/2)/rv_good)
 
@@ -762,7 +763,7 @@ def stop_follow_person():
 def turn(deg, ref='REL'):
     if ref=='REL':
         deg = NORM_180(deg)
-    print('turn %s %.2f' %(ref,deg))
+    #print('turn %s %.2f' %(ref,deg))
     if ref=='REL':
         return exec_turn_REL(deg)
     else:
@@ -932,10 +933,10 @@ def exec_turn_ABS(th_deg):
 def exec_turn_REL(th_deg):
     global rv_good, rv_min, odom_robot_pose
     current_th = odom_robot_pose[2]
-    print("TURN -- currentTh: %.1f -- targetTh %.1f" %(RAD2DEG(current_th), RAD2DEG(current_th) + th_deg))
-    print("TURN -- to-normalize RAD: %.1f" %(current_th + DEG2RAD(th_deg)))
+    #print("TURN -- currentTh: %.1f -- targetTh %.1f" %(RAD2DEG(current_th), RAD2DEG(current_th) + th_deg))
+    #print("TURN -- to-normalize RAD: %.1f" %(current_th + DEG2RAD(th_deg)))
     target_th = norm_target_angle(current_th + DEG2RAD(th_deg))
-    print("TURN -- currentTh: %.1f -- targetTh %.1f" %(RAD2DEG(current_th), RAD2DEG(target_th)))
+    #print("TURN -- currentTh: %.1f -- targetTh %.1f" %(RAD2DEG(current_th), RAD2DEG(target_th)))
 
     r = True
 

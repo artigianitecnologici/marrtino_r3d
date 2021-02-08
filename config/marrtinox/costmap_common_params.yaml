@@ -5,7 +5,7 @@ raytrace_range: 3.0
 robot_radius: 0.20
 #`e il raggio espresso in metri che circonda un oggetto e che viene suddiviso in aree
 # di costo per ottimizzare la navigazione nei pressi degli ostacoli
-inflation_radius: 0.18
+inflation_radius: 0.15
 #
 holonomic robot: true
 

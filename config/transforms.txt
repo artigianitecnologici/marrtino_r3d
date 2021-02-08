@@ -1,4 +1,4 @@
-STATIC_TRANSFORM  base_frame          laser_frame           trpy    0.1  0  0.25   0  0  0
+STATIC_TRANSFORM  base_frame          laser_frame           trpy    0    0  0.25   0  0  0
 STATIC_TRANSFORM  base_frame          depth_camera_frame    trpy    0    0  0      0  0  0
 STATIC_TRANSFORM  depth_camera_frame  rgb_camera_frame      trpy    0    0  0      0  0  0
 

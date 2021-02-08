@@ -44,6 +44,10 @@ function install_dependencies {
     sudo apt-get install ros-melodic-rosbridge-server  -y 
     sudo apt-get install ros-melodic-rtabmap-ros -y
 	sudo apt-get install ros-melodic-joint-state-publisher-gui -y
+    sudo apt-get install ros-melodic-cartographer-ros -y
+    sudo apt-get install ros-melodic-serial -y
+    #sudo apt-get install ros-melodic-teraranger -y
+
 
     # 
     # install camera calibration
@@ -100,6 +104,28 @@ cd $HOME/ros/catkin_ws
 echo_green " Compiling"
 catkin_make
 
+echo_green " Installing ..DONE"
+}
+
+function install_teraranger {
+
+
+# install Teraranger
+# https://github.com/Terabee/teraranger
+echo_green " Install teraranger"
+apt-get install ros-melodic-teraranger-array
+cd $HOME/src
+git clone https://github.com/Terabee/teraranger.git
+cd $HOME/ros/catkin_ws/src
+
+ln -s $HOME/src/teraranger/ .
+ 
+
+cd $HOME/ros/catkin_ws
+echo_green " Compiling"
+catkin_make
+# da i permessi alla porta
+sudo chmod a+rw /dev/ttyACM0
 echo_green " Installing ..DONE"
 }
 
@@ -243,6 +269,7 @@ function main {
     install_hectorslam
     install_navigationtutorial
     install_webserver
+    install_teraranger
 }
 
 

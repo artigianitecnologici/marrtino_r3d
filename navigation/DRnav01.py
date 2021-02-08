@@ -12,7 +12,7 @@ def dist(p1,p2):
     x=float(p2[0])-float(p1[0])
     y=float(p2[1])-float(p1[1])
     t = math.sqrt(x*x+y*y)
-    print "distanza calcolata",t
+    #print "distanza calcolata",t
     return t
     
 
@@ -27,11 +27,12 @@ def turntogoal(target_pose):
     ad = math.atan2(float(target_pose[1])-p[1],float(target_pose[0])-p[0])
     th_deg = (ad-p[2])*180/math.pi
     #se l'angolo e' maggiore di 30
+    print "tp1",target_pose[1]," p[1]",p[1]," tp0",target_pose[0]," p0 ",p[0],"dy ", float(target_pose[1])-p[1], " dx ",float(target_pose[0])-p[0]," ad = ",ad, " p[2]", p[2],"  th_deg ",th_deg
     
     #if math.fabs(th_deg)>10:
     r = turn(th_deg)
 
-    return r
+    return th_deg
 
 
 
@@ -62,7 +63,7 @@ def upState(pnode):
         angle = turntogoal(p2) #angolo dovrebbe rimanere costante
        # angle = angles(temp,p2) #angolo dovrebbe rimanere costante
         distance = dist(p1,p2)
-        print "Nodo :",p2, " angolo " , angle , " Distanza " ,distance
+        print "Nodo p1: ",p1 ," p2:",p2, " angolo " , angle , " Distanza " ,distance
         # possiamo sapere se e' stato spostato
         
 
@@ -116,7 +117,7 @@ if __name__ == "__main__":
     # l'intercettazione  dell' ostacolo  e del tag fa effettuata dentro MOVE_REL
     print "Inizio Navigazione "
     for i in range(len(path)-1):
-        print "i=",i
+        #print "i=",i
         p = path.pop(1).point().split()
 
         upState(p)
