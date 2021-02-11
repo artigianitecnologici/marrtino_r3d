@@ -25,7 +25,7 @@ except:
 
 waypoints = []
 
-
+obstacle_distance = 999
 
 
 class FollowPath(State):
@@ -42,6 +42,8 @@ class FollowPath(State):
         #rospy.loginfo('Connecting to move_base...')
         #self.client.wait_for_server()
         #rospy.loginfo('Connected to move_base.')
+        global obstacle_distance
+        obstacle_distance = 999
 
     def localizer_cb(self,msg):
         global loc_robot_pose
@@ -300,15 +302,15 @@ class FollowPath(State):
         distance = sqrt(pow(delta_y,2)+pow(delta_x,2)) 
         ad = math.atan2(delta_y,delta_x) 
         angle = (ad-pose_w)*180/math.pi
-        rospy.loginfo('Current Pose (x,y,w): %s, %s,%s , %s' %  (pose_x, pose_y,pose_w, pose_w*180/math.pi))
-        rospy.loginfo('Target Pose (x,y): %s, %s dy %s  dx %s' %  (x_target, y_target,delta_y,delta_x))
-        rospy.loginfo('Distance :  %s ad %s angolo %s  ' % (distance,ad,  angle  	))	
+        #rospy.loginfo('Current Pose (x,y,w): %s, %s,%s , %s' %  (pose_x, pose_y,pose_w, pose_w*180/math.pi))
+        #rospy.loginfo('Target Pose (x,y): %s, %s dy %s  dx %s' %  (x_target, y_target,delta_y,delta_x))
+        #rospy.loginfo('Distance :  %s ad %s angolo %s  ' % (distance,ad,  angle  	))	
         self.rotate_robot(20,angle,True)
         # 
         #time.sleep(2)
 		
         #forward
-        speed = 0.25
+        speed = 2.25
         self.forward_robot(speed,distance)
         #x = input('Wait:')
 

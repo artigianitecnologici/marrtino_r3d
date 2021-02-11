@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<launch>
-    <node pkg="marrtino_r3d"
-          type="move_to_table_action_server.py"
-          name="move_to_table_action_server_node"
-          output="screen" />
-</launch>

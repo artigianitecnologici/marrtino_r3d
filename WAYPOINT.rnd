@@ -1,0 +1,17 @@
+
+
+# Salvataggio dei Waypoint
+## Andata Tavolo 1
+roslaunch ros_waypoint_generator waypoint_saver.launch direction:=fwd counter:=1
+## Ritorno Tavolo 1
+roslaunch ros_waypoint_generator waypoint_saver.launch direction:=rev counter:=1
+
+rostopic pub -1 /load_paths std_msgs/String "data: '/home/ubuntu/src/ros_waypoint_generator/waypoints/counter_rev1.csv'"
+
+## Programma gestione navigazione
+python ui_nav_waypoints.py /home/ubuntu/src/ros_waypoint_generator/waypoints
+
+
+rostopic pub -1 /counter_no std_msgs/String "data: '1'" 
+
+

@@ -245,7 +245,7 @@ function LoadFood(add_object){
 function setMoveToTableBtn() {
     console.log('Move To Table Initialised');
     
-
+    // 
     
     $(".btn-table").click(function(event2){
         // Holds the product ID of the clicked element
@@ -278,48 +278,10 @@ function setMoveToTableBtn() {
 
 // Calling action
 function MoveToTable(table_number){
-
-    var moveToTableClient = new ROSLIB.ActionClient({
-        ros : ros,
-        serverName : '/move_to_table_as',
-        actionName : 'actionlib/TestAction'
-      });
-
-    var goal = new ROSLIB.Goal({
-    actionClient : moveToTableClient,
-    goalMessage : {
-        goal : table_number
-    }
-    });
-    
-    goal.on('feedback', function(feedback) {
-        console.log('Feedback: ' + feedback.feedback);
-        movetotable_progress = document.getElementById('movetotable-progress');
-        movetotable_progress.style = "width:"+feedback.feedback+"%";
-        movetotable_progress.innerHTML = feedback.feedback + '%';
-    });
-    
-    goal.on('result', function(result) {
-        console.log('Final Result: ' + result.result);
-        table_btn = document.getElementById('table-'+table_number+'-btn');
-        $(table_btn).removeClass("btn-warning");
-        $(table_btn).addClass("btn-success");
-        $(table_btn).toggleClass('active');   
-        table_btn.innerHTML = "T"+table_number;
-        movetotable_progress = document.getElementById('movetotable-progress');
-        movetotable_progress.style = "width:0%";
-        movetotable_progress.innerHTML = '0%';
-        success_value = result.result
-    });
-
-    
-    goal.send();
-    
-    
+  
     $( "#table-cancel-btn" ).click(function(event3) {
         console.log('Cancel Move Clicked');
-        event3.preventDefault();
-        moveToTableClient.cancel();
+        
             
         });
     
@@ -335,7 +297,7 @@ window.onload = function () {
     // determine robot address automatically
     robot_IP = location.hostname;
     // set robot address statically
-    //robot_IP = "10.5.10.117";
+    // 
 
     // // Init handle for rosbridge_websocket
     ros = new ROSLIB.Ros({
@@ -367,17 +329,17 @@ window.onload = function () {
         createJoystick();
         initTeleopKeyboard();
     };
-
+    /*
     // get handle for video placeholder
     battery_status = document.getElementById('battery-status');
     battery_status.style = "width:10%";
     battery_status.innerHTML = '10%';
     setBattery(battery_status);
-
+    */
     
     //loadfood = document.getElementById('loadfood-btn');
-    setLoadFoodBtn();
-    setResetFoodBtn();
+    //setLoadFoodBtn();
+    //setResetFoodBtn();
 
     // Start the Move to table action client
     setMoveToTableBtn();

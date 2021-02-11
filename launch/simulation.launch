@@ -1,0 +1,26 @@
+<launch>
+
+
+  <!-- Launching AprilTAG launch -->
+  <include file="$(find marrtino_r3d)/launch/apriltag.launch"/> 
+  <!-- Launching ROSBRidge Server launch   -->
+  <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"/>
+ 
+  <node name="web_video_server" pkg="web_video_server" type="web_video_server" respawn="false" output="screen">
+    <param name="port" value="29090" />
+  </node>
+  
+/> 
+
+  <!-- start simulation -->
+  <master auto="start"/>
+  <param name="/use_sim_time" value="true"/>
+  <include file="$(find marrtino_r3d)/stage/move_base_config/move_base.xml"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find marrtino_r3d)/stage/stage_config/maps/willow-full-0.05.pgm 0.05" respawn="false" />
+  <node pkg="stage_ros" type="stageros" name="stageros" args="$(find marrtino_r3d)/stage/stage_config/worlds/willow-pr2-5cm.world" respawn="false" >
+    <param name="base_watchdog_timeout" value="0.2"/>
+  </node>
+  <include file="$(find marrtino_r3d)/stage/move_base_config/amcl_node.xml"/>  
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find marrtino_r3d)/stage/single_robot.rviz" />
+
+</launch>
