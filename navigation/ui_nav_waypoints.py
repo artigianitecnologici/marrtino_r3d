@@ -32,6 +32,8 @@ def main(path):
 
         #call subprocess if needed
         rospy.sleep(3)
+        # deve apettare il consenso 
+
 
         # publish the forward movement csv file name
         rev_path = path + "/counter_rev" + data.data + ".csv"

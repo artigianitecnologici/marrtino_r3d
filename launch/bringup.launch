@@ -1,8 +1,8 @@
 <launch>
   <include file="$(find marrtino_r3d)/launch/robot.launch"/> 
  
-  <!-- Launching USB CAM launch -->
-  <include file="$(find marrtino_r3d)/launch/usbcam.launch"/> 
+  <!-- Launching USB CAM launch 
+  <include file="$(find marrtino_r3d)/launch/usbcam.launch"/> -->
   
   <!-- Launching ROSBRidge Server launch   -->
   <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"/>

@@ -19,7 +19,14 @@ function install_basics {
     sudo apt install terminator -y
     sudo apt install git -y
     sudo apt-get install htop
-  
+    sudo apt install catkin -y
+
+    mkdir $HOME/src -p
+    mkdir $HOME/ros/catkin_ws/src -p
+    cd $HOME/ros/catkin_ws
+    catkin_make
+    source /opt/ros/melodic/setup.bash
+
     echo_green " Installing basics...DONE"
 }
 
@@ -47,7 +54,8 @@ function install_dependencies {
     sudo apt-get install ros-melodic-cartographer-ros -y
     sudo apt-get install ros-melodic-serial -y
     #sudo apt-get install ros-melodic-teraranger -y
-
+    
+   
 
     # 
     # install camera calibration
@@ -113,7 +121,7 @@ function install_teraranger {
 # install Teraranger
 # https://github.com/Terabee/teraranger
 echo_green " Install teraranger"
-apt-get install ros-melodic-teraranger-array
+sudo apt-get install ros-melodic-teraranger-array -y
 cd $HOME/src
 git clone https://github.com/Terabee/teraranger.git
 cd $HOME/ros/catkin_ws/src
@@ -134,17 +142,13 @@ echo_green " Installing ..DONE"
 
 function install_marrtinoR3D {
 
-cd $HOME/ros/catkin_ws/src
-ln -s $HOME/src/marrtino_r3d/ .
-cd $HOME/ros/catkin_ws
-echo_green " Compiling ......"
-catkin_make
+
 
 #echo “export ROS_PACKAGE_PATH=/home/ubuntu/ros/catkin_ws/src:/opt/ros/melodic/share” >> ~/.bashrc
-echo "source /home/ubuntu/ros/catkin_ws/devel/setup.bash" >> ~/.bashrc
-echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
-echo "export MARRTINO_VERSION=4.0" >> ~/.bashrc
-echo "export MARRTINO_APPS_HOME=/home/ubuntu/src/marrtino_apps" >> ~/.bashrc
+#echo "source /home/ubuntu/ros/catkin_ws/devel/setup.bash" >> ~/.bashrc
+#echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
+#echo "export MARRTINO_VERSION=4.0" >> ~/.bashrc
+#echo "export MARRTINO_APPS_HOME=/home/ubuntu/src/marrtino_apps" >> ~/.bashrc
 
 echo_green " Installing ..DONE"
 }
@@ -206,7 +210,8 @@ catkin_make -j1
 
 function install_newboard {
 echo_green " Install Newboard"
-cd ~/src/srrg/
+mkdir $HOME/src/srrg
+cd $HOME/src/srrg/
 git clone https://gitlab.com/srrg-software/srrg2_orazio.git
 cd srrg2_orazio
 
