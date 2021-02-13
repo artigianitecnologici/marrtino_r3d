@@ -11,6 +11,8 @@
    
 ### 2D Nav Goal
 
+## utilizzi il joy
+
 # Salvataggio dei Waypoint
 ## Andata Tavolo 1
 roslaunch ros_waypoint_generator waypoint_saver.launch direction:=fwd counter:=1
