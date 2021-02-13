@@ -4,9 +4,9 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /Global Options1
-        - /LaserScan1
-        - /InteractiveMarkers1
+        - /Map1
+        - /Robot Footprint1
+        - /Grid1
       Splitter Ratio: 0.5
     Tree Height: 472
   - Class: rviz/Selection
@@ -47,7 +47,7 @@ Visualization Manager:
       Value: true
     - Alpha: 1
       Class: rviz/Polygon
-      Color: 0; 0; 255
+      Color: 72; 72; 116
       Enabled: true
       Name: Robot Footprint
       Topic: /move_base_node/local_costmap/footprint
@@ -197,6 +197,24 @@ Visualization Manager:
       Show Visual Aids: false
       Update Topic: /cube/update
       Value: true
+    - Alpha: 0.5
+      Cell Size: 1
+      Class: rviz/Grid
+      Color: 160; 160; 164
+      Enabled: true
+      Line Style:
+        Line Width: 0.029999999329447746
+        Value: Lines
+      Name: Grid
+      Normal Cell Count: 0
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Plane: XY
+      Plane Cell Count: 100
+      Reference Frame: map
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -225,7 +243,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/ThirdPersonFollower
-      Distance: 42.12311553955078
+      Distance: 25.261035919189453
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -240,10 +258,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.2297967672348022
+      Pitch: 1.4147967100143433
       Target Frame: base_link
       Value: ThirdPersonFollower (rviz)
-      Yaw: 2.750401735305786
+      Yaw: 2.4353983402252197
     Saved: ~
 Window Geometry:
   Displays:

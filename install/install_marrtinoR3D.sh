@@ -21,11 +21,7 @@ function install_basics {
     sudo apt-get install htop
     sudo apt install catkin -y
 
-    mkdir $HOME/src -p
-    mkdir $HOME/ros/catkin_ws/src -p
-    cd $HOME/ros/catkin_ws
-    catkin_make
-    source /opt/ros/melodic/setup.bash
+   
 
     echo_green " Installing basics...DONE"
 }

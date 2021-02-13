@@ -129,9 +129,9 @@ public:
 
     Marker marker;
     marker.type = Marker::CUBE;
-    marker.scale.x = msg.scale*0.5;
-    marker.scale.y = msg.scale*0.5;
-    marker.scale.z = msg.scale*0.5;
+    marker.scale.x = msg.scale*0.15; //0.5
+    marker.scale.y = msg.scale*0.15;
+    marker.scale.z = msg.scale*0.15;
     marker.color.r = 0.05 + 1.0*(float)is_searching_area;
     marker.color.g = 0.80;
     marker.color.b = 0.02;
@@ -217,7 +217,7 @@ public:
     double diff_yaw = calculateAngle(amcl_pose->pose);
     if(diff_dist > dist_th_ || diff_yaw > yaw_th_)
     {
-      makeWaypointMarker(amcl_pose->pose, 0, 1.0); // 
+      makeWaypointMarker(amcl_pose->pose, 0, 0.5); // 1.0
       last_pose_ = amcl_pose->pose;
     }
   }
