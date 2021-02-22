@@ -5,8 +5,8 @@ from geometry_msgs.msg import Twist
 from math import pi
 
 
-ROBOT_FRAME = rospy.get_param("base_frame","base_footprint")
-DOCK_FRAME = rospy.get_param("dock/dock_frame","dock_frame")
+ROBOT_FRAME = rospy.get_param("base_frame","base_frame")
+DOCK_FRAME = rospy.get_param("tag_0","dock_frame")
 TF_THRESHOLD = rospy.Duration( rospy.get_param("dock/tf_threshold",0.15) )
 
 X_LIM = 0.10
@@ -17,7 +17,7 @@ rospy.init_node("dock")
 rate = rospy.Rate(15.0)
 tfBuffer = tf2_ros.Buffer()
 listener = tf2_ros.TransformListener(tfBuffer)
-vel_publisher = rospy.Publisher("/marrtino_diff_drive_controller/cmd_vel",Twist,queue_size=1)
+vel_publisher = rospy.Publisher("/cmd_vel",Twist,queue_size=1)
 
 def get_latest_transform(frame_1,frame_2):
     #most recent transform
@@ -112,6 +112,7 @@ def p1():
         y_dist = translation.y
         rpy = tf.transformations.euler_from_quaternion([rotation.x,rotation.y,rotation.z,rotation.w])
         angle = math.atan2(y_dist,x_dist)
+        print "rpy",rpy , " angle " , angle*pi/180
         if abs(angle) < ANGLE_LIM*pi/180:
             rospy.loginfo("p1 completed")
             return

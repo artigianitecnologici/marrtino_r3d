@@ -74,6 +74,12 @@ roslaunch move_base_gbn.launch
 cd $HOME/src/marrtino_rd3/launch
 ./bringup.sh
 
+
+### 3. Avvio  ambiente di simulazione
+
+./simulation.sh
+
+
 ### WAYPOINT
 
 1 . Generate waypoint

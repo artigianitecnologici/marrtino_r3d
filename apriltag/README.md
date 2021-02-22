@@ -9,6 +9,16 @@ se non lo avete già fatto mettete tags.yaml in apriltag_ros/config/ (è il file
 sudo cp /home/ubuntu/src/marrtino_r3d/apriltag/tags.yaml tags.yaml  
 
 
+
+rosrun tf view_frames
+rosrun tf tf_echo base_frame tag_2
+
+
+rosrun image_view image_view image:=/tag_detections_image
+
+rosrun marrtino_utilities dock.py 
+
+
 Il topic /tag_detections pubblica la distanza tra il tag riconosciuto e la telecamera. c'è anche /tag_detections_image che pubblica in streaming la telecamera con i tag evidenziati.
 
 marrtino_frames.launch serve principalmente per visualizzare su rviz il modello di marrtino aggiungendo il display RobotModel e tf. Controllate che la telecamera sia posizionata nel posto giusto (è il blocco celeste).
