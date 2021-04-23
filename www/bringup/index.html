@@ -1,0 +1,434 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>MARRtino R3D Bringup</title>
+
+  <!-- CSS  -->
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  
+  <script src="websocket_robot.js"></script>
+
+
+  <style>
+
+    /* The Modal (background) */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      padding-top: 100px; /* Location of the box */
+      left: 10%;
+      top: 20%;
+      width: 80%; /* Full width */
+      height: 50%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0,0,0); /* Fallback color */
+      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+      background-color: #fefefe;
+      margin: auto;
+      padding: 20px;
+      border: 3px solid #888;
+      left: 10%;
+      width: 80%;
+    }
+
+    listing {
+      font-size: 140%;
+      color: #1111ff;
+    }
+
+    code {
+      font-size: 140%;
+      color: #1111ff;
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+<nav class="red lighten-1" role="navigation">
+		<div class="nav-wrapper container"><a id="logo-container" href="../index.html" class="brand-logo">MARRtino R3D</a>
+			<ul class="right hide-on-med-and-down">
+				<li><a href="../viewer/index.html">Viewer (Experimental)</a></li>
+			</ul>
+			<ul class="right hide-on-med-and-down">
+				<li><a href="../program/index.html">Programming</a></li>
+			</ul>
+			<ul class="right hide-on-med-and-down">
+				<li><a href="../bringup/index.html">Bringup</a></li>
+			</ul>
+			<ul class="right hide-on-med-and-down">
+				<li><a href="../config/index.html">Configuration</a></li>
+			</ul>
+			
+		  <ul id="nav-mobile" class="sidenav">
+			<li><a href="../config/index.html">Configuration</a></li>
+			<li><a href="../bringup/index.html">Bringup</a></li>
+			<li><a href="../program/index.html">Programming</a></li>
+			<li><a href="../viewer/index.html">Viewer (Experimental)</a></li>
+		  </ul>
+		  <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+
+		</div>
+	</nav>
+
+<h1 align="center">MARRtino R3D</h1> 
+
+<div class="container">
+
+<h2> Robot status </h2>
+
+<table>
+    <tr height=40 style="border:none">
+      <td>Robot IP</td>
+<script>
+      document.write("<td><input type=\"text\" name=\"IP\" id=\"IP\" value=\"" + 
+            window.location.hostname + "\" width=240></td>")
+</script>
+    </tr>
+	<tr style="border:none">
+      <td></td>
+      <td>
+		<button onclick="connect()" class="btn waves-effect waves-light blue" style="margin-right:10px">Connect</button>
+		<button onclick="disconnect()" class="btn waves-effect waves-light blue" style="margin-right:10px">Disconnect</button>
+	  </td>	  
+    </tr>
+	<tr>
+		<td></td>
+		<td>
+			<div id="connection"><font color='red'>Not Connected</font></div>
+		</td>
+	</tr>
+    <tr>
+      <td>Status</td>
+      <td><div id="status" style="color: blue;" >Idle</div></td>
+    </tr>
+</table>
+
+
+
+
+
+
+
+
+<p>
+
+<button onclick="send_cmd('ros_quit')" class="btn waves-effect waves-light blue" style="margin-right:10px">Quit all</button>
+<button id="shutdown_btn" onclick="send_cmd('shutdown')" class="btn waves-effect waves-light blue">Shutdown</button>
+</p>
+
+<br>
+
+<hr>
+
+<h2> Robot/Simulator start-up </h2>
+
+<h3>Robot</h3>
+
+<table>
+
+<tr height=40>
+<td width=80>MARRtino</td> 
+<td width=80 align='center'><span id="robot_status" style="color: red;">OFF</span></td>
+<td><button id="robot_start_btn" onclick="send_cmd('robot_start')" class="btn waves-effect waves-light blue">Bringup</button></td>
+<td><button id="robot_quit_btn" onclick="send_cmd('robot_kill')" class="btn waves-effect waves-light blue">Robot quit</button></td>
+</tr>
+<!--
+<tr height=40>
+<td width=80>Turtlebot</td> 
+<td width=80 align='center'><span id="turtle_status" style="color: red;">OFF</span></td>
+<td><button id="turtle_start_btn" onclick="send_cmd('turtle_start')" class="btn waves-effect waves-light blue">Robot start</button></td>
+<td><button id="turtle_quit_btn" onclick="send_cmd('turtle_kill')" class="btn waves-effect waves-light blue">Robot quit</button></td>
+</tr>
+-->
+<tr height=40>
+<td>Ristorante</td> 
+<td width=80 align='center'><span id="simrobot_status" style="color: red;">OFF</span></td>
+<td><button id="simrobot_start_btn" onclick="send_cmd('simrobot_start')" class="btn waves-effect waves-light blue">Simulazione start</button>
+<!-- TODO - does not work with simulated camera  &nbsp;&nbsp;&nbsp; > 
+<!--button id="simrobot_start_nogui_btn" onclick="send_cmd('simrobot_start_nogui')" class="btn waves-effect waves-light blue">Simrobot start (no GUI)</button -->
+</td>
+<td><button id="simrobot_quit_btn" onclick="send_cmd('simrobot_kill')" class="btn waves-effect waves-light blue">Simulazione quit</button></td>
+</tr>
+
+</table>
+
+<br>
+<hr>
+
+<h3>Mapping</h3>
+
+<table>
+  <tr> <td colspan=4> <b style="color: red;">Start only one mapper OR one localizer</b> </td> </tr>
+
+  
+  <tr height=40>
+  <td width=160>GMapping</td> 
+  <td width=80><span id="gmapping_status" style="color: red;">OFF</span> </td>
+  <td> <button id="gmapping_start_btn" onclick="send_cmd('gmapping_start')" class="btn waves-effect waves-light blue">GMapping start</button></td>
+  <td> <button id="gmapping_quit_btn" onclick="send_cmd('gmapping_kill')" class="btn waves-effect waves-light blue">GMapping quit</button></td>
+  </tr>
+  
+  <tr height=40>
+  <td>SRRG mapper</td>
+  <td><span id="srrg_mapper2d_status" style="color: red;">OFF</span> </td>
+  <td><button id="srrg_mapper2d_start_btn" onclick="send_cmd('srrg_mapper2d_start')" class="btn waves-effect waves-light blue">SRRG mapper start</button></td>
+  <td><button id="srrg_mapper2d_quit_btn" onclick="send_cmd('srrg_mapper2d_kill')" class="btn waves-effect waves-light blue">SRRG mapper quit</button></td>
+  </tr>
+  
+  
+  <tr> <td colspan=2>Save the current map<br>playground/lastmap.yaml</td> <td> <button id="save_map_btn" onclick="send_cmd('save_map')" class="btn waves-effect waves-light blue">Save Map</button> </td> 
+  
+  </tr>
+
+</table>
+<br>
+<hr>
+
+<h3>Navigation</h3>
+
+<table>
+  <tr height=40>
+    <td>AMCL</td> 
+    <td><span id="amcl_status" style="color: red;">OFF</span> </td>
+    <td><button id="amcl_start_btn" onclick="send_cmd('amcl_start')" class="btn waves-effect waves-light blue">AMCL start</button></td>
+    <td><button id="amcl_start_l_btn" onclick="send_cmd('amcl_lastmap_start')" class="btn waves-effect waves-light blue">AMCL start (my map)</button></td>
+    <td><button id="amcl_quit_btn" onclick="send_cmd('amcl_kill')" class="btn waves-effect waves-light blue">AMCL quit</button></td>
+    </tr>
+
+</table>
+<br>
+<hr>
+
+
+<h3>Waypoint's</h3>
+
+<table>
+
+<tr height=40>
+<td width=80>Generazione WayPoints</td> 
+<td width=80 align='center'><span id="usbcam_status" style="color: red;">OFF</span></td>
+<td><button id="genwp_start_btn" onclick="send_cmd('genwp_start')" class="btn waves-effect waves-light blue">Generazione ON</button></td>
+<td><button id="genwp_quit_btn" onclick="send_cmd('genwp_kill')" class="btn waves-effect waves-light blue">Generazione OFF</button></td>
+</tr>
+
+<tr height=40>
+  <td width=80>Generazione WayPoints Custom</td> 
+  <td width=80 align='center'><span id="usbcam_status" style="color: red;">OFF</span></td>
+  <td><button id="genwp_start_btn" onclick="send_cmd('genwp_start')" class="btn waves-effect waves-light blue">Generazione ON</button></td>
+  <td><button id="genwp_quit_btn" onclick="send_cmd('genwp_kill')" class="btn waves-effect waves-light blue">Generazione OFF</button></td>
+  </tr>
+</table>
+<hr>
+<tr> <td colspan=4> 
+  Save waypoints .<br>
+  <p>
+   
+  Save the current waypoint into src/marrtino_r3d/waypoint</td> 
+  </p>
+  </td> 
+  </tr>
+<table>
+  <tr height=40>
+    <td width=80>Save WayPoints  </td> 
+    <td width=80 align='center'><span  style="color: green;">- 01 -</span></td>
+    
+    <td> <button id="save_map_btn01f" onclick="send_cmd('save_waypoint01fwd')" class="btn waves-effect waves-light blue">Save waypoint fwd </button> </td> 
+    <td> <button id="save_map_btn01r" onclick="send_cmd('save_waypoint01rev')" class="btn waves-effect waves-light blue">Save waypoint rev </button> </td> 
+  </tr>
+  <tr height=40>
+    <td width=80>Save WayPoints  </td> 
+    <td width=80 align='center'><span  style="color:green;">- 02 -</span></td>
+    
+    <td> <button id="save_map_btn01f" onclick="send_cmd('save_waypoint02fwd')" class="btn waves-effect waves-light blue">Save waypoint fwd </button> </td> 
+    <td> <button id="save_map_btn01r" onclick="send_cmd('save_waypoint02rev')" class="btn waves-effect waves-light blue">Save waypoint rev </button> </td> 
+  </tr>
+</table>
+
+<br>
+
+<hr>
+
+<h3>RVIZ</h3>
+<table>
+<tr height=40>
+  <td width=80>RVIZ Mapping</td> 
+  <td width=80 align='center'><span id="usbcam_status" style="color: red;">OFF</span></td>
+  <td><button id="marttinox_rviz_start_btn" onclick="send_cmd('marrtinox_rviz_start')" class="btn waves-effect waves-light blue" style="margin-right:10px">MARRtinoX RVIZ Start</button></td>
+  <td><button id="audio_quit_btn" onclick="send_cmd('audio_kill')"class="btn waves-effect waves-light blue">Audio quit</button></td>
+</tr>
+<tr height=40>
+  <td width=80>RVIZ Navigation</td> 
+  <td width=80 align='center'><span id="usbcam_status" style="color: red;">OFF</span></td>
+  <td><button id="marttinox_rviz_start_btn" onclick="send_cmd('marrtinox_rviz_navigation_start')" class="btn waves-effect waves-light blue" style="margin-right:10px">MARRtinoX RVIZ Start</button></td>
+  <td><button id="audio_quit_btn" onclick="send_cmd('audio_kill')"class="btn waves-effect waves-light blue">Audio quit</button></td>
+</tr>
+</table>
+
+
+
+
+
+
+
+<br><br><br>
+
+
+<!-- The Modal -->
+<div id="waitModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <h2 align='center'>Please wait..</h2>
+  </div>
+
+</div>
+
+</div>
+
+</body>
+
+
+<!-- ****** SCRIPTS ****** -->
+
+<script src="../js/jquery-2.1.1.min.js"></script>
+<script src="../js/materialize.js"></script>
+<script src="../js/init.js"></script>
+
+<script>
+
+
+    function waitwindow_on() {
+        var modal = document.getElementById('waitModal');
+        modal.style.display = "block";
+        console.log("waitwindow_on")
+    }
+
+    function waitwindow_off() {
+        var modal = document.getElementById('waitModal');
+        modal.style.display = "none";
+        console.log("waitwindow_off")
+    }
+
+    // setTimeout(waitwindow_on(), 4000);
+    
+
+    //document.getElementById("simrobot_start_btn").disabled = false;
+
+
+    // messages received from wsserver
+    eventproc = function(event){
+      v = event.data.split(' ');
+
+      if (v[0]=='STATUS') {
+          vs = '';
+          for (i=1; i<v.length ; i++)
+             vs += v[i]+' '
+          vs = vs.trim();
+          document.getElementById("status").innerHTML = vs;
+          var d = new Date();
+          console.log(d+" - status ["+vs+"]");
+          if (vs=="Idle")
+            waitwindow_off();
+          else
+            waitwindow_on();
+      }
+      else if (v[0]=='RESULT') {
+          cv = v[2];
+          console.log("log: "+ v[1] + " " + v[2])
+          if (v[2]=='True' || parseFloat(v[2])>0) {
+            //cv = "<font color='green'>"+v[2]+"</font>"
+            d = document.getElementById(v[1])
+            if (d!=null)
+                d.style.color = 'green';
+            //document.getElementById(v[1]+"_btn").style.color = 'green';
+
+            //document.getElementById(v[1]+"_start_btn").disabled = false;
+            //document.getElementById(v[1]+"_quit_btn").disabled = false;
+
+            vst = v[1]+"_status"; // status label
+            d = document.getElementById(vst);
+            if (d!=null) {
+                if (v[2]=='True')
+                    d.innerHTML = 'OK';
+                else
+                    d.innerHTML = v[2];
+                d.style.color = 'green';
+            }
+
+
+
+          }
+          else if (v[2]=='False' || parseFloat(v[2])==0.0) {
+            //cv = "<font color='red'>"+v[2]+"</font>"
+            d = document.getElementById(v[1]);
+            if (d!=null)
+                d.style.color = 'red'
+            //document.getElementById(v[1]+"_start_btn").disabled = false;
+            //document.getElementById(v[1]+"_quit_btn").disabled = false;
+
+            vst = v[1]+"_status"; // status label
+            d = document.getElementById(vst);
+            if (d!=null) {
+                d.innerHTML = 'OFF';
+                d.style.color = 'red';
+            }
+          }
+
+
+      }
+      else if (v[0]=='VALUE') {
+          vs = '';
+          for (i=2; i<v.length ; i++)
+             vs += v[i]+' '
+          document.getElementById(v[1]).innerHTML = vs;
+      }
+    }
+
+    function connect() {
+        wsrobot_init(9990);  // init websocket robot
+        setTimeout(check_connection, 1000);
+        websocket.onmessage = eventproc;
+    }
+
+    function disconnect() {
+        wsrobot_quit();  // init websocket robot
+        setTimeout(check_connection, 1000);
+    }
+
+    function check_connection() {
+        console.log("check connection")
+        if (wsrobot_connected()) {
+            console.log("wsrobot_connected true")
+            document.getElementById("connection").innerHTML = "<font color='green'>Connected</font>";
+            //document.getElementById("run_btn").disabled = false;
+            //document.getElementById("stop_btn").disabled = false;
+        }
+        else {
+            console.log("wsrobot_connected false")
+            document.getElementById("connection").innerHTML = "<font color='red'>Not Connected</font>";
+            //document.getElementById("run_btn").disabled = true;
+            //document.getElementById("stop_btn").disabled = true;
+        }
+    }
+
+    function send_cmd(action) {
+        wsrobot_send(action);
+    }
+
+ 
+
+
+</script>
+
+</html>
+

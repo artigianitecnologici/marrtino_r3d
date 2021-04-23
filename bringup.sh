@@ -2,4 +2,5 @@
 date
 export ROBOT_NAME=marrtinox
 export ROBOT_TYPE=marrtinox
-roslaunch marrtino_r3d bringup.launch
+export MARRTINO_R3D_HOME=$HOME/src/marrtino_r3d
+#roslaunch marrtino_r3d bringup.launch

@@ -166,7 +166,10 @@ export LD_LIBRARY_PATH=$HOME/lib/g2o/lib:${LD_LIBRARY_PATH}
 rostopic pub /load_paths std_msgs/String "data: '$HOME/src/marrtino_r3d/navigation/counter_fwd1.csv'"
 rosrun ros_waypoint_generator ui_nav_waypoints.py $HOME/src/marrtino_r3d/navigation/
 
-
+# AGGIORNAMENTO GIT
+git add *
+git commit -m "Messaggio per la commit"
+git push 
 
 # one
 ## two 

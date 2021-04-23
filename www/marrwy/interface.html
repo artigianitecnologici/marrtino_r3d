@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>MARRtino Social Interface</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <script src="https://meet.jit.si/external_api.js"></script>
+  <script src="js/jquery-3.4.1.min.js"></script>
+  <script src="bootstrap/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/roslib.min.js"></script>
+  <script type="text/javascript" src="js/eventemitter2.min.js"></script>
+  <script type="text/javascript" type="text/javascript">
+    
+    var ros = new ROSLIB.Ros({
+        url: 'ws:0.0.0.0:9090'
+    });
+
+    ros.on('connection', function () {
+      document.getElementById("status").innerHTML = "Connected";
+    });
+
+    ros.on('error', function (error) {
+      document.getElementById("status").innerHTML = "Error";
+    });
+
+    ros.on('close', function () {
+      document.getElementById("status").innerHTML = "Closed";
+    });
+    // 
+    var txt_listener = new ROSLIB.Topic({
+      ros: ros,
+      name: '/txt_msg',
+      messageType: 'std_msgs/String'
+    });
+
+    txt_listener.subscribe(function (m) {
+      document.getElementById("msg").innerHTML = m.data;
+      
+    });
+    
+    
+
+   //* A topic for messaging.
+var emotionTopic = new ROSLIB.Topic({
+  ros: ros,
+  name : '/social/emotion',
+  messageType: 'std_msgs/String'
+});
+
+   //* A topic for messaging.
+   
+var speechTopic = new ROSLIB.Topic({
+  ros: ros,
+  name : '/speech/to_speak',
+  messageType: 'std_msgs/String'
+});
+
+
+function speak( testo){
+var msg_speak = new ROSLIB.Message({
+      text: testo  ,
+      wav:  ''   
+ });
+ speechTopic.publish(msg_speak); // error here als
+ console.log(msg_speak);
+ console.log("speak");   
+}
+
+function happy(){
+var msg_happy = new ROSLIB.Message({
+      data :  'happy'   
+ });
+ emotionTopic.publish(msg_happy); // error here als
+ console.log("happy");   
+}
+
+function FaceExpression( face){
+  var mymsg = new ROSLIB.Message({
+       data :  face   
+  });
+  emotionTopic.publish(mymsg); // error here als
+
+  console.log(face);   
+}
+
+
+
+
+function normal(){
+  var mymsg = new ROSLIB.Message({
+       data :  'normal'   
+  });
+  emotionTopic.publish(mymsg); // error here als
+
+  console.log("normal");   
+}
+
+
+function startBlinking(){
+  var mymsg = new ROSLIB.Message({
+       data :   'startblinking'   
+  });
+  emotionTopic.publish(mymsg); // error here als
+
+  console.log("startblinking");   
+}
+
+  
+
+    
+
+     
+    window.onload = function () {
+	  
+      
+	  
+    }
+
+  </script>
+ 
+  
+
+</head>
+
+<body>
+  <h2>Simple MARRtino Social  Interface</h2>
+<!-- Eof Nav Bar -->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12"  style="background-color: #db3636;" align="center" ><h2>EMOZIONI</h2></div>
+
+  </div>
+  <div class="row">
+    <div class="col-md-12">. </div>
+
+  </div>
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-2"><button class="btn btn-outline-danger btn-lg" onclick="FaceExpression('normal')">Normal</button></div>
+    <div class="col-md-2"><button class="btn btn-outline-danger btn-lg" onclick="FaceExpression('happy')">Happy</button></div>
+    <div class="col-md-2"><button class="btn btn-outline-danger btn-lg" onclick="FaceExpression('surprise')">Surprise</button></div>
+    <div class="col-md-2">.col-md-4</div>
+  </div>
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-2"><button class="btn btn-outline-danger btn-lg" onclick="FaceExpression('angry')">angry</button></div>
+    <div class="col-md-2"><button class="btn btn-outline-danger btn-lg" onclick="FaceExpression('sad')">sad</button></div>
+    <div class="col-md-2"><button class="btn btn-outline-danger btn-lg" onclick="FaceExpression('sings')">sings</button></div>
+    <div class="col-md-2">.col-md-4</div>
+  </div>
+  <div class="row">
+    <div class="col-md-12"  style="background-color: #db3636;" align="center" ><h2>EMOZIONI</h2></div>
+
+  </div>
+  <div class="row">
+    <div class="col-md-12">. </div>
+
+  </div>
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+       <div class="input-group mb-3">
+        <input type="text" class="form-control" id="idtesto" placeholder="Testo" aria-label="Testo" aria-describedby="button-addon2">
+        <button class="btn btn-outline-secondary" onclick="speak(document.getElementById('idtesto').value)" type="button" id="button-addon2">Button</button>
+      </div>
+  </div>
+  <div class="col-md-2"></div>
+</div>
+ 
+ 
+  <p>Check your Web Console for output.</p>
+      <button onclick="startBlinking()">StartBlinking</button>
+      <button onclick="normal()">Normal</button>
+      <button onclick="happy()">Happy</button>
+      <input name="textboxsp" type="text" id="idspeack"/>
+      <button onclick="speak(document.getElementById('idspeack').value)">Parla </button>
+
+      <p>Connection status: <span id="status"></span></p>
+      <p> on /emotion: <span id="emotion"></span></p>
+</body>
+
+</html>
+
+
+
