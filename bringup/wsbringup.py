@@ -22,10 +22,10 @@ except Exception as e:
     sys.exit(0)
 
 #sys.path.append('../program')
-#sys.path.append('../scripts')
+sys.path.append('scripts')
 
-#import check
-#from check import *
+import check
+from check import *
 
 from tmuxsend import TmuxSend
 
@@ -45,6 +45,18 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
     def checkStatus(self, what='ALL'):
 
         self.setStatus('Checking...')
+        r = check_ROS()
+        self.write_message('RESULT ros '+str(r))
+        if (r):
+            rospy.init_node('marrtino_bringup', disable_signals=True)
+            self.write_message('VALUE rosnodes %r' %check.nodenames)
+            self.write_message('VALUE rostopics %r' %check.topicnames)
+
+        if (what=='robot' or what=='ALL'):
+            r = check_robot()
+            self.write_message('RESULT robot '+str(r))
+            r = check_odom()
+            self.write_message('RESULT odom '+str(r))
 
         
 
@@ -143,7 +155,7 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
         elif (message=='robot_start'):
             self.tmux.cmd(self.wnet,"echo '@robot' | netcat -w 1 localhost 9236")
             self.tmux.roslaunch(self.wrobot,'launch','bringup')
-            #self.waitfor('robot',5)
+            self.waitfor('robot',5)
             self.waitfor('odom',1)
             self.waitfor('sonar',1)
         elif (message=='robot_kill'):

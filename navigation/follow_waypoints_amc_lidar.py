@@ -8,7 +8,7 @@ import time
 import tf
 import math
 
-from sensor_msgs.msg import Range
+from sensor_msgs.msg import Range,LaserScan
 from smach import State,StateMachine
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 from geometry_msgs.msg import PoseWithCovarianceStamped, PoseArray, Twist
@@ -36,6 +36,7 @@ class FollowPath(State):
         self.localizer_sub = rospy.Subscriber('/amcl_pose', PoseWithCovarianceStamped ,self.localizer_cb)
         self.apriltag_sub = rospy.Subscriber('/tag_detections', AprilTagDetectionArray, self.tag_cb)
         self.range_sub = rospy.Subscriber('/teraranger_evo_mini/range',Range,self.range_cb)
+        self.laser_sub = rospy.Subscriber('/scan', LaserScan, laser_cb)
         rospy.loginfo('Init follow path')
 	    # Get a move_base action client
         #self.client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
@@ -44,7 +45,18 @@ class FollowPath(State):
         #rospy.loginfo('Connected to move_base.')
         global obstacle_distance
         obstacle_distance = 999
-        self.rate = rospy.Rate(15.0)
+
+    def laser_cb(data):
+        global laser_center_dist, laser_left_dist, laser_right_dist, laser_back_dist
+        nc = len(data.ranges)/2
+        nr = int((data.angle_max - math.pi/2)/data.angle_increment)
+        nl = len(data.ranges) - nr
+        laser_center_dist = min(data.ranges[nc-10:nc+10])
+        try:
+            laser_left_dist = min(data.ranges[nl-10:nl+10])
+            laser_right_dist = min(data.ranges[nr-10:nr+10])
+        except:
+            pass     
 
     def localizer_cb(self,msg):
         global loc_robot_pose
@@ -86,6 +98,10 @@ class FollowPath(State):
     def getRobotPose(self):  
         global loc_robot_pose
         return loc_robot_pose
+
+    def laser_center_distance():
+        global laser_center_dist
+        return laser_center_dist
     
     def calc_distance(self, x_source,y_source,x_target,y_target ):
         return sqrt(pow((x_target - x_source), 2) +  pow((y_target - y_source), 2))	
@@ -98,8 +114,9 @@ class FollowPath(State):
         self.velocity_publisher = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
         vel_msg = Twist()
         # verifica angle 
-        if (angle<0):
         
+        if (angle<0):
+            
             angle = abs(angle)
             clockwise = True
             if (angle > 180 ):
@@ -124,7 +141,10 @@ class FollowPath(State):
         vel_msg.linear.z=0
         vel_msg.angular.x = 0
         vel_msg.angular.y = 0
+        
 
+        #print "--------",relative_angle
+        # Checking if our movement is CW or CCW
         if clockwise:
             vel_msg.angular.z = -abs(angular_speed)
         else:
@@ -133,17 +153,12 @@ class FollowPath(State):
         # Setting the current time for distance calculus
         
         t0 = rospy.Time.now().to_sec()
-        while t0<=0:
-            t0 = rospy.Time.now().to_sec()
         current_angle = 0
-        #
+        #print "rel angle ",relative_angle
         while(current_angle < relative_angle):
             self.velocity_publisher.publish(vel_msg)
             t1 = rospy.Time.now().to_sec()
             current_angle = (angular_speed*(t1-t0))
-            self.rate.sleep()
-        self.velocity_publisher.publish(vel_msg)
-        self.rate.sleep()
         vel_msg.angular.z = 0
         self.velocity_publisher.publish(vel_msg)
     
@@ -183,7 +198,8 @@ class FollowPath(State):
                 # Moving robot
                 # check ostacolo
                 obstacle = self.getRangeObstacle()
-				
+	        obstacle_laser = self.laser_center_distance()
+                print "obstacle laser :",obstacle_laser
                 if (obstacle < 0.50):
                     print "ostacolo :",obstacle
                 else:
@@ -192,30 +208,94 @@ class FollowPath(State):
                 # Rate that the publishing is done at
                 #self.rate.sleep()    
 
-    # only if d is small
-    def tilted_forward(d,tilt,vel):
-        rospy.loginfo("tilted forward {} m at {} m/sec with {} rad/sec tilt".format(d,vel,tilt))
-        rospy.loginfo("forward {} m at {} m/sec".format(d,vel))
-        vel_msg = Twist()
-        vel_msg.linear.x = vel
-        vel_msg.angular.z = tilt
-        t0 = rospy.Time.now().to_sec()
-        while t0<=0:
-            t0 = rospy.Time.now().to_sec()
-        current_pos = 0
-        while(current_pos < d):
-            vel_publisher.publish(vel_msg)
-            t1 = rospy.Time.now().to_sec()
-            current_pos = (vel*(t1-t0))
-            rate.sleep()
-        vel_msg.linear.x = 0
-        vel_msg.angular.z = 0
-        vel_publisher.publish(vel_msg)
-        rospy.loginfo("done")
-
-
-
     
+
+    def move_robot_xy(self,y_target,x_target):
+                
+        #rospy.loginfo('Current Pose (x,y,w): %s, %s,%s , %s' %  (poseX, poseY,poseW, poseW*180/math.pi))
+        #rospy.loginfo('Target Pose (x,y): %s, %s dy %s  dx %s' %  (x_target, y_target,delta_y,delta_x))
+        #rospy.loginfo('Distance :  %s ad %s angolo %s  ' % (distance,ad,  angle  	))
+        #
+        rospy.loginfo('Target Pose (x,y): %s, %s ' %  (x_target, y_target))
+        vel_msg = Twist()
+        #
+        targetReached = False
+        speed_linear = 0
+        while ((not targetReached) and (not rospy.is_shutdown())):
+            pose_robot = self.getRobotPose()
+            poseX = pose_robot.pose.pose.position.x
+            poseY = pose_robot.pose.pose.position.y
+            
+            o = pose_robot.pose.pose.orientation
+            q = (o.x, o.y, o.z, o.w)
+            euler = tf.transformations.euler_from_quaternion(q)
+            poseW = euler[2]
+            # calcola la differenza x y source e pose
+            # calcola distanza e angolo rispetto alla posizione in cui si trova
+            # ---------------------------------------------------------------
+            delta_y = y_target - poseY
+            delta_x = x_target - poseX
+            currentDistance = sqrt(pow(delta_y,2)+pow(delta_x,2)) 
+            ad = math.atan2(delta_y,delta_x) 
+            angle = (ad-poseW)*180/math.pi
+            # debug
+            rospy.loginfo('Current Pose (x,y,w): %s, %s,%s , %s' %  (poseX, poseY,poseW, poseW*180/math.pi))
+            
+            rospy.loginfo('Distance :  %s ad %s angolo %s  ' % (currentDistance,ad,  angle  	))
+            #
+            # verifica prima l'angolo 
+            #
+            TolleranzaAngle = 2
+            TolleranzaDistance = 0.2
+            speed_rotation  = 20
+            
+            #
+            if (abs(angle) > TolleranzaAngle):
+                if (angle<0):
+                    angle = abs(angle)
+                    clockwise = True
+                    if (angle > 180 ):
+                        angle = 360 - angle
+                        clockwise = False
+                else:
+                    clockwise = False
+                    if (angle > 180 ):
+                        angle = 360 - angle
+                        clockwise = True
+
+                # Converting from angles to radians
+                angular_speed = speed_rotation*2*math.pi/360
+                relative_angle = angle*2*math.pi/360
+                # Checking if our movement is CW or CCW
+                if clockwise:
+                    angular_speed = -abs(angular_speed)
+                else:
+                    angular_speed = abs(angular_speed)
+            else:
+                print "sppedd "
+                angular_speed = 0
+                speed_linear = 5
+            
+            # controlla la velocita' lineare
+            if (abs(angle) > 5):
+                self.sendMoveMsg(speed_linear, angular_speed)
+            else:
+                if (currentDistance <= TolleranzaDistance):
+                    self.sendMoveMsg(speed_linear, 0)
+                    print "mi muovo"
+                    
+                else:
+                    # Moving robot
+                    targetReached = True
+                    self.sendMoveMsg(0, 0)
+                    # check ostacolo
+                    
+                    # Rate that the publishing is done at
+            
+               
+                
+               
+
 
 
 
@@ -240,33 +320,19 @@ class FollowPath(State):
         distance = sqrt(pow(delta_y,2)+pow(delta_x,2)) 
         ad = math.atan2(delta_y,delta_x) 
         angle = (ad-pose_w)*180/math.pi
-        rospy.loginfo('Current Pose (x,y,w): %s, %s,%s , %s' %  (pose_x, pose_y,pose_w, pose_w*180/math.pi))
-        rospy.loginfo('Target Pose (x,y): %s, %s dy %s  dx %s' %  (x_target, y_target,delta_y,delta_x))
-        rospy.loginfo('Distance :  %s ad %s angolo %s  ' % (distance,ad,  angle  	))	
+        #rospy.loginfo('Current Pose (x,y,w): %s, %s,%s , %s' %  (pose_x, pose_y,pose_w, pose_w*180/math.pi))
+        #rospy.loginfo('Target Pose (x,y): %s, %s dy %s  dx %s' %  (x_target, y_target,delta_y,delta_x))
+        #rospy.loginfo('Distance :  %s ad %s angolo %s  ' % (distance,ad,  angle  	))	
         self.rotate_robot(20,angle,True)
+        # 
+        #time.sleep(2)
+		
         #forward
         speed = 2.25
         self.forward_robot(speed,distance)
-        
-        pose_x = pose_robot.pose.pose.position.x
-        pose_y = pose_robot.pose.pose.position.y
-        o = pose_robot.pose.pose.orientation
-        q = (o.x, o.y, o.z, o.w)
-        euler = tf.transformations.euler_from_quaternion(q)
-        pose_w = euler[2]
-        # calcola la differenza x y source e pose
-        # calcola distanza e angolo rispetto alla posizione in cui si trova
-        # ---------------------------------------------------------------
-        delta_y = y_target - pose_y
-        delta_x = x_target - pose_x
-        distance = sqrt(pow(delta_y,2)+pow(delta_x,2)) 
-        ad = math.atan2(delta_y,delta_x) 
-        angle = (ad-pose_w)*180/math.pi
-        rospy.loginfo('Current Pose (x,y,w): %s, %s,%s , %s' %  (pose_x, pose_y,pose_w, pose_w*180/math.pi))
-        rospy.loginfo('Target Pose (x,y): %s, %s dy %s  dx %s' %  (x_target, y_target,delta_y,delta_x))
-        rospy.loginfo('Distance :  %s ad %s angolo %s  ' % (distance,ad,  angle  	))	
+        #x = input('Wait:')
 
-         #x = input('Wait a number:')       
+               
         
 
 

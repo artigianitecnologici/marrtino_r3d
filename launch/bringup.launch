@@ -1,9 +1,6 @@
 <launch>
   <include file="$(find marrtino_r3d)/launch/robot.launch"/> 
  
-  <!-- Launching USB CAM launch 
-  <include file="$(find marrtino_r3d)/launch/usbcam.launch"/> -->
-  
   <!-- Launching ROSBRidge Server launch   -->
   <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"/>
  
@@ -11,11 +8,15 @@
   <include file="$(find marrtino_r3d)/launch/apriltag.launch"/> 
    <!-- Static transforms in the system 
   <node pkg="marrtino_r3d" type="static_broadcaster.py" name="static_broadcaster_node"/>-->
-  <node name="web_video_server" pkg="web_video_server" type="web_video_server" respawn="false" output="screen">
+ 
+   <node name="web_video_server" pkg="web_video_server" type="web_video_server" respawn="false" output="screen">
     <param name="port" value="29090" />
-  </node>
+  </node>  
   <!-- Launching teleop launch -->
   <include file="$(find marrtino_r3d)/launch/teleop.launch"/>  
  <!-- Launching RPLIDAR launch -->
   <include file="$(find marrtino_r3d)/launch/rplidar.launch"/>   
+ <!-- Launch Speech -->
+  <include file="$(find speech)/launch/speech.launch"/>
 </launch>
+ 

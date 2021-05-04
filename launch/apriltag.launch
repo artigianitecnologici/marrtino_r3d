@@ -1,7 +1,7 @@
 <launch>
 
   <arg name="camera_name" default="usb_cam"/>
-  <arg name="camera_info_url" default="cam_c270"/>
+  <arg name="camera_info_url" default="picam"/>
   <arg name="rgbcameraframe" default="rgb_camera_frame" />
   <arg name="viewimage" default="false" />
   <arg name="device" default="/dev/video0" />

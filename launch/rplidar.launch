@@ -1,9 +1,12 @@
 <launch>
+   <!--
+    <node pkg="thin_state_publisher" type="thin_state_publisher_node" name="state_pub_laser"
+	    args="-odom_topic odom -odom_frame_id none $(find marrtino_r3d)/config/transforms.txt" output="screen">
+        </node>
+  messo in robot
+   -->
 
   
-  <node pkg="thin_state_publisher" type="thin_state_publisher_node" name="state_pub_laser"
-	    args="-odom_topic odom -odom_frame_id none $(find marrtino_r3d)/config/transforms.txt" output="screen">
-  </node>
  
   <node pkg="rplidar_ros"  type="rplidarNode" name="rplidar"  output="screen">
     <param name="serial_port"         type="string" value="/dev/ttyUSB0"/>
