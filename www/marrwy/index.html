@@ -1,137 +1,316 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <title>ROS + Bootstrap 4 demo</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>MARRwy R3D </title>
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <script src="js/jquery-3.4.1.min.js"></script>
+  <script src="bootstrap/js/bootstrap.min.js"></script>
+  <!-- CSS  
+  <link href="../bringup/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="../bringup/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  -->
+  <script src="../bringup/websocket_robot.js"></script>
+ 
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  </head>
-  <body class="bg-light">
+ 
+
+</head>
+
+<body>
+<!-- Nav Bar -->
+<nav class="navbar navbar-expand-md navbar-dark navbar-light" style="background-color:rgba(211,65,63,1);">
+  <a class="navbar-brand" href="#">MARRwy</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="../teleop/index.html">Teleop  </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../marrwy/index.html" aria-haspopup="true"  >MARRwy</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../bringup/index.html" tabindex="-1" >Bringup</a>
+      </li>
+	  <li class="nav-item">
+        <a class="nav-link" href="../config/index.html" tabindex="-1" >Configuration</a>
+      </li>
+	  
+	 
+    </ul>
+	<p class="text-white">Connection status: <span id="status"></span></p>
+	
+	
+   
+  </div>
+</nav>
+<!-- Eof Nav Bar -->
+
+
+
+
+<h1 align="center">MARRwy R3D</h1> 
+
+<div class="container">
+
+<h2> Robot status </h2>
+
+
+
+<table>
+    <tr height=40 style="border:none">
+      <td>Robot IP</td>
+<script>
+      document.write("<td><input type=\"text\" name=\"IP\" id=\"IP\" value=\"" + 
+            window.location.hostname + "\" width=240>")
+</script>
     
-    <div class="row">
-        <div class="col-sm-6" id="robot-systems">
-            <!-- ROBOT SENSORS -->
-          <div id="div-1" style="background-color:rgb(0, 162, 255);" id="robot-sensors">
+		<button onclick="connect()" class="btn waves-effect waves-light blue" style="margin-right:10px">Connect</button>
+		<button onclick="disconnect()" class="btn waves-effect waves-light blue" style="margin-right:10px">Disconnect</button>
+	  </td>	  
+    </tr>
+	<tr>
+		<td></td>
+		<td>
+			<div id="connection"><font color='red'>Not Connected</font></div>
+		</td>
+	</tr>
+    <tr>
+      <td>Status</td>
+      <td><div id="status" style="color: blue;" >Idle</div></td>
+    </tr>
+</table>
 
-            <!-- SPEED -->
-            <div class="row">
-                    <div class="col-md-4"></div>
-                    <div class=" col-md-4">
-                        <label for="robot-speed">
-                            <strong>Robot speed</strong>
-                        </label>
-                        <input type="range" min="15" max="80" class="custom-range" id="robot-speed">
-                    </div>
-                    <div class="col-md-4"></div>
-                </div>
-                
-                <!-- Robot Foto -->
-                <div class="row my-4">
-                    <div class="col d-flex justify-content-center">
-                       <img src="..." class="img-fluid" alt="ResponsiveImage" id="robot-image"> 
-                    </div>
-                </div>
-                
-                <!-- JOYSTICK -->
-                <div class="row my-4">
-                    <div class="col">
-                        <div class="d-flex justify-content-center" style="width: 210px; height: 210px;">
-                            <div id="joystick"></div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- INFO -->
-                <div class="row my-4">
-                    <div class="col-md-2"></div>
-                    <div class="col-md-8">
-                        <div class="alert alert-success">
-                            <h4 class="alert-heading">ROS + Bootstrap interface demo</h4>
-                            <ul>
-                                <li>set speed using a slider</li>
-                                <li>use joystick or WASD keys on keyboard to move </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-2"></div>
-                </div>
-          </div>
 
-          <!-- ROBOT INFO -->
-          <div id="div-2" style="background-color:rgb(0, 255, 149);" id="robot-info">
+
+
+
+
+
+
+<p>
+
+<button onclick="send_cmd('ros_quit')" class="btn waves-effect waves-light blue" style="margin-right:10px">Quit all</button>
+<button id="shutdown_btn" onclick="send_cmd('shutdown')" class="btn waves-effect waves-light blue">Shutdown</button>
+</p>
+
+
+
+
+
+
+<h3>GESTIONE TAVOLI</h3>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <button id="gototable01" onclick="send_cmd('table01')" class="btn btn-outline-primary btn-lg">-01- </button>  
+   </div>
+   <div class="col">
+      <button id="gototable02" onclick="send_cmd('table02')" class="btn btn-outline-primary btn-lg">-02- </button> 
+    </div>
+   <div class="col">
+    <td> <button id="save_map_btn01f" onclick="send_cmd('save_waypoint01fwd')" class="btn btn-outline-primary btn-lg">-03- </button> </td> 
+	</div>
+   
+  </div>
+  <div class="row">
+    <div class="col">
+      <button id="save_map_btn01f" onclick="send_cmd('save_waypoint01fwd')" class="btn btn-outline-primary btn-lg">-04- </button>  
+   </div>
+   <div class="col">
+      <button id="save_map_btn01r" onclick="send_cmd('save_waypoint01rev')" class="btn btn-outline-primary btn-lg">-05- </button> 
+    </div>
+   <div class="col">
+    <td> <button id="save_map_btn01f" onclick="send_cmd('save_waypoint01fwd')" class="btn btn-outline-primary btn-lg">-06- </button> </td> 
+	</div>
+   
+  </div>
+  <div class="row">
+    <div class="col">
+      <button id="save_map_btn01f" onclick="send_cmd('save_waypoint01fwd')" class="btn btn-outline-primary btn-lg">-07- </button>  
+   </div>
+   <div class="col">
+      <button id="save_map_btn01r" onclick="send_cmd('save_waypoint01rev')" class="btn btn-outline-primary btn-lg">-08- </button> 
+    </div>
+   <div class="col">
+    <td> <button id="save_map_btn01f" onclick="send_cmd('save_waypoint01fwd')" class="btn btn-outline-primary btn-lg">-09- </button> </td> 
+	</div>
+   
+  </div>
+   <div class="row">
+    <div class="col">
+      <button id="save_map_btn01f" onclick="send_cmd('save_waypoint01fwd')" class="btn btn-outline-primary btn-lg">-10- </button>  
+   </div>
+   <div class="col">
+      <button id="save_map_btn01r" onclick="send_cmd('save_waypoint01rev')" class="btn btn-outline-primary btn-lg">-11- </button> 
+    </div>
+   <div class="col">
+    <td> <button id="save_map_btn01f" onclick="send_cmd('save_waypoint01fwd')" class="btn btn-outline-primary btn-lg">-12- </button> </td> 
+	</div>
+   
+  </div>
+ </div>
+
+
+
+
+
+
+<br><br><br>
+
+
+<!-- The Modal -->
+<div id="waitModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <h2 align='center'>Please wait..</h2>
+  </div>
+
+</div>
+
+</div>
+
+</body>
+
+
+<!-- ****** SCRIPTS ****** -->
+
+<script src="../js/jquery-2.1.1.min.js"></script>
+<script src="../js/materialize.js"></script>
+<script src="../js/init.js"></script>
+
+<script>
+
+
+    function waitwindow_on() {
+        var modal = document.getElementById('waitModal');
+        modal.style.display = "block";
+        console.log("waitwindow_on")
+    }
+
+    function waitwindow_off() {
+        var modal = document.getElementById('waitModal');
+        modal.style.display = "none";
+        console.log("waitwindow_off")
+    }
+
+    // setTimeout(waitwindow_on(), 4000);
     
-            <!--Battery Status-->
-            <div class="container">
-                    <h2>Battery Status</h2>
-                    <div class="progress">
-                    <div class="progress-bar bg-success" style="width:50%" id="battery-status">50%</div>
-                    </div>
-                </div>
-    
-        </div>
+
+    //document.getElementById("simrobot_start_btn").disabled = false;
 
 
-        <!-- TABLE TOOLS -->
-        </div>
-        <div class="col-sm-6" id="table-tools">
-            <!-- Load Food Button -->
-            <div class="container">
-                <h2>Press Button to load Food</h2>
-                <div class="loadfood">
-                <a id="loadfood-btn" class="btn btn-large btn-success" href="#" role="button">LOAD FOOD</a>
-                </div>
+    // messages received from wsserver
+    eventproc = function(event){
+      v = event.data.split(' ');
 
-                <div class="resetfood">
-                <a id="resetfood-btn" class="btn btn-large btn-info" href="#" role="button">RESET FOOD</a>
-                </div>
-            </div>
+      if (v[0]=='STATUS') {
+          vs = '';
+          for (i=1; i<v.length ; i++)
+             vs += v[i]+' '
+          vs = vs.trim();
+          document.getElementById("status").innerHTML = vs;
+          var d = new Date();
+          console.log(d+" - status ["+vs+"]");
+          if (vs=="Idle")
+            waitwindow_off();
+          else
+            waitwindow_on();
+      }
+      else if (v[0]=='RESULT') {
+          cv = v[2];
+          console.log("log: "+ v[1] + " " + v[2])
+          if (v[2]=='True' || parseFloat(v[2])>0) {
+            //cv = "<font color='green'>"+v[2]+"</font>"
+            d = document.getElementById(v[1])
+            if (d!=null)
+                d.style.color = 'green';
+            //document.getElementById(v[1]+"_btn").style.color = 'green';
 
-            <!-- Tables Buttons -->
-            <button type="button" class="btn btn-info btn-table" id="table-1-btn">Tavolo 1</button>
-            <br>
-            <button type="button" class="btn btn-info btn-table" id="table-2-btn">Tavolo 2</button>
-            <br>
-            <button type="button" class="btn btn-info btn-table" id="table-3-btn">Tavolo 3</button>
-            <br>
-            <button type="button" class="btn btn-info btn-table" id="table-4-btn">Tavolo 4</button>
-            <br>
+            //document.getElementById(v[1]+"_start_btn").disabled = false;
+            //document.getElementById(v[1]+"_quit_btn").disabled = false;
 
-            <!-- Loading Table -->
-            <button type="button" class="btn btn-info btn-table" id="table-5-btn">T5</button>
-            <br>
-            <!-- Dock -->
-            <button type="button" class="btn btn-info btn-table" id="table-6-btn">T6</button>
-            <br>
-            
-            <button type="button" class="btn btn-danger" id="table-cancel-btn">CANCEL</button>
-            <br>
+            vst = v[1]+"_status"; // status label
+            d = document.getElementById(vst);
+            if (d!=null) {
+                if (v[2]=='True')
+                    d.innerHTML = 'OK';
+                else
+                    d.innerHTML = v[2];
+                d.style.color = 'green';
+            }
 
-            <!--Battery Status-->
-            <div class="container">
-                <h2>Move To Table Progress</h2>
-                <div class="progress">
-                <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" style="width:0%" id="movetotable-progress">0%</div>
-                </div>
-            </div>
-        </div>
-    
-      </div>
 
-      
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-    <!--ROS Related Scripts-->
-    <script src="https://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
-    <script src="https://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
-    <script src="https://static.robotwebtools.org/keyboardteleopjs/current/keyboardteleop.min.js"></script>
-    <script src="//yoannmoinet.github.io/nipplejs/javascripts/nipplejs.js"></script>
-    <script src="marrwy.js"></script>
-  </body>
+          }
+          else if (v[2]=='False' || parseFloat(v[2])==0.0) {
+            //cv = "<font color='red'>"+v[2]+"</font>"
+            d = document.getElementById(v[1]);
+            if (d!=null)
+                d.style.color = 'red'
+            //document.getElementById(v[1]+"_start_btn").disabled = false;
+            //document.getElementById(v[1]+"_quit_btn").disabled = false;
+
+            vst = v[1]+"_status"; // status label
+            d = document.getElementById(vst);
+            if (d!=null) {
+                d.innerHTML = 'OFF';
+                d.style.color = 'red';
+            }
+          }
+
+
+      }
+      else if (v[0]=='VALUE') {
+          vs = '';
+          for (i=2; i<v.length ; i++)
+             vs += v[i]+' '
+          document.getElementById(v[1]).innerHTML = vs;
+      }
+    }
+
+    function connect() {
+        wsrobot_init(9990);  // init websocket robot
+        setTimeout(check_connection, 1000);
+        websocket.onmessage = eventproc;
+    }
+
+    function disconnect() {
+        wsrobot_quit();  // init websocket robot
+        setTimeout(check_connection, 1000);
+    }
+
+    function check_connection() {
+        console.log("check connection")
+        if (wsrobot_connected()) {
+            console.log("wsrobot_connected true")
+            document.getElementById("connection").innerHTML = "<font color='green'>Connected</font>";
+            //document.getElementById("run_btn").disabled = false;
+            //document.getElementById("stop_btn").disabled = false;
+        }
+        else {
+            console.log("wsrobot_connected false")
+            document.getElementById("connection").innerHTML = "<font color='red'>Not Connected</font>";
+            //document.getElementById("run_btn").disabled = true;
+            //document.getElementById("stop_btn").disabled = true;
+        }
+    }
+
+    function send_cmd(action) {
+        wsrobot_send(action);
+    }
+
+ 
+
+
+</script>
+
 </html>
+

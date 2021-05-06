@@ -344,7 +344,13 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
             time.sleep(3)
             self.checkStatus('joystick')
 
-
+        # joystick
+        elif (message=='table01'):
+            self.tmux.cmd(self.wnet,"rostopic pub -1 /counter_no std_msgs/String \"data: '1'\"")
+            self.tmux.roslaunch(self.wjoystick,'teleop','teleop')
+            time.sleep(3)
+            self.checkStatus('table01')
+            
         # joystick 4wd
         elif (message=='joystick4wd_start'):
             self.tmux.roslaunch(self.wjoystick,'teleop','teleop','use_4wd:=true &')
