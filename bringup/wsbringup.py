@@ -77,12 +77,12 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
         print('>>> New connection <<<')
         self.setStatus('Executing...')
         self.winlist = ['cmd','roscore','quit','wsrobot','modim',
-                        'robot','laser','rviz','imgproc','joystick','audio',
+                        'robot','waypoint','rviz','imgproc','joystick','audio',
                         'map_loc','navigation','playground','netcat']
 
         self.wroscore = self.winlist.index('roscore')
         self.wrobot = self.winlist.index('robot')
-        self.wlaser = self.winlist.index('laser')
+        self.wwaypoint = self.winlist.index('waypoint')
         self.wrviz = self.winlist.index('rviz')
         self.wimgproc = self.winlist.index('imgproc')
         self.wjoystick = self.winlist.index('joystick')
@@ -242,92 +242,9 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
             time.sleep(2)
             self.checkStatus('rviz')
 
-        # kinect
-        elif (message=='kinect_start'):
-            self.tmux.roslaunch(self.wlaser,'laser','kinect')
-            #self.waitfor('rgb_rviz',5)
-            #self.waitfor('depth_rviz',1)
-            #time.sleep(5)
-            self.checkStatus('laser')
-        elif (message=='kinect_kill'):
-            self.tmux.roskill('kinect')
-            #self.tmux.roskill('state_pub_kinect')
-            time.sleep(2)
-            self.tmux.killall(self.wlaser)
-            time.sleep(2)
-            self.checkStatus('rviz')
+        
 
-        # xtion
-        elif (message=='xtion_start'):
-            self.tmux.roslaunch(self.wrviz,'rviz','xtion2')
-            self.waitfor('rgb_rviz',5)
-            self.waitfor('depth_rviz',1)
-            #time.sleep(5)
-            #self.checkStatus('rviz')
-        elif (message=='xtion_kill'):
-            self.tmux.roskill('xtion2')
-            self.tmux.roskill('state_pub_xtion')
-            time.sleep(2)
-            self.tmux.killall(self.wrviz)
-            time.sleep(2)
-            self.checkStatus('rviz')
-
-
-        # hokuyo
-        elif (message=='hokuyo_start'):
-            self.tmux.roslaunch(self.wlaser,'laser','hokuyo')
-            self.waitfor('laser',5)
-            #time.sleep(5)
-            #self.checkStatus('laser')
-        elif (message=='hokuyo_kill'):
-            self.tmux.roskill('hokuyo')
-            self.tmux.roskill('state_pub_laser')
-            time.sleep(3)
-            self.tmux.killall(self.wlaser)
-            time.sleep(3)
-            self.checkStatus('laser')
-
-        # rplidar
-        elif (message=='rplidar_start'):
-            self.tmux.roslaunch(self.wlaser,'laser','rplidar')
-            self.waitfor('laser',5)
-            #time.sleep(5)
-            #self.checkStatus('laser')
-        elif (message=='rplidar_kill'):
-            self.tmux.roskill('rplidar')
-            self.tmux.roskill('state_pub_laser')
-            time.sleep(3)
-            self.tmux.killall(self.wlaser)
-            time.sleep(3)
-            self.checkStatus('laser')
-
-        # astralaser
-        elif (message=='astralaser_start'):
-            self.tmux.roslaunch(self.wlaser,'laser','astra_laser')
-            time.sleep(5)
-            self.checkStatus('rvizlaser')
-        elif (message=='astralaser_kill'):
-            self.tmux.roskill('astralaser')
-            self.tmux.roskill('depth2laser')
-            self.tmux.roskill('state_pub_astra_laser')
-            time.sleep(3)
-            self.tmux.killall(self.wlaser)
-            time.sleep(3)
-            self.checkStatus('rvizlaser')
-
-        # xtionlaser
-        elif (message=='xtionlaser_start'):
-            self.tmux.roslaunch(self.wlaser,'laser','xtion2_laser')
-            time.sleep(5)
-            self.checkStatus('rvizlaser')
-        elif (message=='xtionlaser_kill'):
-            self.tmux.roskill('xtion2laser')
-            self.tmux.roskill('depth2laser')
-            self.tmux.roskill('state_pub_xtion_laser')
-            time.sleep(3)
-            self.tmux.killall(self.wlaser)
-            time.sleep(3)
-            self.checkStatus('rvizlaser')
+        
 
         # joystick
         elif (message=='joystick_start'):
@@ -377,15 +294,7 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
             self.checkStatus()
 
 
-        # apriltags detector
-        elif (message=='apriltags_start'):
-            self.tmux.roslaunch(self.wimgproc,'marker','tags')
-            time.sleep(3)
-            self.checkStatus()
-        elif (message=='apriltags_kill'):
-            self.tmux.killall(self.wimgproc)
-            time.sleep(3)
-            self.checkStatus()
+        
 
 
 
@@ -409,20 +318,39 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
             time.sleep(5)
             self.checkStatus()
 
-        # save map
+        # save map rosrun ros_waypoint_generator ros_waypoint_generator_custo
         elif (message=='save_map'):
             #self.tmux.cmd(self.wplayground,'mkdir -p ~/playground')
             self.tmux.cmd(self.wplayground,'cd ~/src/marrtino_r3d/maps')
             self.tmux.cmd(self.wplayground,'rosrun map_server map_saver -f mymap')
             self.checkStatus()
-        # save waypoint 1
-        elif (message=='save_waypoint01fwd'):
-            self.tmux.roslaunch(self.wmaploc,'launch','waypoint_saver', 'direction:=fwd counter:=1')
+         # generazione waypoint start
+        elif (message=='genwp_start'):
+            #self.tmux.cmd(self.wwaypoint,'mkdir -p ~/playground')
+            #self.tmux.cmd(self.wplayground,'cd ~/src/marrtino_r3d/maps')
+            self.tmux.cmd(self.wwaypoint,'rosrun ros_waypoint_generator ros_waypoint_generator_custom')
+            self.checkStatus()
+        elif (message=='genwp_kill'):
+            self.tmux.killall(self.wwaypoint)
             time.sleep(5)
             self.checkStatus()
+        # save waypoint 1
+        elif (message=='save_waypoint01fwd'):
+            self.tmux.cmd(self.wmaploc,'roslaunch ros_waypoint_generator waypoint_saver.launch direction:=fwd counter:=1')
+            time.sleep(5)
+            self.checkStatus()
+        elif (message=='save_waypoint01rev'):
+            self.tmux.cmd(self.wmaploc,'roslaunch ros_waypoint_generator waypoint_saver.launch direction:=rev counter:=1')
+            time.sleep(5)
+            self.checkStatus()
+
         # save waypoint 2
         elif (message=='save_waypoint02fwd'):
-            self.tmux.roslaunch(self.wmaploc,'launch','waypoint_saver', 'direction:=fwd counter:=2')
+            self.tmux.cmd(self.wmaploc,'roslaunch ros_waypoint_generator waypoint_saver.launch direction:=fwd counter:=2')
+            time.sleep(5)
+            self.checkStatus()
+        elif (message=='save_waypoint02rev'):
+            self.tmux.cmd(self.wmaploc,'roslaunch ros_waypoint_generator waypoint_saver.launch direction:=rev counter:=1')
             time.sleep(5)
             self.checkStatus()
 
