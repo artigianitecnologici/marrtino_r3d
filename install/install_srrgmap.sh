@@ -1,44 +1,56 @@
 # SRRG mapper
 
+# MARRtino ROS node
 
- if [ ! -d $HOME/src/srrg/srrg_mapper2d ]; then
-
-      cd $HOME/src/srrg
-      git clone https://gitlab.com/srrg-software/srrg_core.git
-      git clone https://gitlab.com/srrg-software/srrg_scan_matcher.git
-      git clone https://gitlab.com/srrg-software/srrg_mapper2d.git
-      git clone https://gitlab.com/srrg-software/srrg_mapper2d_ros.git
-
-      cd srrg_mapper2d_ros
-      rm CMakeLists.txt package.xml
-      wget http://www.diag.uniroma1.it/iocchi/marrtino/patches/srrg_mapper2d_ros/CMakeLists.txt
-      wget http://www.diag.uniroma1.it/iocchi/marrtino/patches/srrg_mapper2d_ros/package.xml
-      cd src
-      rm srrg_mapper2d_node.cpp
-      wget http://www.diag.uniroma1.it/iocchi/marrtino/patches/srrg_mapper2d_ros/srrg_mapper2d_node.cpp
-      rm message_handler.cpp
-      wget http://www.diag.uniroma1.it/iocchi/marrtino/patches/srrg_mapper2d_ros/message_handler.cpp
-
-      cd ../..
-      cd srrg_scan_matcher
-      cd src
-      rm laser_message_tracker.cpp
-      wget http://www.diag.uniroma1.it/iocchi/marrtino/patches/srrg_scan_matcher/laser_message_tracker.cpp
+mkdir -p $HOME/src/srrg && cd $HOME/src/srrg && \
+    git clone https://gitlab.com/srrg-software/srrg_cmake_modules.git && \
+    git clone https://gitlab.com/srrg-software/srrg2_orazio.git
 
 
+# srrg_mapper
 
-      # Link
-      cd $HOME/ros/catkin_ws/src
-      ln -s $HOME/src/srrg/srrg_core .
-      ln -s $HOME/src/srrg/srrg_scan_matcher .
-      ln -s $HOME/src/srrg/srrg_mapper2d .
-      ln -s $HOME/src/srrg/srrg_mapper2d_ros .
-      
+mkdir -p $HOME/src/srrg && cd $HOME/src/srrg && \
+    git clone https://gitlab.com/srrg-software/srrg_core.git && \
+    cd srrg_core && git checkout a8f88898 && cd .. && \
+    git clone https://gitlab.com/srrg-software/srrg_scan_matcher.git && \
+    cd srrg_scan_matcher && git checkout 31e7c7ac && cd .. && \
+    git clone https://gitlab.com/srrg-software/srrg_mapper2d.git && \
+    cd srrg_mapper2d && git checkout 5ea162d1 && cd .. && \
+    git clone https://gitlab.com/srrg-software/srrg_mapper2d_ros.git && \
+    cd srrg_mapper2d_ros && git checkout 9aa14795 && cd .. 
 
-    fi
-cd $HOME/ros/catkin_ws
-catkin_make -j1
+# patches
+cd $HOME/src/srrg/srrg_mapper2d_ros && \
+    rm CMakeLists.txt package.xml && \
+    wget http://www.diag.uniroma1.it/iocchi/marrtino/patches/srrg_mapper2d_ros/CMakeLists.txt && \
+    wget http://www.diag.uniroma1.it/iocchi/marrtino/patches/srrg_mapper2d_ros/package.xml && \
+    cd $HOME/src/srrg/srrg_mapper2d_ros/src && \
+    rm srrg_mapper2d_node.cpp message_handler.cpp && \
+    wget http://www.diag.uniroma1.it/iocchi/marrtino/patches/srrg_mapper2d_ros/srrg_mapper2d_node.cpp && \
+    wget http://www.diag.uniroma1.it/iocchi/marrtino/patches/srrg_mapper2d_ros/message_handler.cpp && \
+    cd $HOME/src/srrg/srrg_scan_matcher/src && \
+    rm laser_message_tracker.cpp && \
+    wget http://www.diag.uniroma1.it/iocchi/marrtino/patches/srrg_scan_matcher/laser_message_tracker.cpp 
+
+
+
+# Set up .bashrc
+
  
-#Manca la libreria srrg_core (https://gitlab.com/srrg-software/srrg_core/tree/master)
+
+# Set and compile ROS packages
+
+ cd $HOME/ros/catkin_ws/src && \
+    
+    ln -s $HOME/src/srrg/srrg_cmake_modules . && \
+    ln -s $HOME/src/srrg/srrg2_orazio . && \
+    ln -s $HOME/src/thin_drivers/thin_msgs . && \
+    ln -s $HOME/src/thin_drivers/thin_state_publisher . && \
+    ln -s $HOME/src/srrg/srrg_core . && \
+    ln -s $HOME/src/srrg/srrg_scan_matcher . && \
+    ln -s $HOME/src/srrg/srrg_mapper2d . && \
+    ln -s $HOME/src/srrg/srrg_mapper2d_ros . 
+
+cd $HOME/ros/catkin_ws; catkin_make -j2
 
 

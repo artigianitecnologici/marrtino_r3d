@@ -1,7 +1,7 @@
 #https://github.com/RainerKuemmerle/g2o
  
 sudo  apt-get update
-sudo apt-get install  libsuitesparse-dev -y
+#sudo apt-get install  libsuitesparse-dev -y
  
 mkdir -p ~/lib
 cd ~/lib
