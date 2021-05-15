@@ -2,7 +2,7 @@
   <arg name="robot_name" default="$(env ROBOT_NAME)" />
   <arg name="map_name" default="mymap" />
   <arg name="base_frame" default="base_frame" />
-  <arg name="laser_topic" default="/scan" />
+  <arg name="laser_topic" default="/scan_filtered" />
 
   <arg name="initial_pose_x" default="0.0" />
   <arg name="initial_pose_y" default="0.0" />

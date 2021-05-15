@@ -129,6 +129,7 @@ source /home/ubuntu/ros/catkin_ws/devel/setup.bash
 
 export MARRTINO_APPS_HOME=$HOME/src/marrtino_apps
 export ROBOT_TYPE=stage
+export ROBOT_NAME=marrwy
 export MARRTINO_VERSION=4.0.1
 
 export G2O_ROOT=$HOME/lib/g2o

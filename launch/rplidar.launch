@@ -1,4 +1,5 @@
 <launch>
+    <arg name="robot_name" default="$(env ROBOT_NAME)" />
    <!--
     <node pkg="thin_state_publisher" type="thin_state_publisher_node" name="state_pub_laser"
 	    args="-odom_topic odom -odom_frame_id none $(find marrtino_r3d)/config/transforms.txt" output="screen">
@@ -21,7 +22,7 @@
     <!--  remap from="scan" to="base_scan" 
       remap from="scan_filtered" to="scan" -->
 
-      <rosparam command="load" file="$(find marrtino_r3d)/config/laser_filter.yaml" />
+      <rosparam command="load" file="$(find marrtino_r3d)/config/$(arg robot_name)/laser_filter.yaml" />
 </node>
 
 

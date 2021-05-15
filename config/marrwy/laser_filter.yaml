@@ -1,0 +1,15 @@
+scan_filter_chain:
+- name: f1
+  type: laser_filters/LaserScanRangeFilter
+  params:
+    use_message_range_limits: false
+    lower_threshold: 0.18
+    upper_threshold: .inf
+#    lower_replacement_value: -.inf
+#    upper_replacement_value: .inf
+- name: f2
+  type: laser_filters/LaserScanAngularBoundsFilter
+  params:
+    lower_angle: -2.44
+    upper_angle: 2.44
+
