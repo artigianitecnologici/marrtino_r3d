@@ -1,6 +1,6 @@
 <launch>
 
-<arg name="robot_name" default="marrtinox" />
+ <arg name="robot_name" default="$(env ROBOT_NAME)" />
 <arg name="base_frame" default="base_frame" />
 <arg name="laser_topic" default="scan" />
 <arg name="laser_frame" default="laser_frame" />
@@ -9,6 +9,8 @@
 
  
  <!--<remap from="/cmd_vel" to="/marrtino_diff_drive_controller/cmd_vel"/>-->
+
+ <rosparam file="$(find marrtino_r3d)/config/$(arg robot_name)/move_base_params.yaml" command="load" />
  <rosparam file="$(find marrtino_r3d)/config/$(arg robot_name)/costmap_common_params.yaml" command="load" ns="global_costmap" /> 
  <rosparam file="$(find marrtino_r3d)/config/$(arg robot_name)/costmap_common_params.yaml" command="load" ns="local_costmap" />
  <rosparam file="$(find marrtino_r3d)/config/$(arg robot_name)/local_costmap_params.yaml" command="load" />
@@ -29,18 +31,4 @@
 </node>
 
 </launch>
-<!--
 
-<launch>
-    <node name="move_base" type="move_base" pkg="move_base">
-        <remap from="/cmd_vel" to="/marrtino_diff_drive_controller/cmd_vel"/>s
-        <rosparam file="$(find marrtino_utilities)/config/costmap_common_params.yaml" command="load" ns="global_costmap" /> 
-        <rosparam file="$(find marrtino_utilities)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
-        <rosparam file="$(find marrtino_utilities)/config/local_costmap_params.yaml" command="load" />
-        <rosparam file="$(find marrtino_utilities)/config/global_costmap_params.yaml" command="load" /> 
-        <rosparam file="$(find marrtino_utilities)/config/base_local_planner_params.yaml" command="load" /> 
-    </node>
-</launch>
-
-
--->

@@ -22,7 +22,7 @@
 	    <node pkg="gradient_based_navigation" type="joystick_control" name="joystick" output="screen">
 		  <remap from="joystick_cmd_vel" to="$(arg cmdvel)" />
 		  <param name="max_vel_x" value="0.2" />
-		  <param name="max_vel_th" value="0.5" />
+		  <param name="max_vel_th" value="0.2" />
 		</node>
   	  </group>
 

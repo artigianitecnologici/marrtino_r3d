@@ -192,94 +192,7 @@ class FollowPath(State):
 
     
 
-    def move_robot_xy(self,y_target,x_target):
-                
-        #rospy.loginfo('Current Pose (x,y,w): %s, %s,%s , %s' %  (poseX, poseY,poseW, poseW*180/math.pi))
-        #rospy.loginfo('Target Pose (x,y): %s, %s dy %s  dx %s' %  (x_target, y_target,delta_y,delta_x))
-        #rospy.loginfo('Distance :  %s ad %s angolo %s  ' % (distance,ad,  angle  	))
-        #
-        rospy.loginfo('Target Pose (x,y): %s, %s ' %  (x_target, y_target))
-        vel_msg = Twist()
-        #
-        targetReached = False
-        speed_linear = 0
-        while ((not targetReached) and (not rospy.is_shutdown())):
-            pose_robot = self.getRobotPose()
-            poseX = pose_robot.pose.pose.position.x
-            poseY = pose_robot.pose.pose.position.y
-            
-            o = pose_robot.pose.pose.orientation
-            q = (o.x, o.y, o.z, o.w)
-            euler = tf.transformations.euler_from_quaternion(q)
-            poseW = euler[2]
-            # calcola la differenza x y source e pose
-            # calcola distanza e angolo rispetto alla posizione in cui si trova
-            # ---------------------------------------------------------------
-            delta_y = y_target - poseY
-            delta_x = x_target - poseX
-            currentDistance = sqrt(pow(delta_y,2)+pow(delta_x,2)) 
-            ad = math.atan2(delta_y,delta_x) 
-            angle = (ad-poseW)*180/math.pi
-            # debug
-            rospy.loginfo('Current Pose (x,y,w): %s, %s,%s , %s' %  (poseX, poseY,poseW, poseW*180/math.pi))
-            
-            rospy.loginfo('Distance :  %s ad %s angolo %s  ' % (currentDistance,ad,  angle  	))
-            #
-            # verifica prima l'angolo 
-            #
-            TolleranzaAngle = 2
-            TolleranzaDistance = 0.2
-            speed_rotation  = 20
-            
-            #
-            if (abs(angle) > TolleranzaAngle):
-                if (angle<0):
-                    angle = abs(angle)
-                    clockwise = True
-                    if (angle > 180 ):
-                        angle = 360 - angle
-                        clockwise = False
-                else:
-                    clockwise = False
-                    if (angle > 180 ):
-                        angle = 360 - angle
-                        clockwise = True
-
-                # Converting from angles to radians
-                angular_speed = speed_rotation*2*math.pi/360
-                relative_angle = angle*2*math.pi/360
-                # Checking if our movement is CW or CCW
-                if clockwise:
-                    angular_speed = -abs(angular_speed)
-                else:
-                    angular_speed = abs(angular_speed)
-            else:
-                print "sppedd "
-                angular_speed = 0
-                speed_linear = 5
-            
-            # controlla la velocita' lineare
-            if (abs(angle) > 5):
-                self.sendMoveMsg(speed_linear, angular_speed)
-            else:
-                if (currentDistance <= TolleranzaDistance):
-                    self.sendMoveMsg(speed_linear, 0)
-                    print "mi muovo"
-                    
-                else:
-                    # Moving robot
-                    targetReached = True
-                    self.sendMoveMsg(0, 0)
-                    # check ostacolo
-                    
-                    # Rate that the publishing is done at
-            
-               
-                
-               
-
-
-
+    
 
 
             
@@ -305,12 +218,12 @@ class FollowPath(State):
         #rospy.loginfo('Current Pose (x,y,w): %s, %s,%s , %s' %  (pose_x, pose_y,pose_w, pose_w*180/math.pi))
         #rospy.loginfo('Target Pose (x,y): %s, %s dy %s  dx %s' %  (x_target, y_target,delta_y,delta_x))
         #rospy.loginfo('Distance :  %s ad %s angolo %s  ' % (distance,ad,  angle  	))	
-        self.rotate_robot(20,angle,True)
+        self.rotate_robot(0.20,angle,True)
         # 
         #time.sleep(2)
 		
         #forward
-        speed = 2.25
+        speed = 0.20
         self.forward_robot(speed,distance)
         #x = input('Wait:')
 
