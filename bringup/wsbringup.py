@@ -334,6 +334,16 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
             self.tmux.killall(self.wwaypoint)
             time.sleep(5)
             self.checkStatus()
+        # generazione waypoint start
+        elif (message=='genwp2_start'):
+            #self.tmux.cmd(self.wwaypoint,'mkdir -p ~/playground')
+            #self.tmux.cmd(self.wplayground,'cd ~/src/marrtino_r3d/maps')
+            self.tmux.cmd(self.wwaypoint,'rosrun ros_waypoint_generator ros_waypoint_generator')
+            self.checkStatus()
+        elif (message=='genwp2_kill'):
+            self.tmux.killall(self.wwaypoint)
+            time.sleep(5)
+            self.checkStatus()
         # save waypoint 1
         elif (message=='save_waypoint01fwd'):
             self.tmux.cmd(self.wmaploc,'roslaunch ros_waypoint_generator waypoint_saver.launch direction:=fwd counter:=1')
