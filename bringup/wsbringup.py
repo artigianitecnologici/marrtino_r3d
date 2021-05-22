@@ -246,22 +246,9 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
 
         
 
-        # joystick
-        elif (message=='joystick_start'):
-            self.tmux.cmd(self.wnet,"echo '@joystick' | netcat -w 1 localhost 9239")
-            self.tmux.roslaunch(self.wjoystick,'teleop','teleop')
-            time.sleep(3)
-            self.checkStatus('joystick')
-        elif (message=='joystick_kill'):
-            self.tmux.cmd(self.wnet,"echo '@joystickkill' | netcat -w 1 localhost 9239")
-            self.tmux.roskill('joystick')
-            self.tmux.roskill('joy')
-            time.sleep(3)
-            self.tmux.killall(self.wjoystick)
-            time.sleep(3)
-            self.checkStatus('joystick')
+        
 
-        # joystick
+        # Tavoli
         elif (message=='table01'):
             self.tmux.cmd(self.wnet,"rostopic pub -1 /counter_no std_msgs/String \"data: '1'\"")
             self.tmux.roslaunch(self.wjoystick,'teleop','teleop')

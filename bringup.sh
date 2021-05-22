@@ -5,4 +5,4 @@ date
 export MARRTINO_R3D_HOME=$HOME/src/marrtino_r3d
 #roscore &
 cd bringup
-python wsbringup.py
+python wsbringup.py &

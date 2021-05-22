@@ -14,7 +14,7 @@ def rotate():
     speed = input("Input your speed (degrees/sec) 30:")
     angle = input("Type your distance (degrees):")
     clockwise = input("Clockwise? 0 1: ") #True or false
-
+    angle=angle*1.14
     #Converting from angles to radians
     angular_speed = speed*2*PI/360
     relative_angle = angle*2*PI/360
@@ -42,7 +42,7 @@ def rotate():
     while(current_angle < relative_angle):
         velocity_publisher.publish(vel_msg)
         t1 = rospy.Time.now().to_sec()
-        current_angle = (angular_speed*(t1-t0))*0.96
+        current_angle = (angular_speed*(t1-t0))  
 
     print "End rotate"
     #Forcing our robot to stop

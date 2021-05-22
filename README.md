@@ -35,7 +35,7 @@
       cd src/marrtino_r3d 
 
 ##    d.Salvare la mappa ( marrtino)
-      rosrun map_server map_saver -f nomemappa
+      rosrun map_server map_saver -f  mymap   
 
 ##    e.Visualizzare la mappa
       eom nomemappa.pgm
@@ -171,6 +171,10 @@ rosrun ros_waypoint_generator ui_nav_waypoints.py $HOME/src/marrtino_r3d/navigat
 git add *
 git commit -m "Messaggio per la commit"
 git push 
+
+# installare google chrom
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo dpkg -i google-chrome-stable_current_amd64.deb
 
 # one
 ## two 

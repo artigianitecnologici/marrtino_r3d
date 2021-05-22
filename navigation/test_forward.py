@@ -94,7 +94,7 @@ def forward(d,vel):
         vel_publisher.publish(vel_msg)
         t1 = rospy.Time.now().to_sec()
         current_pos = (vel*(t1-t0))
-        rate.sleep()
+        #rate.sleep()
     vel_msg.linear.x = 0
     vel_publisher.publish(vel_msg)
     rospy.loginfo("done")
