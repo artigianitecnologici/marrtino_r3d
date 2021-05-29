@@ -8,6 +8,7 @@
       git clone https://gitlab.com/srrg-software/srrg_scan_matcher.git
       git clone https://gitlab.com/srrg-software/srrg_mapper2d.git
       git clone https://gitlab.com/srrg-software/srrg_mapper2d_ros.git
+	  git clone https://gitlab.com/srrg-software/srrg_joystick_teleop.git
 
       cd srrg_mapper2d_ros
       rm CMakeLists.txt package.xml
@@ -33,6 +34,8 @@
       ln -s $HOME/src/srrg/srrg_scan_matcher .
       ln -s $HOME/src/srrg/srrg_mapper2d .
       ln -s $HOME/src/srrg/srrg_mapper2d_ros .
+	  ln -s $HOME/src/srrg/srrg_joystick_teleop .
+	  
       
 
     fi

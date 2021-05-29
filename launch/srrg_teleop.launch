@@ -1,0 +1,13 @@
+<launch>
+	<arg name="tv_axis" default="1" />
+	<arg name="rv_axis" default="3" />
+	
+	<node pkg="srrg_joystick_teleop" type="joy_teleop_node" 
+name="joy_control" output="screen">
+		  <param name="dev" type="string" value="/dev/input/js0" 
+/>
+		  <param name="deadzone" value="0.12" />
+	    </node>
+     
+		
+</launch>
