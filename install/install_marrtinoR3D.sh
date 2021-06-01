@@ -250,7 +250,21 @@ catkin_make -j1
 
 
 }
+function install_talk {
 
+echo_green " Install Navigation Tutorial"
+cd $HOME/src
+git clone https://github.com/artigianitecnologici/talk
+
+
+
+cd $HOME/ros/catkin_ws/src
+ln -s /home/ubuntu/src/talk / .
+cd $HOME/ros/catkin_ws
+catkin_make -j1
+
+
+}
 
 
 function main {

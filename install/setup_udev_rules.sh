@@ -20,3 +20,6 @@ sudo cp rules/99-realsense-libusb.rules /etc/udev/rules.d/
 sudo udevadm control --reload-rules && udevadm trigger
 
 echo "udev-rules successfully installed"
+
+sudo chmod 666 /dev/ttyUSB0
+sudo chmod 666 /dev/ttyACM0

@@ -17,6 +17,6 @@
  <!-- Launching RPLIDAR launch -->
   <include file="$(find marrtino_r3d)/launch/rplidar.launch"/>   
  <!-- Launch Speech -->
-  <include file="$(find speech)/launch/speech.launch"/>
+  <include file="$(find talk)/launch/talk.launch"/>
 </launch>
  
