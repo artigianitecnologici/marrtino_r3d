@@ -5,6 +5,7 @@
 # Installazione da Zer0
 
 
+
 # 1 - Costruzione della Mappa con dati gmapping 
     
 ##    a1.Esecuzione di gmapping ( marrtino)
@@ -103,7 +104,11 @@ cd $HOME/src/marrtino_rd3/launch
 
 
 
-## Acknowledgments
+## apt update: signatures were invalid: F42ED6FBAB17C654
+
+curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+
+
 
 ## progetti studio 
 
