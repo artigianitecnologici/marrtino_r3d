@@ -201,8 +201,14 @@ catkin_make -j1
 
 }
 
-
-
+function install_spqrel_navigation {
+cd $HOME/src
+git clone https://github.com/LCAS/spqrel_navigation.git
+cd $HOME/ros/catkin_ws/src
+ln -s $HOME/src/spqrel_navigation .
+cd ..
+catkin_make
+}
 
 function install_newboard {
 echo_green " Install Newboard"
@@ -285,6 +291,7 @@ function main {
     install_navigationtutorial
     install_webserver
     install_teraranger
+    install_spqrel_navigation
 }
 
 
