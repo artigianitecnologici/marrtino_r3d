@@ -18,7 +18,7 @@ function install_basics {
     sudo apt install python-pip -y
     sudo apt install terminator -y
     sudo apt install git -y
-    sudo apt-get install htop
+    sudo apt-get install htop -y
     sudo apt install catkin -y
 
    
@@ -46,7 +46,7 @@ function install_dependencies {
     sudo apt-get install ros-melodic-web-video-server -y
     sudo apt-get install ros-melodic-rosbridge-server  -y 
     sudo apt-get install ros-melodic-rtabmap-ros -y
-	sudo apt-get install ros-melodic-joint-state-publisher-gui -y
+    sudo apt-get install ros-melodic-joint-state-publisher-gui -y
     sudo apt-get install ros-melodic-cartographer-ros -y
     sudo apt-get install ros-melodic-serial -y
     #sudo apt-get install ros-melodic-teraranger -y
@@ -159,14 +159,14 @@ function install_arduino_dependencies {
     wget https://downloads.arduino.cc/arduino-1.8.10-linux64.tar.xz
     tar -xf arduino-1.8.10-linux64.tar.xz
     sudo mv arduino-1.8.10/ ~/arduino
-     cd  ~/arduino/
+    cd  ~/arduino/
     sudo ./install.sh
     rm ../arduino-1.8.10.tar.xz
 
     echo_green " Installing ARDUINO ROS dependencies"
     sudo apt-get install ros-melodic-rosserial-arduino -y
     sudo apt-get install ros-melodic-rosserial -y
-	echo_green " Installing ARDUINO dependencies...DONE"
+    echo_green " Installing ARDUINO dependencies...DONE"
 }
 
 function install_lidar {
@@ -190,13 +190,13 @@ function install_marrtinoapp {
 echo_green " Install MARRtinoapp"
 cd $HOME/src
 git clone https://bitbucket.org/iocchi/marrtino_apps.git
-git clone https://bitbucket.org/iocchi/stage_environments.git
+#git clone https://bitbucket.org/iocchi/stage_environments.git
 
 
-cd $HOME/ros/catkin_ws/src
-ln -s $HOME/src/stage_environments/ .
-cd $HOME/ros/catkin_ws
-catkin_make -j1
+#cd $HOME/ros/catkin_ws/src
+#ln -s $HOME/src/stage_environments/ .
+#cd $HOME/ros/catkin_ws
+#catkin_make -j1
 
 
 }
@@ -292,6 +292,7 @@ function main {
     install_webserver
     install_teraranger
     install_spqrel_navigation
+    install_talk
 }
 
 
