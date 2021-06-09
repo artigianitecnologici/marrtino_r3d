@@ -1,1 +1,0 @@
-rosrun ros_waypoint_generator ros_waypoint_generator

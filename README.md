@@ -21,12 +21,12 @@
     
 ##    b.Registrare /tf /scan con rosbag ( client)
 
-      rosbag record -O casahs.bag /scan /tf
+      rosbag record -O casa.bag /scan /tf
       ctrl+c per interrompere
 
 ##    b.risprodurre /tf /scan con rosbag ( client)
       rosparam set use_sim_time true
-      rosbag play casahs.bag --clock
+      rosbag play casa.bag --clock
 
 ##    c.Aprire rviz sul client
       
