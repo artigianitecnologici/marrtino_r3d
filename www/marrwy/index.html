@@ -42,7 +42,17 @@
 	  
 	 
     </ul>
-	<p class="text-white">Connection status: <span id="status"></span></p>
+    IP:
+    <script>
+      document.write("<td><input type=\"text\" name=\"IP\" id=\"IP\" value=\"" + 
+            window.location.hostname + "\" width=240>")
+</script>
+<button onclick="connect()" class="btn btn-primary btn-sm my-2 my-sm-0" type="submit">Connect</button>
+  		<button onclick="disconnect()" class="btn btn-light btn-sm" style="margin-right:10px">Disconnect</button>
+    <div id="connection"><font color='red'>Not Connected</font></div>
+    / 
+    <div id="status" style="color: blue;" >Idle</div></td>
+    <!--<p class="text-white">Connection status: <span id="status"></span></p>-->
 	
 	
    
@@ -53,108 +63,61 @@
 
 
 
-<h1 align="center">MARRwy R3D</h1> 
 
-<div class="container">
-
-<h2> Robot status </h2>
-
-
-
-<table>
-    <tr height=40 style="border:none">
-      <td>Robot IP</td>
-<script>
-      document.write("<td><input type=\"text\" name=\"IP\" id=\"IP\" value=\"" + 
-            window.location.hostname + "\" width=240>")
-</script>
-    
-		<button onclick="connect()" class="btn waves-effect waves-light blue" style="margin-right:10px">Connect</button>
-		<button onclick="disconnect()" class="btn waves-effect waves-light blue" style="margin-right:10px">Disconnect</button>
-	  </td>	  
-    </tr>
-	<tr>
-		<td></td>
-		<td>
-			<div id="connection"><font color='red'>Not Connected</font></div>
-		</td>
-	</tr>
-    <tr>
-      <td>Status</td>
-      <td><div id="status" style="color: blue;" >Idle</div></td>
-    </tr>
-</table>
-
-
-
-
-
-
-
-
-<p>
-
-<button onclick="send_cmd('ros_quit')" class="btn waves-effect waves-light blue" style="margin-right:10px">Quit all</button>
-<button id="shutdown_btn" onclick="send_cmd('shutdown')" class="btn waves-effect waves-light blue">Shutdown</button>
-</p>
-
-
-
-
-
-
-<h3>GESTIONE TAVOLI</h3>
-
-
-<div class="container">
+<div class="container fluid">
+  <h2>GESTIONE TAVOLI </h2>
   <div class="row">
     <div class="col">
-      <button id="gototable01" onclick="send_cmd('table01')" class="btn btn-outline-primary btn-lg">-01- </button>  
+      <button id="tableok" onclick="send_cmd('tableok')" class="btn btn-outline-success btn-lg">- TABLE OK RITORNO- </button>  
    </div>
-   <div class="col">
-      <button id="gototable02" onclick="send_cmd('table02')" class="btn btn-outline-primary btn-lg">-02- </button> 
-    </div>
-   <div class="col">
-    <td> <button id="save_map_btn01f" onclick="send_cmd('save_waypoint01fwd')" class="btn btn-outline-primary btn-lg">-03- </button> </td> 
-	</div>
    
+  
   </div>
+  <h2> CREAZIONE PERCORSO DI NAVIGAZIONE</h2>
   <div class="row">
     <div class="col">
-      <button id="save_map_btn01f" onclick="send_cmd('save_waypoint01fwd')" class="btn btn-outline-primary btn-lg">-04- </button>  
+      <button id="creatable01" onclick="send_cmd('creatable01')" class="btn btn-outline-warning btn-lg">TAVOLO -01- </button>  
    </div>
    <div class="col">
-      <button id="save_map_btn01r" onclick="send_cmd('save_waypoint01rev')" class="btn btn-outline-primary btn-lg">-05- </button> 
+      <button id="creatable02" onclick="send_cmd('creatable02')" class="btn btn-outline-warning btn-lg">TAVOLO -02- </button> 
     </div>
-   <div class="col">
-    <td> <button id="save_map_btn01f" onclick="send_cmd('save_waypoint01fwd')" class="btn btn-outline-primary btn-lg">-06- </button> </td> 
-	</div>
-   
+    <div class="col">
+      <button id="creatable03" onclick="send_cmd('creatable03')" class="btn btn-outline-warning btn-lg">TAVOLO -03- </button> 
+    </div>
+    <div class="col">
+      <button id="creatable04" onclick="send_cmd('creatable04')" class="btn btn-outline-warning btn-lg">TAVOLO -04- </button> 
+    </div>
+    <div class="col">
+      <button id="creatable05" onclick="send_cmd('creatable05')" class="btn btn-outline-warning btn-lg">TAVOLO -05- </button> 
+    </div>
+    <div class="col">
+      <button id="creatable06" onclick="send_cmd('creatable06')" class="btn btn-outline-warning btn-lg">TAVOLO -06- </button> 
+    </div>
   </div>
+  <h2> NAVIGAZIONE VAI AL TAVOLO </h2>
   <div class="row">
     <div class="col">
-      <button id="save_map_btn01f" onclick="send_cmd('save_waypoint01fwd')" class="btn btn-outline-primary btn-lg">-07- </button>  
+      <button id="gototable01" onclick="send_cmd('table01')" class="btn btn-outline-primary btn-lg">TAVOLO -01- </button>  
    </div>
    <div class="col">
-      <button id="save_map_btn01r" onclick="send_cmd('save_waypoint01rev')" class="btn btn-outline-primary btn-lg">-08- </button> 
+      <button id="gototable02" onclick="send_cmd('table02')" class="btn btn-outline-primary btn-lg">TAVOLO -02- </button> 
     </div>
-   <div class="col">
-    <td> <button id="save_map_btn01f" onclick="send_cmd('save_waypoint01fwd')" class="btn btn-outline-primary btn-lg">-09- </button> </td> 
-	</div>
-   
-  </div>
-   <div class="row">
     <div class="col">
-      <button id="save_map_btn01f" onclick="send_cmd('save_waypoint01fwd')" class="btn btn-outline-primary btn-lg">-10- </button>  
-   </div>
-   <div class="col">
-      <button id="save_map_btn01r" onclick="send_cmd('save_waypoint01rev')" class="btn btn-outline-primary btn-lg">-11- </button> 
+      <button id="gototable03" onclick="send_cmd('table03')" class="btn btn-outline-primary btn-lg">TAVOLO -03- </button> 
     </div>
-   <div class="col">
-    <td> <button id="save_map_btn01f" onclick="send_cmd('save_waypoint01fwd')" class="btn btn-outline-primary btn-lg">-12- </button> </td> 
-	</div>
-   
+    <div class="col">
+      <button id="gototable04" onclick="send_cmd('table04')" class="btn btn-outline-primary btn-lg">TAVOLO -04- </button> 
+    </div>
+    <div class="col">
+      <button id="gototable05" onclick="send_cmd('table05')" class="btn btn-outline-primary btn-lg">TAVOLO -05- </button> 
+    </div>
+    <div class="col">
+      <button id="gototable06" onclick="send_cmd('table06')" class="btn btn-outline-primary btn-lg">TAVOLO -06- </button> 
+    </div>
   </div>
+
+   
+  
  </div>
 
 

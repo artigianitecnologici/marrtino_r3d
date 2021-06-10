@@ -78,7 +78,7 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
         self.setStatus('Executing...')
         self.winlist = ['cmd','roscore','quit','wsrobot','modim',
                         'robot','waypoint','rviz','imgproc','joystick','audio',
-                        'map_loc','navigation','playground','netcat']
+                        'map_loc','navigation','playground','netcat','navi']
 
         self.wroscore = self.winlist.index('roscore')
         self.wrobot = self.winlist.index('robot')
@@ -94,6 +94,7 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
         self.wnav = self.winlist.index('navigation')
         self.wplayground = self.winlist.index('playground')
         self.wnet = self.winlist.index('netcat')
+        self.wnavi = self.winlist.index('navi')
 
         self.tmux = TmuxSend('bringup',self.winlist)
         self.tmux.roscore(self.wroscore)
@@ -246,44 +247,84 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
 
         
 
-        
+        elif (message=='tableok'):
+            self.tmux.cmd(self.wnet,"rostopic pub -1 /ready std_msgs/String \"OK\"") 
+            time.sleep(3)
+            self.checkStatus('tableok')       
 
         # Tavoli
+        
+        elif (message=='creatable01'):
+            self.tmux.cmd(self.wplayground,'cd ~/src/marrtino_r3d/cmd')
+            self.tmux.cmd(self.wplayground,'./creatable01.sh')
+            time.sleep(3)
+            self.checkStatus('creatable01')
+        
+        elif (message=='creatable02'):
+            self.tmux.cmd(self.wplayground,'cd ~/src/marrtino_r3d/cmd')
+            self.tmux.cmd(self.wplayground,'./creatable02.sh')
+            time.sleep(3)
+            self.checkStatus('creatable02')
+
+        elif (message=='creatable03'):
+            self.tmux.cmd(self.wplayground,'cd ~/src/marrtino_r3d/cmd')
+            self.tmux.cmd(self.wplayground,'./creatable03.sh')
+            time.sleep(3)
+            self.checkStatus('creatable03')
+
+        elif (message=='creatable04'):
+            self.tmux.cmd(self.wplayground,'cd ~/src/marrtino_r3d/cmd')
+            self.tmux.cmd(self.wplayground,'./creatable04.sh')
+            time.sleep(3)
+            self.checkStatus('creatable04')
+
+        elif (message=='creatable05'):
+            self.tmux.cmd(self.wplayground,'cd ~/src/marrtino_r3d/cmd')
+            self.tmux.cmd(self.wplayground,'./creatable05.sh')
+            time.sleep(3)
+            self.checkStatus('creatable05')
+
+        elif (message=='creatable06'):
+            self.tmux.cmd(self.wplayground,'cd ~/src/marrtino_r3d/cmd')
+            self.tmux.cmd(self.wplayground,'./creatable06.sh')
+            time.sleep(3)
+            self.checkStatus('creatable06')
+
         elif (message=='table01'):
-            self.tmux.cmd(self.wnet,"rostopic pub -1 /counter_no std_msgs/String \"data: '1'\"")
-            self.tmux.roslaunch(self.wjoystick,'teleop','teleop')
+            self.tmux.cmd(self.wplayground,'cd ~/src/marrtino_r3d/cmd')
+            self.tmux.cmd(self.wplayground,'./gototavolo01.sh')
             time.sleep(3)
             self.checkStatus('table01')
-            
-        # joystick 4wd
-        elif (message=='joystick4wd_start'):
-            self.tmux.roslaunch(self.wjoystick,'teleop','teleop','use_4wd:=true &')
-            time.sleep(3)
-            self.tmux.python(self.wjoystick,'teleop','joy4w.py')
-            time.sleep(3)
-            self.checkStatus('joystick')
-        elif (message=='joystick4wd_kill'):
-            self.tmux.roskill('joy')
-            time.sleep(3)
-            self.tmux.killall(self.wjoystick)
-            time.sleep(3)
-            self.checkStatus('joystick')
 
-
-        # audio
-        elif (message=='audio_start'):
-            self.tmux.python(self.waudio,'audio','audio_server.py')
+        elif (message=='table02'):
+            self.tmux.cmd(self.wplayground,'cd ~/src/marrtino_r3d/cmd')
+            self.tmux.cmd(self.wplayground,'./gototavolo02.sh')
             time.sleep(3)
-            self.checkStatus()
-        elif (message=='audio_kill'):
-            self.tmux.killall(self.waudio)
+            self.checkStatus('table02')
+
+        elif (message=='table03'):
+            self.tmux.cmd(self.wplayground,'cd ~/src/marrtino_r3d/cmd')
+            self.tmux.cmd(self.wplayground,'./gototavolo03.sh')
             time.sleep(3)
-            self.checkStatus()
+            self.checkStatus('table03')
 
+        elif (message=='table04'):
+            self.tmux.cmd(self.wplayground,'cd ~/src/marrtino_r3d/cmd')
+            self.tmux.cmd(self.wplayground,'./gototavolo04.sh')
+            time.sleep(3)
+            self.checkStatus('table04')
 
-        
+        elif (message=='table05'):
+            self.tmux.cmd(self.wplayground,'cd ~/src/marrtino_r3d/cmd')
+            self.tmux.cmd(self.wplayground,'./gototavolo05.sh')
+            time.sleep(3)
+            self.checkStatus('table05')
 
-
+        elif (message=='table06'):
+            self.tmux.cmd(self.wplayground,'cd ~/src/marrtino_r3d/cmd')
+            self.tmux.cmd(self.wplayground,'./gototavolo06.sh')
+            time.sleep(3)
+            self.checkStatus('table06')
 
         # gmapping
         elif (message=='gmapping_start'):
@@ -361,6 +402,21 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
             time.sleep(5)
             self.checkStatus()
         elif (message=='amcl_kill'):
+            self.tmux.killall(self.wmaploc)
+            time.sleep(5)
+            self.checkStatus()
+        
+        # amcl_navigation
+
+        elif (message=='srrg_localizer_start'):
+            self.tmux.roslaunch(self.wmaploc,'launch','srrg_localizer')
+            time.sleep(5)
+            self.checkStatus()
+        elif (message=='srrg_localizer_lastmap'):
+            self.tmux.roslaunch(self.wmaploc,'launch','srrg_localizer', 'map_name:=mymap')
+            time.sleep(5)
+            self.checkStatus()
+        elif (message=='srrg_localizer_kill'):
             self.tmux.killall(self.wmaploc)
             time.sleep(5)
             self.checkStatus()

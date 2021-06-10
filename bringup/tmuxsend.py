@@ -37,7 +37,7 @@ class TmuxSend:
 
     def python(self, wid, mdir, mpy, mparams=''):
         #os.system('tmux select-window -t %s:%d' %(self.sessionname,wid))
-        os.system('tmux send-keys -t %s:%d "cd $MARRTINO_APPS_HOME/%s" C-m' \
+        os.system('tmux send-keys -t %s:%d "cd /%s" C-m' \
             %(self.sessionname,wid,mdir))
         os.system('tmux send-keys -t %s:%d "python %s %s" C-m' \
             %(self.sessionname,wid,mpy,mparams))
@@ -51,6 +51,7 @@ class TmuxSend:
         else:
             os.system('tmux send-keys -t %s:%d "%s" C-m' \
                 %(self.sessionname,wid,cmd))
+            print('tmux send-keys -t %s:%d "%s" C-m' %(self.sessionname,wid,cmd))
             time.sleep(sleeptime)
 
 

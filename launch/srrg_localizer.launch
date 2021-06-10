@@ -1,0 +1,39 @@
+<launch>
+  <arg name="map_name" default="map" />
+  <arg name="base_frame" default="base_frame" />
+  <arg name="laser_topic" default="/scan" />
+  <arg name="use_mapserver" default="true" />
+
+  <arg name="initial_pose_x" default="0.0" />
+  <arg name="initial_pose_y" default="0.0" />
+  <arg name="initial_pose_a" default="0.0" />
+
+  <arg name="paramsdir" default="$(env MARRTINO_APPS_HOME)/navigation/config" />
+  <arg name="mapsdir" default="$(find marrtino_r3d)/maps" />
+
+  <node pkg="map_server" type="map_server" name="map_server" args="$(arg mapsdir)/$(arg map_name).yaml" respawn="false" if="$(arg use_mapserver)">
+        <param name="frame_id" value="map" />
+  </node>
+
+  <node pkg="spqrel_navigation" type="srrg_localizer2d_node" name="srrg_localizer" respawn="true">
+
+    <!-- Override Frame Params to include prefix -->
+    <param name="laser_topic" value="$(arg laser_topic)" />
+    <param name="global_frame_id" value="map" /> 
+    <param name="base_frame_id" value="base_frame" />
+    <param name="odom_frame_id" value="odom" />
+
+    <param name="use_gui" value="false" />
+    <param name="tf_timecheck" value="false" />
+
+    <!-- Set initial pose -->
+    <param name="initial_pose_x" value="$(arg initial_pose_x)" />
+    <param name="initial_pose_y" value="$(arg initial_pose_y)" />
+    <param name="initial_pose_a" value="$(arg initial_pose_a)" />
+    <param name="initial_cov_xx" value="0.25" />
+    <param name="initial_cov_yy" value="0.25" />
+    <param name="initial_cov_aa" value="0.25" />
+
+  </node>
+</launch>
+

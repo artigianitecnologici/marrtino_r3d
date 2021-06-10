@@ -182,14 +182,7 @@ ROS topics:
 <td><button id="robot_start_btn" onclick="send_cmd('robot_start')" class="btn waves-effect waves-light blue">Bringup</button></td>
 <td><button id="robot_quit_btn" onclick="send_cmd('robot_kill')" class="btn waves-effect waves-light blue">Robot quit</button></td>
 </tr>
-<!--
-<tr height=40>
-<td width=80>Turtlebot</td> 
-<td width=80 align='center'><span id="turtle_status" style="color: red;">OFF</span></td>
-<td><button id="turtle_start_btn" onclick="send_cmd('turtle_start')" class="btn waves-effect waves-light blue">Robot start</button></td>
-<td><button id="turtle_quit_btn" onclick="send_cmd('turtle_kill')" class="btn waves-effect waves-light blue">Robot quit</button></td>
-</tr>
--->
+
 <tr height=40>
 <td>Ristorante</td> 
 <td width=80 align='center'><span id="simrobot_status" style="color: red;">OFF</span></td>
@@ -244,59 +237,19 @@ ROS topics:
     <td><button id="amcl_start_l_btn" onclick="send_cmd('amcl_lastmap_start')" class="btn waves-effect waves-light blue">AMCL start (my map)</button></td>
     <td><button id="amcl_quit_btn" onclick="send_cmd('amcl_kill')" class="btn waves-effect waves-light blue">AMCL quit</button></td>
     </tr>
-
+    <tr height=40>
+      <td>AMCL LOCALIZER</td> 
+      <td><span id="amcl_status" style="color: red;">OFF</span> </td>
+      <td><button id="amcl_start_btn" onclick="send_cmd('srrg_localizer_start')" class="btn waves-effect waves-light blue">AMCL start</button></td>
+      <td><button id="amcl_start_l_btn" onclick="send_cmd('srrg_localizer_lastmap')" class="btn waves-effect waves-light blue">AMCL start (my map)</button></td>
+      <td><button id="amcl_quit_btn" onclick="send_cmd('srrg_localizer_kill')" class="btn waves-effect waves-light blue">AMCL quit</button></td>
+      </tr>
 </table>
 <br>
 <hr>
 
 
-<h3>Waypoint's</h3>
 
-<table>
- 
-<tr height=40>
-<td width=80>Generazione WayPoints</td> 
-<td width=80 align='center'><span id="usbcam_status" style="color: red;">OFF</span></td>
-<td><button id="genwp_start_btn" onclick="send_cmd('genwp2_start')" class="btn waves-effect waves-light blue">Generazione ON</button></td>
-<td><button id="genwp_quit_btn" onclick="send_cmd('genwp2_kill')" class="btn waves-effect waves-light blue">Generazione OFF</button></td>
-</tr>
- 
-<tr height=40>
-  <td width=80>Generazione WayPoints Custom</td> 
-  <td width=80 align='center'><span id="usbcam_status" style="color: red;">OFF</span></td>
-  <td><button id="genwp_start_btn" onclick="send_cmd('genwp_start')" class="btn waves-effect waves-light blue">Generazione ON</button></td>
-  <td><button id="genwp_quit_btn" onclick="send_cmd('genwp_kill')" class="btn waves-effect waves-light blue">Generazione OFF</button></td>
-  </tr>
-</table>
-<hr>
-<tr> <td colspan=4> 
-  Save waypoints .<br>
-  <p>
-   
-  Save the current waypoint into src/ros_waypoint_generator/waypoint</td> 
-  </p>
-  </td> 
-  </tr>
-<table>
-  <tr height=40>
-    <td width=80>Save WayPoints  </td> 
-    <td width=80 align='center'><span  style="color: green;">- 01 -</span></td>
-    
-    <td> <button id="save_map_btn01f" onclick="send_cmd('save_waypoint01fwd')" class="btn waves-effect waves-light blue">Save waypoint fwd </button> </td> 
-    <td> <button id="save_map_btn01r" onclick="send_cmd('save_waypoint01rev')" class="btn waves-effect waves-light blue">Save waypoint rev </button> </td> 
-  </tr>
-  <tr height=40>
-    <td width=80>Save WayPoints  </td> 
-    <td width=80 align='center'><span  style="color:green;">- 02 -</span></td>
-    
-    <td> <button id="save_map_btn01f" onclick="send_cmd('save_waypoint02fwd')" class="btn waves-effect waves-light blue">Save waypoint fwd </button> </td> 
-    <td> <button id="save_map_btn01r" onclick="send_cmd('save_waypoint02rev')" class="btn waves-effect waves-light blue">Save waypoint rev </button> </td> 
-  </tr>
-</table>
-
-<br>
-
-<hr>
 
 <h3>RVIZ</h3>
 <table>
