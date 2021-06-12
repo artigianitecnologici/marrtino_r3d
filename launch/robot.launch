@@ -5,9 +5,10 @@
       <param name="serial_device" type="string" value="$(optenv ROBOT_DEVICE /dev/orazio)" />
 	</node>
     
-
+    <!--
 	<node pkg="thin_state_publisher" type="thin_state_publisher_node" name="state_pub_robot" args="-odom_topic odom -base_link_frame_id base_frame -odom_frame_id odom $(env MARRTINO_APPS_HOME)/robot/config/transforms.txt" >
-	</node>
+	</node> -->
+	
         <node pkg="thin_state_publisher" type="thin_state_publisher_node" name="state_pub_laser"
 	    args="-odom_topic odom -odom_frame_id none $(find marrtino_r3d)/config/$(env ROBOT_NAME)/transforms.txt" output="screen">
         </node>
