@@ -182,7 +182,12 @@ ROS topics:
 <td><button id="robot_start_btn" onclick="send_cmd('robot_start')" class="btn waves-effect waves-light blue">Bringup</button></td>
 <td><button id="robot_quit_btn" onclick="send_cmd('robot_kill')" class="btn waves-effect waves-light blue">Robot quit</button></td>
 </tr>
-
+<tr height=40>
+<td width=80>MARRtino for MAPPING</td> 
+<td width=80 align='center'><span id="robot_status" style="color: red;">OFF</span></td>
+<td><button id="robot_start_btn" onclick="send_cmd('robot_start_map')" class="btn waves-effect waves-light blue">Bringup (MAPPING)</button></td>
+<td><button id="robot_quit_btn" onclick="send_cmd('robot_kill_map')" class="btn waves-effect waves-light blue">Robot quit</button></td>
+</tr>
 <tr height=40>
 <td>Ristorante</td> 
 <td width=80 align='center'><span id="simrobot_status" style="color: red;">OFF</span></td>

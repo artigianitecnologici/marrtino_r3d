@@ -8,23 +8,23 @@
 
 # 1 - Costruzione della Mappa con dati gmapping 
     
-##    a1.Esecuzione di gmapping ( marrtino)
+##    Esecuzione di gmapping ( marrtino)
     
       cd $HOME/src/marrtino_apps/mapping
       roslaunch gmapping.launch
 
        ---- CONSIGLIATO ---- 
-##    a2.Esecuzione di srrg_mapping ( marrtino)
+##    Esecuzione di srrg_mapping ( marrtino)
        cd $HOME/src/marrtino_apps/mapping
        roslaunch srrg_mapper.launch
 
     
-##    b.Registrare /tf /scan con rosbag ( client)
+##    Registrare /tf /scan con rosbag ( client)
 
-      rosbag record -O casa.bag /scan /tf
+      rosbag record -O casa.bag /scan /tf /odom
       ctrl+c per interrompere
 
-##    b.risprodurre /tf /scan con rosbag ( client)
+##    risprodurre /tf /scan con rosbag ( client)
       rosparam set use_sim_time true
       rosbag play casa.bag --clock
 

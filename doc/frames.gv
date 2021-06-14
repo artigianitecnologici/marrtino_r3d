@@ -1,0 +1,11 @@
+digraph G {
+"base_frame" -> "base_link"[label="Broadcaster: /state_pub_laser\nAverage rate: 27.219 Hz\nMost recent transform: 1623489289.271 ( 0.042 sec old)\nBuffer length: 4.886 sec\n"];
+"base_frame" -> "camera_link"[label="Broadcaster: /state_pub_laser\nAverage rate: 27.219 Hz\nMost recent transform: 1623489289.271 ( 0.042 sec old)\nBuffer length: 4.886 sec\n"];
+"base_frame" -> "depth_camera_frame"[label="Broadcaster: /state_pub_laser\nAverage rate: 27.219 Hz\nMost recent transform: 1623489289.271 ( 0.042 sec old)\nBuffer length: 4.886 sec\n"];
+"base_frame" -> "laser_frame"[label="Broadcaster: /state_pub_laser\nAverage rate: 27.219 Hz\nMost recent transform: 1623489289.271 ( 0.042 sec old)\nBuffer length: 4.886 sec\n"];
+"depth_camera_frame" -> "rgb_camera_frame"[label="Broadcaster: /state_pub_laser\nAverage rate: 27.219 Hz\nMost recent transform: 1623489289.271 ( 0.042 sec old)\nBuffer length: 4.886 sec\n"];
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 1623489289.313"[ shape=plaintext ] ;
+ }->"base_frame";
+}
