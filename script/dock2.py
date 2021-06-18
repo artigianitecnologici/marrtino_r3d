@@ -6,7 +6,7 @@ from math import pi
 
 
 ROBOT_FRAME = rospy.get_param("base_frame","base_frame")
-DOCK_FRAME = rospy.get_param("tag_0","tag_0")
+DOCK_FRAME = rospy.get_param("tag_0","tag_1")
 TF_THRESHOLD = rospy.Duration( rospy.get_param("dock/tf_threshold",0.15) )
 
 X_LIM = 0.10
@@ -108,6 +108,7 @@ def p1():
     else:
         translation = latest_transform.transform.translation
         rotation    = latest_transform.transform.rotation
+        print "x,y ", translation.x,translation.y
         x_dist = -translation.x
         y_dist = translation.y
         rpy = tf.transformations.euler_from_quaternion([rotation.x,rotation.y,rotation.z,rotation.w])
