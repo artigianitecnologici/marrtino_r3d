@@ -32,7 +32,7 @@
       
       export ROS_IP=`hostname -I`
       export ROS_MASTER_URI=http://10.3.1.1:11311 
-      export ROS_HOSTNAME=10.0.2.15
+      export ROS_HOSTNAME=10.3.1.38
       cd src/marrtino_r3d 
 
 ##    d.Salvare la mappa ( marrtino)
