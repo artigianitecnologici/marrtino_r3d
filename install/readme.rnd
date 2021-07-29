@@ -6,3 +6,4 @@ install
 3. install_g2o.sh
 4. install_srrg.sh
 5. install_other.sh
+6. setup_udev_rules.sh
