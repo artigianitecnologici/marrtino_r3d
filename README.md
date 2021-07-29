@@ -132,15 +132,21 @@ git clone https://github.com/zshn25/turtlesim_cleaner.git
 source /opt/ros/melodic/setup.bash
 source /home/ubuntu/ros/catkin_ws/devel/setup.bash
 
+
 export MARRTINO_APPS_HOME=$HOME/src/marrtino_apps
 export ROBOT_TYPE=stage
 export ROBOT_NAME=marrwy
 export MARRTINO_VERSION=4.0.1
 
+
 export G2O_ROOT=$HOME/lib/g2o
+
 export G2O_BIN=$HOME/lib/g2o/bin
+
 export G2O_LIB=$HOME/lib/g2o/lib
+
 export LD_LIBRARY_PATH=$HOME/lib/g2o/lib:${LD_LIBRARY_PATH}
+
 
 
 ### FAQ
