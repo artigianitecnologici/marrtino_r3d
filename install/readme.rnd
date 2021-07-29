@@ -1,0 +1,8 @@
+INSTALLAZIONE MARRTINO R3D
+
+install 
+1. ROS_melodic_install.sh
+2. install_marrtinoR3D.sh
+3. install_g2o.sh
+4. install_srrg.sh
+5. install_other.sh
