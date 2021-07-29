@@ -34,20 +34,20 @@ function install_dependencies {
     sudo apt-get install ros-melodic-map-server -y
     sudo apt-get install ros-melodic-amcl -y
     sudo apt-get install ros-melodic-gmapping -y
-    sudo apt-get install ros-melodic-joy -y
-    sudo apt-get install ros-melodic-pid -y
+    #sudo apt-get install ros-melodic-joy -y
+    #sudo apt-get install ros-melodic-pid -y
     sudo apt-get install ros-melodic-move-base -y
     sudo apt-get install ros-melodic-dwa-local-planner -y
     sudo apt-get install ros-melodic-global-planner -y
-    sudo apt-get install ros-melodic-yocs-velocity-smoother
+    #sudo apt-get install ros-melodic-yocs-velocity-smoother
     sudo apt-get install ros-melodic-apriltag-ros -y
     sudo apt-get install ros-melodic-usb-cam -y
     sudo apt-get install ros-melodic-teleop-twist-keyboard -y
     sudo apt-get install ros-melodic-web-video-server -y
     sudo apt-get install ros-melodic-rosbridge-server  -y 
     sudo apt-get install ros-melodic-rtabmap-ros -y
-	sudo apt-get install ros-melodic-joint-state-publisher-gui -y
-    sudo apt-get install ros-melodic-cartographer-ros -y
+    sudo apt-get install ros-melodic-joint-state-publisher-gui -y
+    #sudo apt-get install ros-melodic-cartographer-ros -y
     sudo apt-get install ros-melodic-serial -y
     #sudo apt-get install ros-melodic-teraranger -y
     
@@ -87,7 +87,7 @@ ln -s $HOME/src/thin_drivers/thin_msgs/ .
 
 cd $HOME/ros/catkin_ws
 echo_green " Compiling"
-catkin_make
+catkin_make -j1
 
 echo_green " Installing ..DONE"
 }
@@ -106,7 +106,7 @@ ln -s $HOME/src/gradient_based_navigation/ .
 
 cd $HOME/ros/catkin_ws
 echo_green " Compiling"
-catkin_make
+catkin_make -j1
 
 echo_green " Installing ..DONE"
 }
@@ -127,7 +127,7 @@ ln -s $HOME/src/teraranger/ .
 
 cd $HOME/ros/catkin_ws
 echo_green " Compiling"
-catkin_make
+catkin_make -j1
 # da i permessi alla porta
 sudo chmod a+rw /dev/ttyACM0
 echo_green " Installing ..DONE"
@@ -224,7 +224,7 @@ cd $HOME/src
 git clone https://github.com/tu-darmstadt-ros-pkg/hector_slam.git
 sudo -H apt-get install -y libqt4-dev
 cd $HOME/ros/catkin_ws/src
-ln -s $HOME/src/hector_slam .
+#ln -s $HOME/src/hector_slam .
 cd ..
 catkin_make
 cd ..
