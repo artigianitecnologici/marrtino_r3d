@@ -1,0 +1,39 @@
+version: "3.3"
+
+services:
+
+  nginx:
+    image: nginx
+    container_name: nginx
+    ports:
+      - "8081:80"
+    volumes:
+      - $MARRTINO_APPS_HOME/www:/usr/share/nginx/html
+            
+
+   
+
+  r3d:
+        image: marrtino:robot3d
+        container_name: robot3d
+        build:
+            context: $MARRTINO_APPS_HOME/docker
+            dockerfile: Dockerfile.r3d
+        dns: 8.8.8.8
+        network_mode: "host"
+        tty: true
+        privileged: true
+        environment:
+            - ROS_IP=$ROS_IP
+            - ROBOT_NAME=$ROBOT_NAME
+        volumes:
+            - /dev:/dev
+            - $MARRTINO_R3D_HOME:/home/robot/src/marrtino_r3d
+        
+
+
+
+networks:
+  default:
+    name: marrtino-social-network
+

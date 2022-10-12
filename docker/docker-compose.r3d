@@ -1,0 +1,17 @@
+  r3d:
+    image: marrtino:r3d
+    build:
+      context: $MARRTINO_APPS_HOME/docker
+      dockerfile: Dockerfile.robot3d
+    container_name: r3d
+    dns: 8.8.8.8
+    network_mode: "host"
+    tty: true
+    privileged: true
+    environment:
+    - ROS_IP=$ROS_IP
+    - ROBOT_NAME=$ROBOT_NAME
+    volumes:
+    - /dev:/dev
+    - $MARRTINO_APPS_HOME:/home/robot/src/marrtino_r3d
+    - $MARRTINO_R3D:/home/robot/src/marrtino_r3d
