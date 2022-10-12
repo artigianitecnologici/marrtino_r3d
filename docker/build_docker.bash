@@ -1,4 +1,3 @@
 #!/bin/bash
-
-docker build -t marrtino:r3d -f Dockerfile.robot3d .
+docker build -t marrtino:robot3d -f Dockerfile.robot3d .
 

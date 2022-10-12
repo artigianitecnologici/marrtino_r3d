@@ -8,17 +8,17 @@ services:
     ports:
       - "8081:80"
     volumes:
-      - $MARRTINO_APPS_HOME/www:/usr/share/nginx/html
+      - $MARRTINO_R3D_HOME/www:/usr/share/nginx/html
             
 
    
 
-  r3d:
+  robot3d:
         image: marrtino:robot3d
         container_name: robot3d
         build:
-            context: $MARRTINO_APPS_HOME/docker
-            dockerfile: Dockerfile.r3d
+            context: $MARRTINO_R3D_HOME/docker
+            dockerfile: Dockerfile.robot3d
         dns: 8.8.8.8
         network_mode: "host"
         tty: true
