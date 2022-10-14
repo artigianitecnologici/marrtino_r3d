@@ -1,3 +1,3 @@
 #!/bin/bash
-docker build -t marrtino:robot3d -f Dockerfile.robot3d .
+docker build -t marrtino:robotics-3d -f Dockerfile.robotics-3d .
 

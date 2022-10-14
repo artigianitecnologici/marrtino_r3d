@@ -11,14 +11,13 @@ services:
       - $MARRTINO_R3D_HOME/www:/usr/share/nginx/html
             
 
-   
 
-  robot3d:
-        image: marrtino:robot3d
-        container_name: robot3d
+  robotics-3d:
+        image: marrtino:robotics-3d
+        container_name: robotics-3d
         build:
             context: $MARRTINO_R3D_HOME/docker
-            dockerfile: Dockerfile.robot3d
+            dockerfile: Dockerfile.robotics-3d
         dns: 8.8.8.8
         network_mode: "host"
         tty: true

@@ -1,7 +1,7 @@
 # Docker file for MARRtino social package
 # Ferrarini Fabio - robotics-3d.com 
 
-# docker build -t marrtino:robot-3d -f Dockerfile.social .
+# docker build -t marrtino:robotics-3d -f Dockerfile.robotics-3d .
 ## remove
 ## docker rmi marrtino:social -f
 # Docker access
