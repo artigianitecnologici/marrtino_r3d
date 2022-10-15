@@ -38,7 +38,7 @@
  -->
    <!-- transforms -->
   <node pkg="thin_state_publisher" type="thin_state_publisher_node" name="state_pub_laser"
-	    args="-odom_topic odom -odom_frame_id none $(env MARRTINO_R3D_HOME)/laser/config/transforms.txt" output="screen">
+	    args="-odom_topic odom -odom_frame_id none /home/robot/src/marrtino_r3d/laser/config/transforms.txt" output="screen">
   </node>
 
 </launch>
