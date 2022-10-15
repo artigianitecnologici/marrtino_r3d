@@ -25,6 +25,7 @@ services:
         environment:
             - ROS_IP=$ROS_IP
             - ROBOT_NAME=$ROBOT_NAME
+            - MARRTINO_R3D_HOME=$MARRTINO_R3D_HOME
         volumes:
             - /dev:/dev
             - $MARRTINO_R3D_HOME:/home/robot/src/marrtino_r3d

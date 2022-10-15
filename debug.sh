@@ -1,2 +1,2 @@
 #!/bin/sh
-docker exec -it social tmux a
+docker exec -it $1 tmux a
