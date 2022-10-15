@@ -1,0 +1,29 @@
+#Arduino MEGA
+
+SUBSYSTEMS=="usb", KERNEL=="ttyACM[0-9]*", ATTRS{idProduct}=="0042", ATTRS{idVendor}=="2341", SYMLINK+="orazio arduino_mega_$attr{serial}", MODE="0666"
+SUBSYSTEMS=="usb", KERNEL=="ttyACM[0-9]*", ATTRS{idProduct}=="0242", ATTRS{idVendor}=="2341", SYMLINK+="orazio arduino_mega_$attr{serial}", MODE="0666"
+SUBSYSTEMS=="usb", KERNEL=="ttyACM[0-9]*", ATTRS{idProduct}=="0010", ATTRS{idVendor}=="2341", SYMLINK+="orazio arduino_mega_$attr{serial}", MODE="0666"
+SUBSYSTEMS=="usb", KERNEL=="ttyACM[0-9]*", ATTRS{idProduct}=="0042", ATTRS{idVendor}=="2a03", SYMLINK+="orazio arduino_mega_$attr{serial}", MODE="0666"
+
+# hokuyo
+
+SUBSYSTEMS=="usb", KERNEL=="ttyACM[0-9]*", ACTION=="add", ATTRS{idVendor}=="15d1", ATTRS{idProduct}=="0000", MODE="666", SYMLINK+="hokuyo", GROUP="dialout"
+
+# rplidar
+
+KERNEL=="ttyUSB*", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", MODE:="0777", SYMLINK+="rplidar"
+
+# Orbec Astra
+
+SUBSYSTEM=="usb", ATTR{idProduct}=="0400", ATTR{idVendor}=="2bc5", MODE:="0666", OWNER:="root", GROUP:="video"
+SUBSYSTEM=="usb", ATTR{idProduct}=="0401", ATTR{idVendor}=="2bc5", MODE:="0666", OWNER:="root", GROUP:="video"
+SUBSYSTEM=="usb", ATTR{idProduct}=="0402", ATTR{idVendor}=="2bc5", MODE:="0666", OWNER:="root", GROUP:="video"
+SUBSYSTEM=="usb", ATTR{idProduct}=="0403", ATTR{idVendor}=="2bc5", MODE:="0666", OWNER:="root", GROUP:="video"
+SUBSYSTEM=="usb", ATTR{idProduct}=="0404", ATTR{idVendor}=="2bc5", MODE:="0666", OWNER:="root", GROUP:="video"
+SUBSYSTEM=="usb", ATTR{idProduct}=="0405", ATTR{idVendor}=="2bc5", MODE:="0666", OWNER:="root", GROUP:="video"
+SUBSYSTEM=="usb", ATTR{idProduct}=="0406", ATTR{idVendor}=="2bc5", MODE:="0666", OWNER:="root", GROUP:="video"
+SUBSYSTEM=="usb", ATTR{idProduct}=="0407", ATTR{idVendor}=="2bc5", MODE:="0666", OWNER:="root", GROUP:="video"
+SUBSYSTEM=="usb", ATTR{idProduct}=="0408", ATTR{idVendor}=="2bc5", MODE:="0666", OWNER:="root", GROUP:="video"
+SUBSYSTEM=="usb", ATTR{idProduct}=="0409", ATTR{idVendor}=="2bc5", MODE:="0666", OWNER:="root", GROUP:="video"
+SUBSYSTEM=="usb", ATTR{idProduct}=="040a", ATTR{idVendor}=="2bc5", MODE:="0666", OWNER:="root", GROUP:="video"
+

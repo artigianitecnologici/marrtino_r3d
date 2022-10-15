@@ -22,7 +22,7 @@ def run_server(port):
     server_address = ('', port)
     sock.bind(server_address)
     sock.listen(1)
-    print("ROS social server started on port %d ..." %port)
+    print("ROS robotics-3d server started on port %d ..." %port)
 
     tmux = TmuxSend('bringup', ['netcat','dynamixel','lidar','cmd'])
 
@@ -111,7 +111,7 @@ if __name__ == '__main__':
 
     default_port = 9251
 
-    parser = argparse.ArgumentParser(description='social bringup')
+    parser = argparse.ArgumentParser(description='r3d bringup')
     parser.add_argument('-server_port', type=int, default=default_port, help='server port')
 
     args = parser.parse_args()
