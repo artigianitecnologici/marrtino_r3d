@@ -6,8 +6,7 @@
   <arg name="viewimage" default="false" />
   <arg name="device" default="/dev/video0" />
   <arg name="format" default="yuyv" />  <!-- yuyv, mjpeg -->
-   <!-- valori alti rallentano la CPU -->
-   <arg name="framerate" default="5"/>
+  <arg name="framerate" default="60>
   <arg name="io_method" default="mmap"/>
   <arg name="contrast" default="255"/>
   <arg name="camera_frame_id" default="camera_link"/>

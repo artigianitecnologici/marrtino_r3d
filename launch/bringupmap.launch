@@ -13,7 +13,7 @@
   <!-- Launching teleop launch -->
   <include file="$(find marrtino_r3d)/launch/teleop.launch"/>  
  <!-- Launching RPLIDAR launch -->
-  <include file="$(find marrtino_r3d)/launch/rplidar.launch"/>   
+  <include file="$(find marrtino_r3d)/launch/rplidarmap.launch"/>   
 
 </launch>
  

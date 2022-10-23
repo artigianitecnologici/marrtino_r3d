@@ -1,5 +1,5 @@
-<launch> 
-  <arg name="robot_name" default="$(env ROBOT_NAME)" />
+<launch>
+    <arg name="robot_name" default="$(env ROBOT_NAME)" />
    <!--
     <node pkg="thin_state_publisher" type="thin_state_publisher_node" name="state_pub_laser"
 	    args="-odom_topic odom -odom_frame_id none $(find marrtino_r3d)/config/transforms.txt" output="screen">
@@ -10,12 +10,13 @@
   
  
   <node pkg="rplidar_ros"  type="rplidarNode" name="rplidar"  output="screen">
-    <param name="serial_port"         type="string" value="$(optenv LASER_DEVICE /dev/rplidar)"/>
+    <param name="serial_port"         type="string" value="/dev/ttyUSB0"/>
 
   	<param name="serial_baudrate"     type="int"    value="115200"/>
   	<param name="frame_id"            type="string" value="laser_frame"/>
   	<param name="inverted"            type="bool"   value="false"/>
   	<param name="angle_compensate"    type="bool"   value="true"/>
+        <remap from="scan" to="base_scan" />
   </node>
 <!--	
 <node pkg="laser_filters" type="scan_to_scan_filter_chain" output="screen" name="laser_filter">

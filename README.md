@@ -5,6 +5,26 @@
 # Installazione da Zer0
 
 
+# bringup
+  roslaunch bringup.launch 
+  - robot.launch
+  - teleop.launch
+  - rplidar.launch
+
+
+# mapping
+
+
+# navigation 
+   amcl.launch
+ 
+# Auto Exploration 
+      https://developer.qualcomm.com/project/auto-exploration-navigation
+
+      git clone https://github.com/hrnr/m-explore.git
+      cd $HOME/src/m-explore
+      git branch melodic-devel remotes/origin/melodic-devel
+
 
 # 1 - Costruzione della Mappa con dati gmapping 
     
@@ -34,9 +54,11 @@
       export ROS_MASTER_URI=http://10.3.1.1:11311 
       export ROS_HOSTNAME=10.3.1.38
       cd src/marrtino_r3d 
+      rosrun rviz rviz
 
 ##    d.Salvare la mappa ( marrtino)
-      rosrun map_server map_saver -f  mymap   
+      cd $HOME/src/marrtino_r3d/maps
+      rosrun map_server map_saver -f  casa  
 
 ##    e.Visualizzare la mappa
       eom nomemappa.pgm
