@@ -2,7 +2,7 @@
   <arg name="robot_name" default="$(env ROBOT_NAME)" />
   <arg name="map_name" default="mymap" />
   <arg name="base_frame" default="base_frame" />
-  <arg name="laser_topic" default="/scan_filtered" />
+  <arg name="laser_topic" default="/scan" />
 
   <arg name="initial_pose_x" default="0.0" />
   <arg name="initial_pose_y" default="0.0" />
@@ -26,8 +26,6 @@
     <!-- Default parameters   -->
     <rosparam file="$(find marrtino_r3d)/config/$(arg robot_name)/amcl.yaml" command="load" />
 
-   <!--<rosparam file="$(find marrtino_r3d)/config/rodney/amcl_config.yaml" command="load" />
-    -->
     <!-- Override Params to include prefix -->
     <param name="global_frame_id" value="/map" /> 
     <param name="base_frame_id" value="/$(arg base_frame)" />

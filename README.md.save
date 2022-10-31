@@ -11,19 +11,12 @@
   - teleop.launch
   - rplidar.launch
 
-# SRRG
-srrg_mapper2d 
-srrg_mapper2d_ros
-srrg_scan_matcher
-spqrel_navigation
-srrg2_orazio 
-srrg_cmake_modules
-srrg_core               
-srrg_joystick_teleop    
+
+# mapping
 
 
-# spqrel_navigation
-      git clone https://github.com/LCAS/spqrel_navigation.git
+# navigation 
+   amcl.launch
  
 # Auto Exploration 
       https://developer.qualcomm.com/project/auto-exploration-navigation
@@ -59,15 +52,9 @@ srrg_joystick_teleop
       
       export ROS_IP=`hostname -I`
       export ROS_MASTER_URI=http://10.3.1.1:11311 
-      export ROS_HOSTNAME=10.3.1.17
-      cd $HOME/src/marrtino_r3d/launch
-
-
+      export ROS_HOSTNAME=10.3.1.38
+      cd src/marrtino_r3d 
       rosrun rviz rviz
-      
-      roslaunch marrtino_r3d marrtinox_rviz_navigation.launch
-
-
 
 ##    d.Salvare la mappa ( marrtino)
       cd $HOME/src/marrtino_r3d/maps
@@ -77,7 +64,7 @@ srrg_joystick_teleop
       eom nomemappa.pgm
 
 
-# 2a - navigation with amcl & move_base
+# 2- navigation
 
    a. cd $HOME/src/marrtino_r3d/launch
       roslaunch amcl.launch map_name:=casa
@@ -86,10 +73,6 @@ srrg_joystick_teleop
    b. cd $MARRTINO_APPS_HOME/navigation
       roslaunch move_base.launch
 
-# 2b - navigation with srrg_localizer (amcl ) &  spqrel_planner_node ( move_base)
-
-   a. cd $HOME/src/marrtino_r3d/launch
-      roslaunch srrg_localizer.launch map_name:=casa
 
   c.Aprire rviz sul client
       
@@ -98,8 +81,6 @@ srrg_joystick_teleop
       cd src/marrtino_r3d/launch
 
    c. $cd src/marrtino
-
-
 
 cd $MARRTINO_APPS_HOME/mapping
 rosrun rviz rviz -d mapping.rviz

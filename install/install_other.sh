@@ -1,4 +1,4 @@
-cd $HOME/src
+cd $HOME/src 
 git clone https://github.com/artigianitecnologici/talk.git
 git clone https://github.com/artigianitecnologici/ros_waypoint_generator.git
 git clone https://github.com/artigianitecnologici/waypoint_navigation.git

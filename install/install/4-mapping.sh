@@ -2,29 +2,7 @@
 # apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 
  apt-get update 
- apt-get install -y libsuitesparse-dev ros-melodic-gmapping 
-   
-# g2o
-
-mkdir -p $HOME/lib
-    cd $HOME/lib 
-    wget http://www.diag.uniroma1.it/publiciocchi/marrtino/lib/g2o-marrtino-src.tgz 
-    tar xzvf g2o-marrtino-src.tgz 
-    cd g2o 
-    mkdir -p build 
-    cd build 
-    cmake .. 
-    make 
-
-#     rm g2o-marrtino-src.tgz 
-
- echo "" >> $HOME/.bashrc  
-    echo "export G2O_ROOT=\$HOME/lib/g2o" >> $HOME/.bashrc  
-    echo "export G2O_BIN=\$HOME/lib/g2o/bin" >> $HOME/.bashrc  
-    echo "export G2O_LIB=\$HOME/lib/g2o/lib" >> $HOME/.bashrc  
-    echo "export LD_LIBRARY_PATH=\$HOME/lib/g2o/lib:\$LD_LIBRARY_PATH" >> $HOME/.bashrc  
-    echo "" >> $HOME/.bashrc
-
+ 
 
 # srrg packages
  mkdir -p $HOME/src/srrg 

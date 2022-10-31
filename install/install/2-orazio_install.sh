@@ -43,11 +43,12 @@ touch ~/.sudo_as_admin_successful
 
 # Set and compile ROS packages
 cd $HOME/ros/catkin_ws/src 
-    ln -s $HOME/src/srrg/srrg_cmake_modules . 
-    ln -s $HOME/src/srrg/srrg2_orazio .
-    ln -s $HOME/src/thin_drivers/thin_state_publisher 
- cd $HOME/ros/catkin_ws
- catkin_make -j1
+ln -s $HOME/src/srrg/srrg_cmake_modules . 
+ln -s $HOME/src/srrg/srrg2_orazio .
+ln -s $HOME/src/thin_drivers/thin_state_publisher/ .
+ln -s $HOME/src/thin_drivers/thin_msgs/ .
+cd $HOME/ros/catkin_ws
+catkin_make -j1
 
 # marrtino_apps
 

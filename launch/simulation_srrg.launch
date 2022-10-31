@@ -20,7 +20,7 @@
   <node pkg="stage_ros" type="stageros" name="stageros" args="$(find marrtino_r3d)/stage/stage_config/worlds/willow-pr2-5cm.world" respawn="false" >
     <param name="base_watchdog_timeout" value="0.2"/>
   </node>
-  <include file="$(find marrtino_r3d)/stage/move_base_config/amcl_node.xml"/>  
+  <include file="$(find marrtino_r3d)/stage/move_base_config/srrg_localizer_node.xml"/>  
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find marrtino_r3d)/stage/single_robot.rviz" />
 
 </launch>
