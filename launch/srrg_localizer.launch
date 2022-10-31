@@ -35,7 +35,7 @@
     <param name="initial_cov_aa" value="0.25" />
 
   </node>
-  <!--- Run Move Base --> 
-  <include file="$(find marrtino_r3d)/launch/move_base.launch"/>
+  <!--- Run Move Base 
+  <include file="$(find marrtino_r3d)/launch/move_base.launch"/>--> 
 </launch>
 

@@ -11,7 +11,7 @@
   <arg name="paramsdir" default="$(find marrtino_r3d)/config/$(arg robot_name)" />
   <arg name="mapsdir" default="$(find marrtino_r3d)/maps" />
 
-  <!-- Static transforms in the system 
+  <!-- Static transforms in the system  
   <node pkg="marrtino_r3d" type="static_broadcaster.py" name="static_broadcaster_node"/>
   -->
 
