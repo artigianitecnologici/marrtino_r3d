@@ -5,9 +5,11 @@ sudo  apt-get update
  
 mkdir -p ~/lib
 cd ~/lib
-wget http://www.diag.uniroma1.it/iocchi/marrtino/lib/g2o-marrtino-src.tgz
-tar xzf g2o-marrtino-src.tgz
-rm g2o-marrtino-src.tgz 
+cp $HOME/src/marrtino_r3d/install/g2o.tar.gz .
+#wget http://www.diag.uniroma1.it/iocchi/marrtino/lib/g2o-marrtino-src.tgz
+tar xzf g2o.tar.gz
+sudoi rm bin build -r
+#rm g2o-marrtino-src.tgz 
 cd g2o 
 mkdir build 
 cd build 
