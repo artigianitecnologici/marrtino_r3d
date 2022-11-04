@@ -1,0 +1,26 @@
+<launch>
+
+<arg name="base_frame" default="base_frame" />
+<arg name="laser_topic" default="scan" />
+<arg name="laser_frame" default="laser_frame" />
+<arg name="gui" default="false" />
+<arg name="cmdvel" default="cmd_vel" />  <!-- desired_cmd_vel -->
+<arg name="paramsdir" default="$(find marrtino_r3d)/config/$(arg robot_name)" />
+ 
+<!--
+<arg name="paramsdir" default="$(env MARRTINO_APPS_HOME)/navigation/config/$(env ROBOT_TYPE)" />-->
+
+<node pkg="spqrel_navigation" type="spqrel_planner_node" name="spqrel_planner" output="screen">
+
+    <rosparam file="$(arg paramsdir)/spqrel_planner_params.yaml" command="load" />
+
+	<param name="base_frame_id" value="$(arg base_frame)" />
+	<param name="laser_topic" value="/$(arg laser_topic)" />
+	<param name="use_gui" value="$(arg gui)" />
+	<param name="verbose" value="false" />
+
+    <remap from="cmd_vel" to="cmd_vel_mux/input/navi" if="$(eval env('ROBOT_TYPE') == 'turtlebot')"  />  <!-- Turtlebot -->
+</node>
+
+</launch>
+

@@ -228,3 +228,5 @@ sudo dpkg -i google-chrome-stable_current_amd64.deb
 # one
 ## two 
 ### three
+sudo apt install ros-melodic-dwb-local-planner
+sudo apt install  ros-melodic-dwa-local-planner

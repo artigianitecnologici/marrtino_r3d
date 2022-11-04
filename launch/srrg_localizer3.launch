@@ -1,18 +1,18 @@
-<launch> 
-  <arg name="robot_name" default="$(env ROBOT_NAME)" />
+<launch>
   <arg name="map_name" default="map" />
   <arg name="base_frame" default="base_frame" />
   <arg name="laser_topic" default="/scan" />
-  <arg name="use_mapserver" default="true" />
+  <arg name="use_mapserver" default="false" />
 
   <arg name="initial_pose_x" default="0.0" />
   <arg name="initial_pose_y" default="0.0" />
   <arg name="initial_pose_a" default="0.0" />
-
+  <arg name="robot_name" default="$(env ROBOT_NAME)" />
   <arg name="paramsdir" default="$(find marrtino_r3d)/config/$(arg robot_name)" />
   <arg name="mapsdir" default="$(find marrtino_r3d)/maps" />
-  <!-- <arg name="paramsdir" default="$(env MARRTINO_APPS_HOME)/navigation/config" /> -->
-  
+  <!--
+  <arg name="paramsdir" default="$(env MARRTINO_APPS_HOME)/navigation/config" />
+  <arg name="mapsdir" default="$(env MARRTINO_APPS_HOME)/mapping/maps" />-->
 
   <node pkg="map_server" type="map_server" name="map_server" args="$(arg mapsdir)/$(arg map_name).yaml" respawn="false" if="$(arg use_mapserver)">
         <param name="frame_id" value="map" />
@@ -20,7 +20,7 @@
 
   <node pkg="spqrel_navigation" type="srrg_localizer2d_node" name="srrg_localizer" respawn="true">
 
-    <!-- Override Frame Params to  include prefix -->
+    <!-- Override Frame Params to include prefix -->
     <param name="laser_topic" value="$(arg laser_topic)" />
     <param name="global_frame_id" value="map" /> 
     <param name="base_frame_id" value="base_frame" />
@@ -38,7 +38,5 @@
     <param name="initial_cov_aa" value="0.25" />
 
   </node>
-  <!--- Run Move Base --> 
-  <include file="$(find marrtino_r3d)/launch/move_base.launch"/>
 </launch>
 
