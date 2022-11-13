@@ -79,10 +79,10 @@ echo_green " Installazione realsense path d435 ultimata"
 function main {
 
     
-    #install_librealsense
-    #install_realsense
-    #install_realsense_rules
-    install_realsense_D435
+    install_librealsense
+    install_realsense
+    install_realsense_rules
+    #install_realsense_D435
 
 }
 
