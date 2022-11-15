@@ -55,6 +55,12 @@ srrg_joystick_teleop
       rosparam set use_sim_time true
       rosbag play casa.bag --clock
 
+      rosbag play imu.bag /imu:=/testimu --clock 
+ 
+      -d nsec (wait n sencond )
+      
+      --hz=HZ
+
 ##    c.Aprire rviz sul client
       
       export ROS_IP=`hostname -I`
