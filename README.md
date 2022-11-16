@@ -55,7 +55,7 @@ srrg_joystick_teleop
       rosparam set use_sim_time true
       rosbag play casa.bag --clock
 
-      rosbag play imu.bag /imu:=/testimu --clock 
+      rosbag play imu.bag -d 2 /imu:=/testimu --clock 
  
       -d nsec (wait n sencond )
       
@@ -236,3 +236,9 @@ sudo dpkg -i google-chrome-stable_current_amd64.deb
 ### three
 sudo apt install ros-melodic-dwb-local-planner
 sudo apt install  ros-melodic-dwa-local-planner
+
+
+
+# Configure www
+cd /var/www/html
+sudo ln -s $HOME/src/marrtino_r3d/www/bringup .

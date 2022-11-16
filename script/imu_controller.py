@@ -28,7 +28,7 @@ class GestureController(object):
         self.pub_twist = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
         ## Control modality publisher
         #self.pub_mode = rospy.Publisher('/cmd_mode', UInt16, queue_size=1)
-        rospy.Subscriber('/imu', Imu, self.callback_continuos_control)
+        rospy.Subscriber('/testimu', Imu, self.callback_continuos_control)
 
     ## Callback manager
     #
@@ -74,7 +74,7 @@ class GestureController(object):
     #
     #  @param self The object pointer
     def reset(self):
-        print "\n"
+        #print "\n"
         rospy.loginfo("RESETTING VELOCITY COMMANDS ON SHUTDOWN")
         self.update()
 
@@ -88,7 +88,7 @@ class GestureController(object):
         twist.linear.x = self.last_acc[0] * 1 # self.linear_coefficent
         twist.angular.z = self.last_acc[1] * 1 #self.angular_coefficent
         self.pub_twist.publish(twist)
-        print twist.linear.x,self.last_acc[0],twist.angular.z ,self.last_acc[1]
+        #print twist.linear.x,self.last_acc[0],twist.angular.z ,self.last_acc[1]
 
 
 def main():

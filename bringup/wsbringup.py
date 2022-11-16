@@ -22,7 +22,7 @@ except Exception as e:
     sys.exit(0)
 
 #sys.path.append('../program')
-sys.path.append('scripts')
+#sys.path.append('scripts')
 
 import check
 from check import *
