@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+
+  <meta charset="utf-8" />
+  <title>TeleMARR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <script src="js/jquery-3.4.1.min.js"></script>
+  <script src="bootstrap/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/roslib.min.js"></script>
+  <script type="text/javascript" src="js/nipplejs.js"></script>
+  <script type="text/javascript" src="js/eventemitter2.min.js"></script>
+  <script type="text/javascript" src="js/keyboardteleop.min.js"></script>
+  <!-- Funzioni personalizzate -->
+
+  <script type="text/javascript" type="text/javascript">
+  
+    function getAllUrlParams(url) {
+
+      // get query string from url (optional) or window
+      var queryString = url ? url.split('?')[1] : window.location.search.slice(1);
+    
+      // we'll store the parameters here
+      var obj = {};
+    
+      // if query string exists
+      if (queryString) {
+    
+        // stuff after # is not part of query string, so get rid of it
+        queryString = queryString.split('#')[0];
+    
+        // split our query string into its component parts
+        var arr = queryString.split('&');
+    
+        for (var i = 0; i < arr.length; i++) {
+          // separate the keys and the values
+          var a = arr[i].split('=');
+    
+          // set parameter name and value (use 'true' if empty)
+          var paramName = a[0];
+          var paramValue = typeof (a[1]) === 'undefined' ? true : a[1];
+    
+          // (optional) keep case consistent
+          paramName = paramName.toLowerCase();
+          if (typeof paramValue === 'string') paramValue = paramValue.toLowerCase();
+    
+          // if the paramName ends with square brackets, e.g. colors[] or colors[2]
+          if (paramName.match(/\[(\d+)?\]$/)) {
+    
+            // create key if it doesn't exist
+            var key = paramName.replace(/\[(\d+)?\]/, '');
+            if (!obj[key]) obj[key] = [];
+    
+            // if it's an indexed array e.g. colors[2]
+            if (paramName.match(/\[\d+\]$/)) {
+              // get the index value and add the entry at the appropriate position
+              var index = /\[(\d+)\]/.exec(paramName)[1];
+              obj[key][index] = paramValue;
+            } else {
+              // otherwise add the value to the end of the array
+              obj[key].push(paramValue);
+            }
+          } else {
+            // we're dealing with a string
+            if (!obj[paramName]) {
+              // if it doesn't exist, create property
+              obj[paramName] = paramValue;
+            } else if (obj[paramName] && typeof obj[paramName] === 'string'){
+              // if property does exist and it's a string, convert it to an array
+              obj[paramName] = [obj[paramName]];
+              obj[paramName].push(paramValue);
+            } else {
+              // otherwise add the property
+              obj[paramName].push(paramValue);
+            }
+          }
+        }
+      }
+    
+      return obj;
+    }
+  
+  
+  
+  
+  </script>
+
+  <script type="text/javascript" type="text/javascript">
+
+    var teleop;
+    var ros = new ROSLIB.Ros({
+      //url: 'wss:ufficioeffegi.homepc.it:9090'
+	 url: 'ws:' + window.location.hostname +':9090'
+    });
+
+    ros.on('connection', function () {
+      document.getElementById("status").innerHTML = "Connected";
+    });
+
+    ros.on('error', function (error) {
+      document.getElementById("status").innerHTML = "Error";
+    });
+
+    ros.on('close', function () {
+      document.getElementById("status").innerHTML = "Closed";
+    });
+    // 
+    var txt_listener = new ROSLIB.Topic({
+      ros: ros,
+      name: '/txt_msg',
+      messageType: 'std_msgs/String'
+    });
+
+    txt_listener.subscribe(function (m) {
+      document.getElementById("msg").innerHTML = m.data;
+      
+    });
+	// SONAR
+	var sonar0_listener = new ROSLIB.Topic({
+      ros: ros,
+      name: '/sonar_0/range',
+      messageType: 'sensor_msgs/Range'
+    });
+
+    sonar0_listener.subscribe(function (m) {
+      document.getElementById("sonar0").innerHTML = m.data;
+      
+    });
+
+    cmd_vel_listener = new ROSLIB.Topic({
+      ros: ros,
+      name: "/cmd_vel",
+      messageType: 'geometry_msgs/Twist'
+    });
+
+	initTeleopKeyboard = function() {
+    // Use w, s, a, d keys to drive your robot
+
+    // Check if keyboard controller was aready created
+    if (teleop == null) {
+        // Initialize the teleop.
+        teleop = new KEYBOARDTELEOP.Teleop({
+            ros: ros,
+            topic: '/cmd_vel'
+        });
+    }
+
+    // Add event listener for slider moves
+    robotSpeedRange = document.getElementById("robot-speed");
+    robotSpeedRange.oninput = function () {
+        teleop.scale = robotSpeedRange.value / 100
+    }
+}
+    move = function (linear, angular) {
+      var twist = new ROSLIB.Message({
+        linear: {
+          x: linear,
+          y: 0,
+          z: 0
+        },
+        angular: {
+          x: 0,
+          y: 0,
+          z: angular
+        }
+      });
+      cmd_vel_listener.publish(twist);
+    }
+
+    createJoystick = function () {
+      var options = {
+        zone: document.getElementById('zone_joystick'),
+        threshold: 0.1,
+        position: {left: '80%', top: '65%'},
+        mode: 'static',
+        size: 250,
+        color: 'red',
+      };
+      manager = nipplejs.create(options);
+
+      linear_speed = 0;
+      angular_speed = 0;
+
+      manager.on('start', function (event, nipple) {
+        timer = setInterval(function () {
+          move(linear_speed, angular_speed);
+        }, 25);
+      });
+
+      manager.on('move', function (event, nipple) {
+        max_linear = 0.2; // m/s
+        max_angular = 1.0; // rad/s
+        max_distance = 75.0; // pixels;
+        linear_speed = Math.sin(nipple.angle.radian) * max_linear * nipple.distance/max_distance;
+	    angular_speed = -Math.cos(nipple.angle.radian) * max_angular * nipple.distance/max_distance;
+      });
+
+      manager.on('end', function () {
+        if (timer) {
+          clearInterval(timer);
+        }
+        self.move(0, 0);
+      });
+    }
+
+
+
+    window.onload = function () {
+      console.log("onload");
+      filep = getAllUrlParams().filep;
+      cmdp =  getAllUrlParams().cmd; // cmd return start,
+      xp = getAllUrlParams().xp; // xp position
+      yp = getAllUrlParams().yp; // yp position
+      zp = getAllUrlParams().zp; // zp position
+      console.log("cmd",cmdp);
+      console.log("xp=",xp);
+      console.log("yp=",yp);
+      console.log("zp=",yp);
+
+    
+      /*
+      initPanTilt();
+      
+	  
+			createJoystick();
+			initTeleopKeyboard();
+       */
+	  
+    }
+
+  </script>
+  
+<style>
+
+div.joy {
+   position: absolute;
+   bottom: 10px;
+   right: 16px;
+  
+}
+.container {
+  position: relative;
+}
+.bottomright {
+  position: absolute;
+  bottom: 8px;
+  right: 16px;
+  font-size: 18px;
+}
+
+img { 
+  width: 100%;
+  height: auto;
+  opacity: 1;
+}
+</style>
+</head>
+
+<body>
+
+
+ 
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2" > <input type="range" orient="vertical"id="robot-tilt" /> </div>
+    <div class="col-md-8">
+	    <img style="width:640;height:480;" src=""  alt="" id="video" />
+      
+
+	    <div id="zone_joystick" style="joy"></div>
+    </div>
+</div>
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-1">
+
+      <label for="robot-speed">  <strong>Pan</strong> </label>
+    </div>
+    <div class="col-md-7">
+	    <input  type="range" min="0" max="100" style="width:80%;" id="robot-pan" >
+    </div>
+     
+        
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-1">
+
+    <label for="robot-speed">  <strong>Robot speed</strong> </label>
+    </div>
+    <div class="col-md-7">
+    <input  type="range" min="15" max="80" style="width:80%;" id="robot-speed">
+    </div>
+       
+   	 
+        
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+
+</div>
+ <!--
+	<p>txt_msg: <span id="msg"></span></p>
+	<p>Sonar <span id="sonar0"></span></p>
+   <h1>Simple ROS User Interface</h1>
+  <p>Connection status: <span id="status"></span></p>
+  <p>Sonar on /txt_msg: <span id="msg"></span></p>
+ -->
+  
+
+
+</body>
+
+</html>
+
+
+

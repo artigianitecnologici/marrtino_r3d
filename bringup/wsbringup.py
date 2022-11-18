@@ -154,13 +154,13 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
 
         # robot start/stop
         elif (message=='robot_start'):
-            self.tmux.cmd(self.wnet,"echo '@robot' | netcat -w 1 localhost 9236")
+            #self.tmux.cmd(self.wnet,"echo '@robot' | netcat -w 1 localhost 9236")
             self.tmux.roslaunch(self.wrobot,'launch','bringup')
             self.waitfor('robot',5)
             self.waitfor('odom',1)
             self.waitfor('sonar',1)
         elif (message=='robot_kill'):
-            self.tmux.cmd(self.wnet,"echo '@robotkill' | netcat -w 1 localhost 9236")
+            #self.tmux.cmd(self.wnet,"echo '@robotkill' | netcat -w 1 localhost 9236")
             self.tmux.roskill('orazio')
             self.tmux.roskill('state_pub_robot')
             time.sleep(1)
