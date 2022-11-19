@@ -173,23 +173,46 @@ git clone https://github.com/zshn25/turtlesim_cleaner.git
 
 ## configuration .bashrc
 
-
-# CONFIGURAZIONE PERSONALIZZATA 
-
+# configurazione personalizzata
 source /opt/ros/melodic/setup.bash
 source /home/ubuntu/ros/catkin_ws/devel/setup.bash
 
-
 export MARRTINO_APPS_HOME=$HOME/src/marrtino_apps
-export ROBOT_TYPE=stage
-export ROBOT_NAME=marrtinox
+export ROBOT_TYPE=marrtino
 export MARRTINO_VERSION=4.0.1
-
+export ROBOT_NAME=marrtinox
 
 export G2O_ROOT=$HOME/lib/g2o
 export G2O_BIN=$HOME/lib/g2o/bin
 export G2O_LIB=$HOME/lib/g2o/lib
 export LD_LIBRARY_PATH=$HOME/lib/g2o/lib:${LD_LIBRARY_PATH}
+#
+export ROS_MASTER_URI=http://10.3.1.100:11311
+export ROS_HOSTNAME=10.3.1.1
+
+
+# alias
+alias eb='pico ~/.bashrc'
+alias sb='source ~/.bashrc'
+alias gs='git status'
+alias gp='git pull'
+alias cw='cd ~/ros/catkin_ws'
+alias cs='cd ~/ros/catkin_ws/src'
+alias cm='cd ~/ros/catkin_ws && catkin_make'
+alias c3='cd ~/src/marrtino_r3d'
+alias c3l='cd ~/src/marrtino_r3d/launch'
+alias ca='cd ~/src/marrtino_apps'
+
+
+#configurazione hosts
+
+127.0.0.1  localhost
+127.0.1.1  ubuntu
+10.3.1.100 marrtinoVM
+10.3.1.1   marrtinoVM
+
+#configurazione hostname
+ubuntu
 
 
 
@@ -215,6 +238,8 @@ export LD_LIBRARY_PATH=$HOME/lib/g2o/lib:${LD_LIBRARY_PATH}
   ./orazio_config.sh
 
   sul browse  localhost:9000
+
+  rosrun srrg2_orazio orazio -serial-device /dev/orazio -resource-path  ~/src/srrg/srrg2_orazio/srrg2_orazio/html
 
 # NAVIGAZIONE TRAMITE WAYPOINT
 
@@ -244,32 +269,5 @@ cd /var/www/html
 sudo ln -s $HOME/src/marrtino_r3d/www/bringup .
 
 # Configurazione .bashrc (completa ROBOT MARRTINO)
-# configurazione personalizzata
-source /opt/ros/melodic/setup.bash
-source /home/ubuntu/ros/catkin_ws/devel/setup.bash
-
-export MARRTINO_APPS_HOME=$HOME/src/marrtino_apps
-export ROBOT_TYPE=marrtino
-export MARRTINO_VERSION=4.0.1
-export ROBOT_NAME=marrtinox
-
-export G2O_ROOT=$HOME/lib/g2o
-export G2O_BIN=$HOME/lib/g2o/bin
-export G2O_LIB=$HOME/lib/g2o/lib
-export LD_LIBRARY_PATH=$HOME/lib/g2o/lib:${LD_LIBRARY_PATH}
-#
-export ROS_MASTER_URI=http://10.3.1.100:11311
-export ROS_HOSTNAME=10.3.1.1
 
 
-
-# alias
-alias eb='pico ~/.bashrc'
-alias sb='source ~/.bashrc'
-alias gs='git status'
-alias gp='git pull'
-alias cw='cd ~/ros/catkin_ws'
-alias cs='cd ~/ros/catkin_ws/src'
-alias cm='cd ~/ros/catkin_ws && catkin_make'
-alias c3='cd ~/src/marrtino_r3d'
-alias ca='cd ~/src/marrtino_apps'

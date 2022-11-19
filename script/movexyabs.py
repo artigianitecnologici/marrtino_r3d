@@ -21,7 +21,7 @@ VEL_ANGOLARE = 0.3
 VEL_LINEARE = 0.4
 ANGLE_TOLERANCE  = 20 # 20
 DISTANCE_TOLERANCE  = 0.35 # 0.35 #
-        
+# non toccare questi valori
 COEFF_VEL_ANGOLARE = 1
 COEFF_VEL_LINEARE = 0.1
 
@@ -123,6 +123,7 @@ class MarrtinoBot:
 
     def move2goal(self,goal_x,goal_y,goal_z,is_table):
          
+        print "valori",goal_x,goal_y,goal_z,is_table
         goal_pose = Pose()
         
         goal_pose.x = goal_x 
@@ -140,15 +141,16 @@ class MarrtinoBot:
         
         # Fase 2 forward 
         rospy.loginfo("fase 2 - forward ")
-        while self.euclidean_distance(goal_pose) >= DISTANCE_TOLERANCE:
+        count=0
+        while self.euclidean_distance(goal_pose) >= DISTANCE_TOLERANCE and count <=10:
             self.sendMoveMsg(VEL_LINEARE,self.angular_vel2(goal_pose))
-            #print "distance ",self.euclidean_distance(goal_pose)," angular ",self.angular_vel(goal_pose),va
+            print "distance ",self.euclidean_distance(goal_pose)
             obstacle_laser = self.laser_center_distance
             #print "Ostacolo ",obstacle_laser
             if obstacle_laser < 0.3:
                 self.sendMoveMsg(0,0)
-                
-                print obstacle_laser
+                count = count + 1 
+                print "rilevato ostacolo ",obstacle_laser
             # Publish at the desired rate.
             self.rate.sleep()
         # Stopping our robot after the movement is over.
@@ -200,10 +202,11 @@ if __name__ == '__main__':
     try:
         x = MarrtinoBot()
         #x.move2goal()
+        fatxy = 1# 1.315
       
         cmd  = sys.argv[1]
-        posx = float(sys.argv[2])
-        posy = float(sys.argv[3])
+        posx = float(sys.argv[2]) 
+        posy = float(sys.argv[3]) 
         posz = float(sys.argv[4])
         file_waypoint = sys.argv[5]
         # publish the forward movement csv file name
@@ -212,6 +215,7 @@ if __name__ == '__main__':
         if ( cmd == 'START'): 
             x.move2goal(posx,posy,posz,0)    
             with open(path_waypoint, 'w'  ) as file:
+                file.write("0.0,0.0,0.0,1"+"\n")
                 file.write(str(posx)+","+str(posy)+","+str(posz) + "," + str(p) + "\n")
                 file.close()
 

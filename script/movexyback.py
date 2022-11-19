@@ -17,7 +17,7 @@ from geometry_msgs.msg import PoseWithCovarianceStamped, PoseArray, Twist
 from nav_msgs.msg import Odometry
 
  
-VEL_ANGOLARE = 0.3
+VEL_ANGOLARE = 0.5 # 0.3
 VEL_LINEARE = 0.4
 ANGLE_TOLERANCE  = 20 # 20
 DISTANCE_TOLERANCE  = 0.35 # 0.35 #
@@ -175,8 +175,8 @@ class MarrtinoBot:
         print "valori",goal_x,goal_y,goal_z,is_table
         goal_pose = Pose()
         
-        goal_pose.x = goal_x 
-        goal_pose.y = goal_y  
+        goal_pose.x = goal_x
+        goal_pose.y = goal_y 
        
               
         # Fase 1 rotazione 
@@ -258,12 +258,13 @@ if __name__ == '__main__':
         if ( 1 == 1): #while not rospy.is_shutdown():
              
             rospy.loginfo('Aspetto /go_back nomefile ')
-            rospy.loginfo('rostopic pub -1 /go_back std_msgs/String testing')
+            rospy.loginfo('rostopic pub -1 /go_back std_msgs/String testcasa')
             x.status_robot(x.PENDING)
             data = rospy.wait_for_message('/go_back', String)
             #if int(data.data) > 9:
             #    rospy.logerr("Enter counter no between 1-3")
             #    break
+            
             rospy.loginfo('Received file '+ data.data)
 
             # publish the forward movement csv file name

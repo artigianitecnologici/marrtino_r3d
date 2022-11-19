@@ -62,7 +62,7 @@ floorplan
   name "Casa"
   bitmap "../maps/casa.pgm"
   size [58.25 47.25 1.0]
-  pose [ -23.625 29.125 0 90.000 ]
+  pose [ 0 0 0 90.000 ]
 )
 
 # throw in a robot 20.80 14.54 0 180

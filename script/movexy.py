@@ -218,8 +218,8 @@ class MarrtinoBot:
                 self.rate.sleep()
             self.sendMoveMsg(0, 0)
             rospy.loginfo("Attendo ok in  /ready")
-            while self.ready <> "OK":
-                self.rate.sleep()
+            #while self.ready <> "OK":
+            #    self.rate.sleep()
 
     #def wait_waipoint(self):
 
@@ -266,7 +266,7 @@ if __name__ == '__main__':
             #rospy.loginfo('Recieved table no '+ data.data)
 
             # publish the forward movement csv file name
-            path_waypoint =  "/home/ubuntu/src/waypoint_navigation/waypoints/" + "testing.csv"
+            path_waypoint =  "/home/ubuntu/src/waypoint_navigation/waypoints/" + "testcasa.csv"
          
             rospy.loginfo(path_waypoint)
             rospy.loginfo('publishing path')
