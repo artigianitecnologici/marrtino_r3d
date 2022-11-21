@@ -9,15 +9,17 @@ import csv
 import tf
 from sensor_msgs.msg import LaserScan 
 from std_msgs.msg import String
-from geometry_msgs.msg import Twist
-from turtlesim.msg import Pose
+from geometry_msgs.msg import Twist,Pose
+
 from math import pow, atan2, sqrt
 
 from geometry_msgs.msg import PoseWithCovarianceStamped, PoseArray, Twist
 from nav_msgs.msg import Odometry
 
- 
-VEL_ANGOLARE = 0.3
+#import robot_cmd_ros
+#from robot_cmd_ros import *
+
+VEL_ANGOLARE = 0.2
 VEL_LINEARE = 0.4
 ANGLE_TOLERANCE  = 20 # 20
 DISTANCE_TOLERANCE  = 0.35 # 0.35 #
@@ -50,144 +52,22 @@ class MarrtinoBot:
         self.is_table = []
         self.status = ""
         self.ready = ""
-        # Good values
-        self.tv_good = 0.2
-        self.rv_good = 0.8
-        self.tv_min = 0.1
-        self.rv_min = 0.1
-       
-    
-    def turntogoal(self,target_pose,pz):
+
+
+    def turntogoal(self,target_pose):
         r = True
 
         #p = getRobotPose()
-        # 0 = x 1 = y goal_pose.y
-        if math.fabs(target_pose.y-self.pose.y) + math.fabs(target_pose.x-self.pose.x) < 0.5:
+        # 0 = x 1 = y
+        if math.fabs(target_pose[1]-self.pose.y) + math.fabs(target_pose[0]-self.pose.x) < 0.5:
             return True
-        print ('t.y %.2f p.y %.2f  t.y %.2f p.y %.2f ' %(target_pose.y,self.pose.y,target_pose.x,self.pose.x))
-        ad = math.atan2(target_pose.y-self.pose.y,target_pose.x-self.pose.x)
-        th_deg = (ad-pz)*180/math.pi
-        print('ad %.2f deg %.2f ' %(ad,th_deg))
+
+        ad = math.atan2(target_pose[1]-self.pose.y,target_pose[0]-self.pose.x)
+        th_deg = (ad-p[2])*180/math.pi 
         if math.fabs(th_deg)>30:
-            r = self.turn(th_deg)
+            r = turn(th_deg)
 
         return r
-
-    def turn(self,deg, ref='REL', frame='odom'):
-        
-        deg = self.NORM_180(deg)
-
-        print('turn %s %.2f frame %s' %(ref,deg,frame))
-        
-        return self.exec_turn_REL(deg)
-    
-    def exec_turn_REL(self,th_deg):
-        
-
-        
-        current_th = self.pose.theta
-        #print("TURN -- currentTh: %.1f -- targetTh %.1f" %(RAD2DEG(current_th), RAD2DEG(current_th) + th_deg))
-        #print("TURN -- to-normalize RAD: %.1f" %(current_th + DEG2RAD(th_deg)))
-        target_th = self.norm_target_angle(current_th + self.DEG2RAD(th_deg))
-        #print("TURN -- currentTh: %.1f -- targetTh %.1f" %(RAD2DEG(current_th), RAD2DEG(target_th)))
-
-        r = True
-
-        rv_nom = self.rv_good 
-        if (th_deg < 0):
-            rv_nom *= -1
-
-        dth = abs(self.NORM_PI(target_th-current_th))
-
-        #print("TURN -- dTh %.2f norm_PI: %.2f" %(current_th-target_th,dth))
-
-        last_dth = dth
-        #print("TURN -- last_dth %.2f" %(last_dth))
-        while (dth>self.rv_min/8.0 and last_dth>=dth):
-            rv = rv_nom
-            if (dth<0.8):
-                rv = rv_nom*dth/0.8
-            if (abs(rv)<self.rv_min):
-                rv = self.rv_min*rv/abs(rv)
-            tv = 0.0
-
-            if self.setSpeed(tv, rv, 0.1, False):
-                #robot_pose = get_robot_pose(frame)
-                current_th = self.pose.theta
-                dth = abs(self.NORM_PI(target_th-current_th))
-                if (dth < last_dth or dth>0.3): # to avoid oscillation close to 0
-                    last_dth = dth
-            else:
-                print("turn action canceled by user")
-                r = False
-                dth=0
-            #print("TURN -- POS: %.1f %.1f %.1f -- targetTh %.1f DTH %.2f -- VEL: %.2f %.2f" %(robot_pose[0], robot_pose[1], RAD2DEG(current_th), RAD2DEG(target_th), RAD2DEG(dth), tv, rv))
-        #print("TURN -- dth %.2f - last_dth %.2f" %(dth,last_dth))
-        self.setSpeed(0.0,0.0,0.1)
-        #print 'TURN -- end'
-        return r
-
-    def setSpeed(self,lx,az,tm,stopend=False):
-        global cmd_pub, des_cmd_pub, use_desired_cmd_vel, stop_request, tv_good, rv_good
-
-        #if (stop_request and (lx!=0.0 or az!=0.0)):
-        #    raise Exception("setSpeed called in stop_request mode")
-
-        delay = 0.05 # sec
-        rate = rospy.Rate(1/delay) # Hz
-        cnt = 0.0
-        
-        #msg = Twist()
-        #msg.linear.x = lx
-        #msg.angular.z = az
-        #msg.linear.y = msg.linear.z = msg.angular.x = msg.angular.y =  0
-        while not rospy.is_shutdown() and cnt<tm: #and not stop_request:
-            self.sendMoveMsg(lx,az)
-            cnt = cnt + delay
-            try:
-                rate.sleep()
-            except KeyboardInterrupt:
-                print("User KeyboardInterrupt")
-                return False
-        if (stopend):
-            self.sendMoveMsg(0,0)
-            try:
-                rate.sleep()
-            except:
-                pass
-        return True
-
-    def NORM_PI(self,a):
-        if (a>math.pi):
-            return a-2*math.pi
-        elif (a<-math.pi):
-            return a+2*math.pi
-        else:
-            return a
-
-
-    
-    def norm_target_angle(self,a):
-        if (abs(self.NORM_PI(a-0))<0.3):
-            return 0;
-        elif (abs(self.NORM_PI(a-math.pi/2.0))<0.3):
-            return math.pi/2;
-        elif (abs(self.NORM_PI(a-math.pi))<0.3):
-            return math.pi;
-        elif (abs(self.NORM_PI(a-3*math.pi/2.0))<0.3):
-            return -math.pi/2;
-        else:
-            return a;
-
-    def NORM_180(self,a):
-        if (a>180):
-            return a-360
-        elif (a<-180):
-            return a+360
-        else:
-            return a
-
-
 
     def DEG2RAD(self,a):
         return a*math.pi/180.0
@@ -225,17 +105,24 @@ class MarrtinoBot:
         return constant * self.euclidean_distance(goal_pose)
 
     def steering_angle(self, goal_pose):
-        
+        print "goal ",goal_pose.y,goal_pose.x
+        print "pose ",self.pose.y ,self.pose.x
+
+        print "delta yx " ,goal_pose.y - self.pose.y, goal_pose.x - self.pose.x
+        print "ang ",atan2(goal_pose.y - self.pose.y, goal_pose.x - self.pose.x)
         return atan2(goal_pose.y - self.pose.y, goal_pose.x - self.pose.x)
 
     def angular_vel2(self,goal_pose):
          
         delta = self.RAD2DEG(abs(self.steering_angle(goal_pose) - self.pose.theta))
+
         if abs(delta) < 5:
             speed_angular =  abs(self.steering_angle(goal_pose) - self.pose.theta ) * COEFF_VEL_ANGOLARE
            
         else:
             speed_angular =  VEL_ANGOLARE
+
+          
 
         if abs(self.steering_angle(goal_pose) > self.pose.theta ):
             if delta >= 180:
@@ -244,6 +131,8 @@ class MarrtinoBot:
         else:
             if delta <= 180:
                 speed_angular = -speed_angular
+
+        #print "delta ",delta ," Speed Angular  ",speed_angular
 
         return  speed_angular    
 
@@ -257,7 +146,7 @@ class MarrtinoBot:
         vel_msg.angular.z = angular 
         self.velocity_publisher.publish(vel_msg)
 
-	     
+	
 
     def move2goal(self,goal_x,goal_y,goal_z,is_table):
          
@@ -266,13 +155,15 @@ class MarrtinoBot:
         
         goal_pose.x = goal_x 
         goal_pose.y = goal_y  
-        #goal_pose.z = goal_z
+        #goal_pose = [goal_x,goal_y,goal_z]
+
               
         # Fase 1 rotazione 
-        rospy.loginfo("fase 1 - turn ")
-        r = self.turntogoal(goal_pose,goal_z)
-        #delta = self.RAD2DEG(abs(self.steering_angle(goal_pose) - self.pose.theta))
-       
+        rospy.loginfo("fase 1 - Rotazione ")
+        #r = self.turntogoal(goal_pose)
+        
+        delta = self.RAD2DEG(abs(self.steering_angle(goal_pose) - self.pose.theta))
+        #print "delta ,at ",self.steering_angle(goal_pose),self.pose.theta
         #while delta > ANGLE_TOLERANCE:
         #     delta = self.RAD2DEG(abs(self.steering_angle(goal_pose) - self.pose.theta))
         #     self.sendMoveMsg(0,self.angular_vel2(goal_pose))
@@ -283,7 +174,7 @@ class MarrtinoBot:
         count=0
         while self.euclidean_distance(goal_pose) >= DISTANCE_TOLERANCE and count <=10:
             self.sendMoveMsg(VEL_LINEARE,self.angular_vel2(goal_pose))
-            print "distance ",self.euclidean_distance(goal_pose)
+            #print "distance ",self.euclidean_distance(goal_pose), "angular ",self.angular_vel2(goal_pose)
             obstacle_laser = self.laser_center_distance
             #print "Ostacolo ",obstacle_laser
             if obstacle_laser < 0.3:
@@ -359,7 +250,10 @@ if __name__ == '__main__':
                 file.close()
 
         if ( cmd == 'GO'):
+            
             x.move2goal(posx,posy,posz,0)
+
+            
             with open(path_waypoint, 'a'  ) as file:
                 file.write(str(posx)+","+str(posy)+","+str(posz) + "," + str(p) + "\n")
                 file.close()

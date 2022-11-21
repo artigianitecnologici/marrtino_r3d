@@ -59,7 +59,12 @@ class MarrtinoBot:
     
     def turntogoal(self,target_pose,pz):
         r = True
-
+        rate = rospy.Rate(10)
+        timesteps = 10
+        while not rospy.is_shutdown() and timesteps>0:
+            rate.sleep()
+            timesteps -= 1
+        print "current pose gradi " ,self.pose.theta
         #p = getRobotPose()
         # 0 = x 1 = y goal_pose.y
         if math.fabs(target_pose.y-self.pose.y) + math.fabs(target_pose.x-self.pose.x) < 0.5:
@@ -86,6 +91,7 @@ class MarrtinoBot:
 
         
         current_th = self.pose.theta
+        # print "current pose gradi " ,self.pose.theta
         #print("TURN -- currentTh: %.1f -- targetTh %.1f" %(RAD2DEG(current_th), RAD2DEG(current_th) + th_deg))
         #print("TURN -- to-normalize RAD: %.1f" %(current_th + DEG2RAD(th_deg)))
         target_th = self.norm_target_angle(current_th + self.DEG2RAD(th_deg))
@@ -277,13 +283,19 @@ class MarrtinoBot:
         #     delta = self.RAD2DEG(abs(self.steering_angle(goal_pose) - self.pose.theta))
         #     self.sendMoveMsg(0,self.angular_vel2(goal_pose))
         #     self.rate.sleep()
-        
+        print('Enter your name:')
+        x = input()
         # Fase 2 forward 
         rospy.loginfo("fase 2 - forward ")
         count=0
+        distanza = self.euclidean_distance(goal_pose)
         while self.euclidean_distance(goal_pose) >= DISTANCE_TOLERANCE and count <=10:
             self.sendMoveMsg(VEL_LINEARE,self.angular_vel2(goal_pose))
-            print "distance ",self.euclidean_distance(goal_pose)
+            #print "distance ",self.euclidean_distance(goal_pose)
+            #if distanza > self.angular_vel2(goal_pose):
+            #    print "errore ",self.angular_vel2(goal_pose)
+            #    count = 11
+            #distanza = self.euclidean_distance(goal_pose)   
             obstacle_laser = self.laser_center_distance
             #print "Ostacolo ",obstacle_laser
             if obstacle_laser < 0.3:
@@ -293,6 +305,7 @@ class MarrtinoBot:
             # Publish at the desired rate.
             self.rate.sleep()
         # Stopping our robot after the movement is over.
+        print "distance ",self.euclidean_distance(goal_pose)
         #self.sendMoveMsg(0,0)
             
 
