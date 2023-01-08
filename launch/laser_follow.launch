@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+
+
+  <node name="laser_tracking" pkg="marrtino_r3d" type="laser_tracking.py" output="screen" />
+
+</launch>
