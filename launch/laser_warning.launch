@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<launch>
+  <node name="laser_warning" pkg="marrtino_r3d" type="laser_warning.py" output="screen" />
+
+</launch>
