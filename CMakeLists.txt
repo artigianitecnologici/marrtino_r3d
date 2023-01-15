@@ -17,9 +17,9 @@ generate_dynamic_reconfigure_options(
   cfg/laserWarning.cfg
   cfg/laserTracking.cfg
 )
-catkin_package(
-  CATKIN_DEPENDS dynamic_reconfigure message_runtime roscpp rosgraph_msgs rospy std_msgs
-)
+#catkin_package(
+#  CATKIN_DEPENDS dynamic_reconfigure message_runtime roscpp rosgraph_msgs rospy std_msgs
+#)
 
 
 include_directories(
@@ -29,14 +29,14 @@ include_directories(
 
 
 
-catkin_install_python(PROGRAMS script/laser_tracking.py  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+#catkin_install_python(PROGRAMS script/laser_tracking.py  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
-install(TARGETS listener talker
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-)
+#install(TARGETS listener talker
+#  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+#  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+#  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+#)
 
-install(DIRECTORY launch
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-)
+#install(DIRECTORY launch
+#  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+#)
